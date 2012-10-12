@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+// TODO: Stringi z plików (lokalizacje), tak samo haselko
+
 public class Alarm extends Activity {
 	Button bt;
 	Button bt2;
