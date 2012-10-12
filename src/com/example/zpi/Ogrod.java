@@ -9,6 +9,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
+//TODO: stringi z plików (lokalizacje)
+
 public class Ogrod extends Activity {
 	ToggleButton wl;
 	ToggleButton auto;
