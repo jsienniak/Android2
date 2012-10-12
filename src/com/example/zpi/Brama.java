@@ -8,6 +8,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+
+//TODO: stringi z plików (lokalizacje)
+
 public class Brama extends Activity {
 	Button bt;
 	Button bt2;
