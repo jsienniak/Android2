@@ -2,13 +2,18 @@ package com.example.zpi;
 
 import java.util.Currency;
 
+import com.example.zpi.communication.Connect;
+import com.example.zpi.communication.Response;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 	Button bt;
@@ -23,6 +28,13 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         addListenerOnButton();
+        /*
+         * Log.d("net",""+Connect.isInternet(getApplicationContext()));
+        Response req = Connect.request("module", "dupa");
+        TextView tv = (TextView) findViewById(R.id.TextView1);
+        //tv.setText("text"/*req.getMessage()*/);
+        //tv.setText(req.getMessage());
+         */
     }
 
     @Override

@@ -58,8 +58,7 @@ public class Rolety extends Activity {
 		
 		sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 			   @Override
-			   public void onProgressChanged(SeekBar seekBar, int progress,
-			     boolean fromUser) {
+			   public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 			    // TODO Auto-generated method stub
 			    txt2.setText(""+progress);
 			   }
