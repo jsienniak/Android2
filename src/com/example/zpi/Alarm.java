@@ -2,13 +2,13 @@ package com.example.zpi;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-// TODO: Stringi z plików (lokalizacje), tak samo haselko
 
 public class Alarm extends Activity {
 	Button bt;
@@ -19,6 +19,9 @@ public class Alarm extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alarm);
+        EditText editText = (EditText) findViewById(R.id.alrHasl);
+        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
         
         addListenerOnButton();
     }

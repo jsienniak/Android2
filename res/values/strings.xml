@@ -1,8 +1,59 @@
 <resources>
 
     <string name="app_name">ZPI</string>
-    <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">Inteligentny Dom</string>
-
+    <string name="harmAnl">Anuluj</string>
+    <string name="ustaw">Ustaw</string>
+    <string name="dodaj">Dodaj</string>
+    <string name="harmRodzaj">Harmonogram dla: </string>
+    <string name="zmien">Zmień</string>
+    <string name="harmWlaczharm">Włącz harmonogram</string>
+    <string name="pon">Pon.</string>
+    <string name="wt">Wt.</string>
+    <string name="sr">Śr.</string>
+    <string name="cz">Cz.</string>
+    <string name="pt">Pt.</string>
+    <string name="sb">Sob.</string>
+    <string name="nd">Nd.</string>
+    <string name="ponP">Poniedziałek</string>
+    <string name="wtP">Wtorek</string>
+    <string name="srP">Środa</string>
+    <string name="czP">Czwartek</string>
+    <string name="ptP">Piątek</string>
+    <string name="brama">Brama</string>
+    <string name="sobP">Sobota</string>
+    <string name="ndP">Niedziela</string>
+    <string name="codz">Codziennie</string>
+    <string name="osw">Oświetlenie</string>
+    <string name="rol">Rolety</string>
+    <string name="wod">Woda</string>
+    <string name="tytRodzHarm">Wybierz jaki harmonogram chcesz ustawić</string>
+    <string name="powt">Powtarzanie</string>
+    <string name="ustPoz">Ustaw żądany poziom: </string>
+    <string name="godzSt">Godzina start</string>
+    <string name="godzStop">Godzina stop</string>
+    <string name="temper">Temperatura: </string>
+    <string name="wroc">Wróć </string>
+    <string name="alarm">Alarm</string>
+    <string name="ogrod">Ogród</string>
+    <string name="rolety">Rolety</string>
+    <string name="status">Status</string>
+    <string name="koniec">Koniec</string>
+    <string name="harmonogram">Harmonogram</string>
+    <string name="woda">Woda</string>
+    <string name="wodaZw">+5</string>
+    <string name="wodaZm">-5</string>
+    <string name="wodaTemp">Temperatura wody:</string>
+    <string name="ogrAkty">Aktywny harmonogram:</string>
+    <string name="ogrAuto">Tryb auto:</string>
+    <string name="ogrOsw">Oświetlenie zewnętrzne</string>
+    <string name="alrPIN">Podaj PIN:</string>
+    <string name="ok">OK</string>
+    <string name="alrStat">Status alarmu:</string>
+    <string name="otw">Otwórz</string>
+    <string name="zam">Zamknij</string>
+    <string name="brStat">Status bramy:</string>
+    <string name="rolStat">Stopień zamknięcia rolet</string>
+	
 </resources>

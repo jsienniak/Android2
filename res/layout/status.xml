@@ -17,25 +17,24 @@
                 android:id="@+id/statBr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Brama"
                 android:layout_weight="1"
+                android:text="@string/brama"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/statBr2"
-                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Zamknieta"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <Button
                 android:id="@+id/statBrZm"
                 android:layout_width="wrap_content"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Zmień" />
-
+                android:layout_weight="1"
+                android:text="@string/zmien" />
         </TableRow>
 
         <TableRow
@@ -46,26 +45,25 @@
             <TextView
                 android:id="@+id/statWd"
                 android:layout_width="wrap_content"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Woda"
+                android:layout_weight="1"
+                android:text="@string/woda"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/statWd2"
                 android:layout_width="wrap_content"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="70st"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <Button
                 android:id="@+id/statWdZm"
                 android:layout_width="wrap_content"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Zmień" />
-
+                android:layout_weight="1"
+                android:text="@string/zmien" />
         </TableRow>
 
         <TableRow
@@ -78,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Rolety"
+                android:text="@string/rolety"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
@@ -92,31 +90,29 @@
             <Button
                 android:id="@+id/statRolZm"
                 android:layout_width="wrap_content"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Zmień" />
-
+                android:layout_weight="1"
+                android:text="@string/zmien" />
         </TableRow>
 
         <TableRow
             android:id="@+id/tableRow4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
-            
 
             <TextView
                 android:id="@+id/statAlr"
                 android:layout_width="wrap_content"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Alarm"
+                android:layout_weight="1"
+                android:text="@string/alarm"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/statAlr2"
                 android:layout_width="wrap_content"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Uzbrojony"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -125,8 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Zmień" />
-
+                android:text="@string/zmien" />
         </TableRow>
     </TableLayout>
 
@@ -140,31 +135,44 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1.1"
-            android:text="Ogród"
+            android:text="@string/ogrod"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
             android:id="@+id/statOg2"
             android:layout_width="wrap_content"
-            android:layout_weight="1.1"
             android:layout_height="wrap_content"
+            android:layout_weight="1.1"
             android:text="17:00"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <Button
             android:id="@+id/statOgZm"
             android:layout_width="wrap_content"
-            android:layout_weight="0.55"
             android:layout_height="wrap_content"
-            android:text="Zmień" />
-
+            android:layout_weight="0.55"
+            android:text="@string/zmien" />
     </TableRow>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="0.59"
+        android:orientation="vertical" >
+
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/statWr"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="Wróć" />
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/statWr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/wroc" />
+
+    </LinearLayout>
 
 </LinearLayout>

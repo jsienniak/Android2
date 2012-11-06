@@ -1,97 +1,117 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:gravity="left|right"
+    android:orientation="vertical" >
 
     <TableLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true" >
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="0.80" >
 
         <TableRow
             android:id="@+id/tableRow1"
-            android:gravity="center"
-            android:layout_weight="1.0" >
+            android:layout_weight="1.0"
+            android:gravity="center" >
 
             <Button
-                android:id="@+id/button1"
+                android:id="@+id/brama"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.5"
+                android:text="@string/brama" />
+
+            <Button
+                android:id="@+id/woda"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_weight="1.0"
-                android:text="Brama" />
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_weight="1.0"
-                android:text="Woda" />
-
+                android:text="@string/woda" />
         </TableRow>
 
         <TableRow
             android:id="@+id/tableRow2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="1.0" >
+            android:layout_weight="1.0"
+            android:gravity="center" >
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/rolety"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.5"
+                android:text="@string/rolety" />
+
+            <Button
+                android:id="@+id/alarm"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_weight="1.0"
-                android:text="Rolety" />
-
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_weight="1.0"
-                android:text="Alarm" />
-
+                android:text="@string/alarm" />
         </TableRow>
 
         <TableRow
             android:id="@+id/tableRow3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="1.0" >
+            android:layout_weight="1.0"
+            android:gravity="center" >
 
             <Button
-                android:id="@+id/button5"
+                android:id="@+id/ogrod"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_gravity="center"
-                android:layout_weight="1.0"
-                android:text="Ogrod" />
+                android:layout_weight="1.5"
+                android:text="@string/ogrod" />
 
             <Button
-                android:layout_width="wrap_content"
+                android:id="@+id/harmonogram"
                 android:layout_height="fill_parent"
-                android:id="@+id/button6"
+                android:layout_gravity="center"
                 android:layout_weight="1.0"
-                android:text="Status" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="right" >
-
-            <Button
-                android:id="@+id/button7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Koniec" />
+                android:padding="0px"
+                android:paddingLeft="0px"
+                android:paddingRight="0px"
+                android:text="@string/harmonogram" />
 
         </TableRow>
-
     </TableLayout>
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:gravity="left|right" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1.93" >
+
+            <Button
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:text="@string/status" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0" >
+
+            <Button
+                android:id="@+id/koniec"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:text="@string/koniec" >
+			</Button>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

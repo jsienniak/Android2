@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.08"
+        android:layout_weight="0.03"
         android:gravity="bottom|center"
         android:orientation="vertical" >
 
@@ -15,38 +15,36 @@
             android:id="@+id/woda"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="temperatura wody"
+            android:text="@string/wodaTemp"
             android:textAppearance="?android:attr/textAppearanceLarge" />
     </LinearLayout>
-
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.51"
+        android:layout_weight="0.29"
         android:gravity="center|top"
         android:orientation="vertical" >
-
+
         <SeekBar
             android:id="@+id/wdSb"
-            android:layout_width="match_parent"
+            android:layout_width="299dp"
             android:layout_height="wrap_content"
             android:max="41"
-   			android:progress="0" />
-
-
-
+            android:progress="0" />
+
         <TextView
             android:id="@+id/wdStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.13"
-            android:text="40"
+            android:layout_weight="0.05"
+            android:text=""
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.30"
+            android:layout_weight="0.16"
             android:gravity="center" >
 
             <Button
@@ -54,30 +52,69 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="-5" />
+                android:text="@string/wodaZm" />
 
             <Button
                 android:id="@+id/wdZw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="+5" />
+                android:text="@string/wodaZw" />
         </LinearLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
+        <TextView
+            android:id="@+id/wodaHarmonogram"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.76"
+            android:text="@string/harmonogram"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ustaw" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.08"
-        android:gravity="right"
         android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/wdWr"
+        <TextView
+            android:id="@+id/wodaHarmNagl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Wróć" />
+            android:text="@string/ogrAkty"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/wodaHarmOpis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/wdWr"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/wroc" />
 
     </LinearLayout>
 

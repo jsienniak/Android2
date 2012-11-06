@@ -1,40 +1,27 @@
 package com.example.zpi;
 
-import java.util.Currency;
-
-import com.example.zpi.communication.Connect;
-import com.example.zpi.communication.Response;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.TextView;
 
 public class MainActivity extends Activity {
-	Button bt;
-	Button bt2;
-	Button bt3;
-	Button bt4;
-	Button bt5;
-	Button bt6;
-	Button bt7;
+	Button brama;
+	Button woda;
+	Button alarm;
+	Button rolety;
+	Button ogrod;
+	Button status;
+	Button koniec;
+	Button harmon;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         addListenerOnButton();
-        /*
-         * Log.d("net",""+Connect.isInternet(getApplicationContext()));
-        Response req = Connect.request("module", "dupa");
-        TextView tv = (TextView) findViewById(R.id.TextView1);
-        //tv.setText("text"/*req.getMessage()*/);
-        //tv.setText(req.getMessage());
-         */
     }
 
     @Override
@@ -43,15 +30,16 @@ public class MainActivity extends Activity {
         return true;
     }
     public void addListenerOnButton(){
-    	bt=(Button)findViewById(R.id.button1);
-    	bt2=(Button)findViewById(R.id.button2);
-    	bt3=(Button)findViewById(R.id.button3);
-    	bt4=(Button)findViewById(R.id.button4);
-    	bt5=(Button)findViewById(R.id.button5);
-    	bt6=(Button)findViewById(R.id.button6);
-    	bt7=(Button)findViewById(R.id.button7);
+    	brama=(Button)findViewById(R.id.brama);
+    	woda=(Button)findViewById(R.id.woda);
+    	alarm=(Button)findViewById(R.id.alarm);
+    	rolety=(Button)findViewById(R.id.rolety);
+    	ogrod=(Button)findViewById(R.id.ogrod);
+    	status=(Button)findViewById(R.id.status);
+    	koniec=(Button)findViewById(R.id.koniec);
+    	harmon=(Button)findViewById(R.id.harmonogram);
     	
-    	bt.setOnClickListener(new OnClickListener() {
+    	brama.setOnClickListener(new OnClickListener() {
     		
 			
 			public void onClick(View arg0) {
@@ -59,7 +47,7 @@ public class MainActivity extends Activity {
 			startActivity(i);
 			}
 		});
-    	bt2.setOnClickListener(new OnClickListener() {
+    	woda.setOnClickListener(new OnClickListener() {
     		
 			
 			public void onClick(View arg0) {
@@ -68,7 +56,7 @@ public class MainActivity extends Activity {
 			}
 		});
 
-    	bt3.setOnClickListener(new OnClickListener() {
+    	alarm.setOnClickListener(new OnClickListener() {
     		
 			
 			public void onClick(View arg0) {
@@ -76,7 +64,7 @@ public class MainActivity extends Activity {
 			startActivity(i);
 			}
 		});
-    	bt4.setOnClickListener(new OnClickListener() {
+    	rolety.setOnClickListener(new OnClickListener() {
     		
 			
 			public void onClick(View arg0) {
@@ -84,7 +72,7 @@ public class MainActivity extends Activity {
 			startActivity(i);
 			}
 		});
-    	bt5.setOnClickListener(new OnClickListener() {
+    	ogrod.setOnClickListener(new OnClickListener() {
     		
 			
 			public void onClick(View arg0) {
@@ -92,7 +80,7 @@ public class MainActivity extends Activity {
 			startActivity(i);
 			}
 		});
-    	bt6.setOnClickListener(new OnClickListener() {
+    	status.setOnClickListener(new OnClickListener() {
     		
 			
 			public void onClick(View arg0) {
@@ -100,10 +88,17 @@ public class MainActivity extends Activity {
 			startActivity(i);
 			}
 		});
-    	bt7.setOnClickListener(new OnClickListener() {
+    	koniec.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View arg0) {
 			finish();
+			}
+		});
+    	harmon.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View arg0) {
+			Intent i=new Intent(getApplicationContext(),Harmonogramy.class);
+			startActivity(i);
 			}
 		});
     }

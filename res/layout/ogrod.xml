@@ -2,109 +2,102 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="right"
     android:orientation="vertical" >
-
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
         <TextView
             android:id="@+id/ogrOsw"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Oświetlenie zewnętrzne"
+            android:layout_weight="0.62"
+            android:text="@string/ogrOsw"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <ToggleButton
-            android:id="@+id/toggleButton1"
+            android:id="@+id/ogrOswWl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ToggleButton" />
-
+            android:text="" />
     </LinearLayout>
-
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
         <TextView
             android:id="@+id/ogrAut"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Tryb Auto:"
+            android:layout_weight="0.12"
+            android:text="@string/ogrAuto"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <ToggleButton
             android:id="@+id/ogrAutoB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ToggleButton" />
-
+            android:text="" />
     </LinearLayout>
-
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Harmonogram"
+            android:layout_weight="0.25"
+            android:text="@string/harmonogram"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
         <Button
             android:id="@+id/ogrUst"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ustaw" />
+            android:text="@string/ustaw" />
 
     </LinearLayout>
-
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical" >
 
-        <TimePicker
-            android:id="@+id/timePicker1"
-            android:layout_width="144dp"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:layout_weight="0.01" />
-
-        <Button
-            android:id="@+id/ogrStart"
+        <TextView
+            android:id="@+id/harmAkty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start"
-            android:visibility="invisible" />
+            android:text="@string/ogrAkty"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/ogrHarm"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.01"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <Button
-            android:id="@+id/ogrStop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:text="Stop"
-            android:visibility="invisible" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:gravity="right" >
+
+        <Button
+            android:id="@+id/ogrWr"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.16"
+            android:text="@string/wroc" />
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/ogrHarm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <Button
-        android:id="@+id/ogrWr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
 
 </LinearLayout>
