@@ -51,7 +51,6 @@ public class Dodaj extends Activity{
 		zmien=(Button) findViewById(R.id.zmiana);
 		zmien.setOnClickListener(new OnClickListener()
         {           
-            @Override
             public void onClick(View arg0){
             	showDialog(RADIOBUTTON_DIALOG_ID);
             }
@@ -60,7 +59,6 @@ public class Dodaj extends Activity{
 		anuluj=(Button) findViewById(R.id.harmAnl);
 		anuluj.setOnClickListener(new OnClickListener()
         {           
-            @Override
             public void onClick(View arg0){
             	finish();
             }
@@ -281,7 +279,6 @@ public class Dodaj extends Activity{
             	Button ok=(Button)layout.findViewById(R.id.dialog_ok);
             	ok.setOnClickListener(new OnClickListener() {
 					
-					@Override
 					public void onClick(View v) {
 						changeItems();
 						sk.cancel();
@@ -291,7 +288,6 @@ public class Dodaj extends Activity{
             	Button anl=(Button)layout.findViewById(R.id.dialog_anl);
             	anl.setOnClickListener(new OnClickListener() {
 					
-					@Override
 					public void onClick(View v) {
 						sk.cancel();
 

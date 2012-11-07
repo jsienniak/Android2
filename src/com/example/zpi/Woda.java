@@ -56,7 +56,6 @@ public class Woda extends Activity{
 		
 		sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
-			   @Override
 			   public void onProgressChanged(SeekBar seekBar, int progress,
 			     boolean fromUser) {
 			    // TODO Auto-generated method stub
@@ -64,12 +63,10 @@ public class Woda extends Activity{
 			    txt2.setText(""+progress);
 			   }
 
-			   @Override
-			   public void onStartTrackingTouch(SeekBar seekBar) {
+			    public void onStartTrackingTouch(SeekBar seekBar) {
 			    // TODO Auto-generated method stub
 			   }
 
-			   @Override
 			   public void onStopTrackingTouch(SeekBar seekBar) {
 			    // TODO Auto-generated method stub
 			   }

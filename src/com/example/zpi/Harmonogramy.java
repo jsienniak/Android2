@@ -1,61 +1,20 @@
 package com.example.zpi;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
-import com.example.testy.communication.Connect;
-import com.example.testy.communication.NoInternetException;
-import com.example.testy.communication.Response;
-
-import android.app.*;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Bundle;
-import android.os.StrictMode;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.*;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.ListView;
+
 
 public class Harmonogramy extends Activity
 {
@@ -85,7 +44,6 @@ public class Harmonogramy extends Activity
     	dodaj = (Button)findViewById(R.id.btnShowPopUp);
         dodaj.setOnClickListener(new OnClickListener()
         {           
-            @Override
             public void onClick(View arg0)
             {
             	/*try {
@@ -128,7 +86,6 @@ public class Harmonogramy extends Activity
         wroc=(Button) findViewById(R.id.harmWroc);
         wroc.setOnClickListener(new OnClickListener() {
 			
-			@Override
 			public void onClick(View v) {
 				finish();	
 			}

@@ -1,11 +1,21 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.zpi"
+<manifest package="com.example.zpi"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="15" />
+
+    <permission
+        android:name="com.example.zpi.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.example.zpi.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:icon="@drawable/ic_launcher"
@@ -20,15 +30,34 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="Rolety"></activity>
-        <activity android:name="Brama"></activity>
-        <activity android:name="Alarm"></activity>
-        <activity android:name="Woda"></activity>
-        <activity android:name="Status"></activity>
-        <activity android:name="Ogrod"></activity>
-        <activity android:name="Harmonogramy"></activity>
-        <activity android:name="Dodaj"></activity>
-        <activity android:name="com.example.testy.SimpleShape"></activity>
+        <activity android:name="Rolety" >
+        </activity>
+        <activity android:name="Brama" >
+        </activity>
+        <activity android:name="Alarm" >
+        </activity>
+        <activity android:name="Woda" >
+        </activity>
+        <activity android:name="Status" >
+        </activity>
+        <activity android:name="Ogrod" >
+        </activity>
+        <activity android:name="Harmonogramy" >
+        </activity>
+        <activity android:name="Dodaj" >
+        </activity>
+        <activity android:name="com.example.testy.SimpleShape" >
+        </activity>
+
+        <receiver
+            android:name="com.google.android.gcm.GCMBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <category android:name="com.example.zpi" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.example.testy.communication;
+package com.example.zpi.communication;
 
 public class NoInternetException extends Exception {
 

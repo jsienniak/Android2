@@ -1,9 +1,7 @@
 package com.example.zpi;
 
 import android.app.Activity;
-import android.graphics.Canvas;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -163,7 +161,6 @@ public class Rolety extends Activity {
 		});
 		
 		sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
-			   @Override
 			   public void onProgressChanged(SeekBar seekBar, int progress,
 			     boolean fromUser) {
 			    // TODO Auto-generated method stub
@@ -171,12 +168,10 @@ public class Rolety extends Activity {
 			    imv.setImageResource(roletaImg[progress]);
 			   }
 
-			   @Override
 			   public void onStartTrackingTouch(SeekBar seekBar) {
 			    // TODO Auto-generated method stub
 			   }
 
-			   @Override
 			   public void onStopTrackingTouch(SeekBar seekBar) {
 			    // TODO Auto-generated method stub
 			   } });

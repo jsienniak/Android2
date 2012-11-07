@@ -46,7 +46,6 @@ public class HarmMenuAdapter extends BaseAdapter {
         holder2.text=(TextView) convertView.findViewById(R.id.harmOpis);
         Button btn=(Button) convertView.findViewById(R.id.HarmMenuWl);
         btn.setOnClickListener(new OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				System.out.println(pos);			
 			}

@@ -1,5 +1,7 @@
 package com.example.zpi;
 
+import com.google.android.gcm.GCMRegistrar;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -17,10 +19,21 @@ public class MainActivity extends Activity {
 	Button status;
 	Button koniec;
 	Button harmon;
+	
+	final private static String SENDER_ID = "303941619301";
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        GCMRegistrar.checkDevice(this);
+        GCMRegistrar.checkManifest(this);
+        final String regId = GCMRegistrar.getRegistrationId(this);
+        if (regId.equals("")) {
+          GCMRegistrar.register(this, SENDER_ID);
+        } 
+        
         addListenerOnButton();
     }
 
