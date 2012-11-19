@@ -27,7 +27,7 @@ public class Woda extends Activity{
         setContentView(R.layout.woda);
         c=new Connect(this);
         try {
-		prog=Integer.parseInt(c.request("0","1").getValue());	
+		prog=Integer.parseInt(c.request("0","1").getValue());	 
 		} 
         catch (NoInternetException e) {
 			// TODO: handle exception
