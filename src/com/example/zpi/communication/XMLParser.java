@@ -24,7 +24,7 @@ public class XMLParser {
 	}
 
 	private static Response readResponse(XmlPullParser parser) throws ServerErrorException {
-		String message = null;
+		Response wyn = new Response();
 		try {
 			int eventType = parser.getEventType();
 			parser.require(XmlPullParser.START_DOCUMENT, null, null);
@@ -35,9 +35,13 @@ public class XMLParser {
 				} 
 				if (eventType == XmlPullParser.START_TAG&&parser.getName().equals("message")) {
 					parser.next();
-					message = parser.getText();
-				} 
-				eventType = parser.next();
+					wyn.setMessage(parser.getText());
+				}
+                if (eventType == XmlPullParser.START_TAG&&parser.getName().equals("value")) {
+                    parser.next();
+                    wyn.setValue(parser.getText());
+                }
+                eventType = parser.next();
 			}
 		} catch (XmlPullParserException e) {
 			// TODO Auto-generated catch block
@@ -46,7 +50,7 @@ public class XMLParser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new Response(message);
+		return wyn;
 	}
 
 }

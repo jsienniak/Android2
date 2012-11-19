@@ -27,13 +27,13 @@ public class GCMIntentService extends GCMBaseIntentService {
 	}
 
 	@Override
-	protected void onRegistered(Context arg0, String arg1) {
+	protected void onRegistered(Context arg0, String regId) {
 		// TODO register do serwera tutaj
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	protected void onUnregistered(Context arg0, String arg1) {
+	protected void onUnregistered(Context arg0, String regId) {
 		// TODO unregister do serwera tutaj
 		throw new UnsupportedOperationException();
 	}
