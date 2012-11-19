@@ -49,7 +49,7 @@ public class Connect {
 					u="ping";
 					break;
 				case 2:
-					u="set&id="+arg0[0]+"&port_num="+arg0[1];
+					u="get&id="+arg0[0]+"&port_num="+arg0[1];
 					break;
 				case 3:
 					u="set&id="+arg0[0]+"&port_num="+arg0[1]+"&value="+arg0[2];
