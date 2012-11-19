@@ -1,5 +1,9 @@
 package com.example.zpi;
 
+import com.example.zpi.communication.Connect;
+import com.example.zpi.communication.NoInternetException;
+import com.example.zpi.communication.ServerErrorException;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,11 +19,23 @@ public class Woda extends Activity{
 	SeekBar sb;
 	TextView txt;
 	TextView txt2;
+	Connect c;
+	int prog;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.woda);
-        
+        c=new Connect(this);
+        try {
+		prog=Integer.parseInt(c.request("0","1").getValue());	
+		} 
+        catch (NoInternetException e) {
+			// TODO: handle exception
+        }
+        catch (ServerErrorException e) {
+			// TODO: handle exception
+		}
+		
         addListenerOnButton();
     }
 	public void addListenerOnButton(){
@@ -27,6 +43,7 @@ public class Woda extends Activity{
 		txt2=(TextView)findViewById(R.id.wdStatus);
 		
 		sb=(SeekBar)findViewById(R.id.wdSb);
+		sb.setProgress(prog);
 		
 		bt=(Button)findViewById(R.id.wdZm);
 		bt2=(Button)findViewById(R.id.wdZw);
