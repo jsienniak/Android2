@@ -13,6 +13,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.util.Log;
 
 public class Connect {
 
@@ -58,7 +59,9 @@ public class Connect {
 					throw new Error("Wrong argument list!");
 				}
 				try {
-					link = new URL("http://" + url + "do?action=module."+u);
+					String s = "http://" + url + "do?action=module."+u;
+                    Log.d("URL",s);
+                    link = new URL(s);
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

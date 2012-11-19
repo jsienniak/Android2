@@ -36,7 +36,7 @@ public class XMLParser {
 				if (eventType == XmlPullParser.START_TAG&&parser.getName().equals("message")) {
 					parser.next();
 					wyn.setMessage(parser.getText());
-				}
+				}  else
                 if (eventType == XmlPullParser.START_TAG&&parser.getName().equals("value")) {
                     parser.next();
                     wyn.setValue(parser.getText());
