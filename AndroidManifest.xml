@@ -1,63 +1,91 @@
 <manifest package="com.example.zpi"
-    android:versionCode="1"
-    android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+          android:versionCode="1"
+          android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="15" />
+            android:minSdkVersion="8"
+            android:targetSdkVersion="15" />
 
     <permission
-        android:name="com.example.zpi.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
+            android:name="com.example.zpi.permission.C2D_MESSAGE"
+            android:protectionLevel="signature" />
 
     <uses-permission android:name="com.example.zpi.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="com.google.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main" >
+                android:name=".MainActivity"
+                android:screenOrientation="portrait"
+                android:configChanges="keyboardHidden|orientation"
+                android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="Rolety" >
+        <activity android:name="Rolety"
+                  android:label="@string/rolety"
+                  android:screenOrientation="portrait"
+                  android:configChanges="keyboardHidden|orientation" >
         </activity>
-        <activity android:name="Brama" >
+        <activity android:name="Brama"
+                  android:label="@string/brama"
+                  android:screenOrientation="portrait"
+                  android:configChanges="keyboardHidden|orientation">
         </activity>
-        <activity android:name="Alarm" >
+        <activity android:name="Alarm"
+                  android:label="@string/alarm"
+                  android:screenOrientation="portrait"
+                  android:configChanges="keyboardHidden|orientation" >
         </activity>
-        <activity android:name="Woda" >
+        <activity android:name="Woda"
+                  android:label="@string/woda"
+                  android:screenOrientation="portrait"
+                  android:configChanges="keyboardHidden|orientation" >
         </activity>
-        <activity android:name="Status" >
+        <activity android:name="Status"
+                  android:label="@string/status"
+                  android:screenOrientation="portrait"
+                  android:configChanges="keyboardHidden|orientation" >
         </activity>
-        <activity android:name="Ogrod" >
+        <activity android:name="Ogrod"
+                  android:label="@string/ogrod"
+                  android:screenOrientation="portrait"
+                  android:configChanges="keyboardHidden|orientation" >
         </activity>
-        <activity android:name="Harmonogramy" >
+        <activity android:name="Harmonogramy"
+                  android:label="@string/harmonogram"
+                  android:screenOrientation="portrait"
+                  android:configChanges="keyboardHidden|orientation" >
         </activity>
-        <activity android:name="Dodaj" >
+        <activity android:name="Dodaj"
+                  android:screenOrientation="portrait"
+                  android:configChanges="keyboardHidden|orientation" >
         </activity>
-        <activity android:name="com.example.testy.SimpleShape" >
+        <activity android:name="com.example.zpi.SimpleShape"
+                  android:screenOrientation="portrait"
+                  android:configChanges="keyboardHidden|orientation" >
         </activity>
 
         <receiver
-            android:name="com.google.android.gcm.GCMBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+                android:name="com.google.android.gcm.GCMBroadcastReceiver"
+                android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
                 <category android:name="com.example.zpi" />
             </intent-filter>
         </receiver>
+        <service android:name="GCMIntentService"></service>
     </application>
 
 </manifest>

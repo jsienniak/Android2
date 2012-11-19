@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.util.prefs.Preferences;
+
 public class Woda extends Activity{
 	Button bt;
 	Button bt2;
@@ -27,7 +29,8 @@ public class Woda extends Activity{
         setContentView(R.layout.woda);
         c=new Connect(this);
         try {
-		prog=Integer.parseInt(c.request("0","1").getValue());	 
+		prog=Integer.parseInt(c.request("0","0").getValue());
+            System.out.print(prog);
 		} 
         catch (NoInternetException e) {
 			// TODO: handle exception

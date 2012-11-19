@@ -16,7 +16,7 @@ import android.os.AsyncTask;
 
 public class Connect {
 
-	private static final String url = "192.168.1.101:8080/servtest/";
+	private static final String url = "156.17.234.1:8080/zpi_server/";
 	private Context ctx = null;
 
 	public Connect(Context c) {
