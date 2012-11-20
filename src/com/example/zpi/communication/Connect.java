@@ -7,6 +7,7 @@ import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import android.content.Context;
@@ -19,10 +20,16 @@ public class Connect {
 
 	private static final String url = "156.17.234.1:8080/zpi_server/";
 	private Context ctx = null;
+    private ArrayList<ResponseListener> listeners = new ArrayList<ResponseListener>();
 
-	public Connect(Context c) {
+
+    public Connect(Context c) {
 		ctx = c;
 	}
+
+    public void addResponseListener(ResponseListener rl){
+        listeners.add(rl);
+    }
 
 	public boolean isInternet() {
 		ConnectivityManager conMgr = (ConnectivityManager) ctx
@@ -34,26 +41,38 @@ public class Connect {
 		return true;
 	}
 
-	public Response request(String... action) throws NoInternetException,
+    public void requestGet(int m, int p) throws ServerErrorException, NoInternetException {
+        request(""+m,""+p);
+    }
+
+    public void requestSet(int m, int p, String val) throws ServerErrorException, NoInternetException {
+        request(""+m,""+p,val);
+    }
+
+	private void request(String... action) throws NoInternetException,
 			ServerErrorException {
 		if (!isInternet()) {
 			throw new NoInternetException();
 		}
 		AsyncTask<String, Void, Response> at = new AsyncTask<String, Void, Response>() {
 
+            protected void onPostExecute(Response res){
+                raiseEvent(res);
+            }
+
 			@Override
 			protected Response doInBackground(String... arg0) {
 				URL link = null;
 				String u = "";
+                Response res = new Response();
 				switch (arg0.length) {
-				case 0:
-					u="ping";
-					break;
 				case 2:
 					u="get&id="+arg0[0]+"&port_num="+arg0[1];
-					break;
+                    res.setType(Response.GET);
+                    break;
 				case 3:
 					u="set&id="+arg0[0]+"&port_num="+arg0[1]+"&value="+arg0[2];
+                    res.setType(Response.SET);
 					break;
 				default:
 					throw new Error("Wrong argument list!");
@@ -66,6 +85,8 @@ public class Connect {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+                res.setModule(Integer.parseInt(arg0[0]));
+                res.setPort(Integer.parseInt(arg0[1]));
 				HttpURLConnection urlConnection = null;
 				StringBuffer sb = null;
 				try {
@@ -87,7 +108,7 @@ public class Connect {
 				// return null;
 
 				try {
-					return XMLParser.parse(new StringReader(sb.toString()));
+					return XMLParser.parse(new StringReader(sb.toString()),res);
 				} catch (ServerErrorException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -96,17 +117,14 @@ public class Connect {
 
 			}
 		};
-		try {
-			return at.execute(action).get();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+        at.execute(action);
 
 	}
+
+    private void raiseEvent(Response res) {
+        for(ResponseListener l: listeners){
+            l.processResponse(res);
+        }
+    }
 
 }

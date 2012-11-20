@@ -1,8 +1,6 @@
 package com.example.zpi;
 
-import com.example.zpi.communication.Connect;
-import com.example.zpi.communication.NoInternetException;
-import com.example.zpi.communication.ServerErrorException;
+import com.example.zpi.communication.*;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -14,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.prefs.Preferences;
 
-public class Woda extends Activity{
+public class Woda extends Activity implements ResponseListener{
 	Button bt;
 	Button bt2;
 	Button bt3;
@@ -28,8 +26,10 @@ public class Woda extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.woda);
         c=new Connect(this);
+        c.addResponseListener(this);
         try {
-		prog=Integer.parseInt(c.request("0","1").getValue());
+		//prog=Integer.parseInt(c.request("0","1").getValue());
+            c.requestGet(0,1);
             System.out.print(prog);
 		} 
         catch (NoInternetException e) {
@@ -90,7 +90,7 @@ public class Woda extends Activity{
 
 			   public void onStopTrackingTouch(SeekBar seekBar) {
                    try {
-                       c.request("0","0",""+prog*10);
+                       c.requestSet(0,0,""+prog*10);
                    }
                    catch (NoInternetException e) {
                        // TODO: handle exception
@@ -103,4 +103,10 @@ public class Woda extends Activity{
 			   
 	}
 
+    @Override
+    public void processResponse(Response res) {
+        if(res.getType()==Response.GET){
+            prog = Integer.parseInt(res.getValue());
+        }
+    }
 }

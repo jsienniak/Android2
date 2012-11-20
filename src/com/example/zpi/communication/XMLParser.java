@@ -10,7 +10,7 @@ import android.util.Xml;
 
 public class XMLParser {
 
-	public static Response parse(Reader in) throws ServerErrorException {
+	public static Response parse(Reader in, Response res) throws ServerErrorException {
 		XmlPullParser parser = null;
 		try {
 			parser = Xml.newPullParser();
@@ -20,11 +20,10 @@ public class XMLParser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-		return readResponse(parser);
+		return readResponse(parser,res);
 	}
 
-	private static Response readResponse(XmlPullParser parser) throws ServerErrorException {
-		Response wyn = new Response();
+	private static Response readResponse(XmlPullParser parser, Response wyn) throws ServerErrorException {
 		try {
 			int eventType = parser.getEventType();
 			parser.require(XmlPullParser.START_DOCUMENT, null, null);
