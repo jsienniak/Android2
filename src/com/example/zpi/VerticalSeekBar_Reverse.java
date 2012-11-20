@@ -8,6 +8,8 @@ import android.widget.SeekBar;
 
 public class VerticalSeekBar_Reverse extends SeekBar{
 
+    private OnSeekBarChangeListener myListener;
+
     public VerticalSeekBar_Reverse(Context context) {
         super(context);
     }
@@ -29,7 +31,10 @@ public class VerticalSeekBar_Reverse extends SeekBar{
         super.onMeasure(heightMeasureSpec, widthMeasureSpec);
         setMeasuredDimension(getMeasuredHeight(), getMeasuredWidth());
     }
-
+    @Override
+    public void setOnSeekBarChangeListener(OnSeekBarChangeListener mListener){
+        this.myListener = mListener;
+    }
     protected void onDraw(Canvas c) {
         c.rotate(90);
         c.translate(0, -getWidth());
@@ -44,12 +49,17 @@ public class VerticalSeekBar_Reverse extends SeekBar{
         }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                myListener.onStartTrackingTouch(this);
+                break;
             case MotionEvent.ACTION_MOVE:
-            case MotionEvent.ACTION_UP:
-             int i=0;
-             i=getMax() - (int) (getMax() * event.getY() / getHeight());
+                int i=0;
+                i=getMax() - (int) (getMax() * event.getY() / getHeight());
                 setProgress(100-i);
                 onSizeChanged(getWidth(), getHeight(), 0, 0);
+                myListener.onProgressChanged(this,100-i,true);
+                break;
+            case MotionEvent.ACTION_UP:
+                myListener.onStopTrackingTouch(this);
                 break;
             case MotionEvent.ACTION_CANCEL:
                 break;
@@ -59,4 +69,5 @@ public class VerticalSeekBar_Reverse extends SeekBar{
     public void klik(){
     	onSizeChanged(getWidth(), getHeight(), 0, 0);
     }
+
 }

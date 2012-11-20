@@ -29,7 +29,7 @@ public class Woda extends Activity{
         setContentView(R.layout.woda);
         c=new Connect(this);
         try {
-		prog=Integer.parseInt(c.request("0","0").getValue());
+		prog=Integer.parseInt(c.request("0","1").getValue());
             System.out.print(prog);
 		} 
         catch (NoInternetException e) {
@@ -46,7 +46,7 @@ public class Woda extends Activity{
 		txt2=(TextView)findViewById(R.id.wdStatus);
 		
 		sb=(SeekBar)findViewById(R.id.wdSb);
-		sb.setProgress(prog);
+		sb.setProgress(prog/10);
 		
 		bt=(Button)findViewById(R.id.wdZm);
 		bt2=(Button)findViewById(R.id.wdZw);
@@ -80,6 +80,7 @@ public class Woda extends Activity{
 			     boolean fromUser) {
 			    // TODO Auto-generated method stub
 				   progress+=40;
+                   prog=progress;
 			    txt2.setText(""+progress);
 			   }
 
@@ -88,7 +89,15 @@ public class Woda extends Activity{
 			   }
 
 			   public void onStopTrackingTouch(SeekBar seekBar) {
-			    // TODO Auto-generated method stub
+                   try {
+                       c.request("0","0",""+prog*10);
+                   }
+                   catch (NoInternetException e) {
+                       // TODO: handle exception
+                   }
+                   catch (ServerErrorException e) {
+                       // TODO: handle exception
+                   }
 			   }
 			       });
 			   

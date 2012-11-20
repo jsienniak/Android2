@@ -3,28 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+
     <LinearLayout
         android:id="@+id/linearLayout1"
-        android:layout_width="277dp"
+        android:layout_width="270dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10px"
+        android:layout_marginTop="5dp"
         android:baselineAligned="false"
         android:gravity="center|right"
-        android:paddingBottom="20dp" >
-
+        android:paddingBottom="5dp" >
+
+
         <ImageView
             android:id="@+id/rolObrRol"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:layout_marginTop="10px"
+            android:layout_height="145dp"
+            android:layout_marginTop="5dp"
             android:paddingBottom="10dp"
             android:src="@drawable/r0" />
 
         <com.example.zpi.VerticalSeekBar_Reverse
             android:id="@+id/vertical_Seekbar"
             android:layout_width="30dp"
-            android:layout_height="160dp"
+            android:layout_height="135dp"
             android:max="100" />
 
     </LinearLayout>
@@ -36,7 +37,8 @@
         android:layout_below="@+id/linearLayout1"
         android:gravity="center|top"
         android:orientation="vertical" >
-
+
+
         <TextView
             android:id="@+id/rolStatus"
             android:layout_width="wrap_content"
@@ -52,14 +54,14 @@
             <Button
                 android:id="@+id/otwR"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="41dp"
                 android:layout_weight="1"
                 android:text="@string/otw" />
 
             <Button
                 android:id="@+id/zamR"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="41dp"
                 android:layout_weight="1"
                 android:text="@string/zam" />
         </LinearLayout>
@@ -71,7 +73,7 @@
             <TextView
                 android:id="@+id/rolHarmUstNap"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="41dp"
                 android:layout_weight="0.50"
                 android:text="@string/harmonogram"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -79,7 +81,7 @@
             <Button
                 android:id="@+id/rolUstaw"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="41dp"
                 android:layout_weight="0.03"
                 android:text="@string/ustaw" />
         </LinearLayout>
@@ -96,7 +98,9 @@
                 android:layout_weight="1"
                 android:text="@string/ogrAkty"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
+
+
             <TextView
                 android:id="@+id/rolAktywHarm"
                 android:layout_width="match_parent"

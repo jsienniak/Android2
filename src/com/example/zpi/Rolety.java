@@ -2,22 +2,28 @@ package com.example.zpi;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import com.example.zpi.communication.Connect;
+import com.example.zpi.communication.NoInternetException;
+import com.example.zpi.communication.ServerErrorException;
 
 public class Rolety extends Activity {
-	Button bt;
-	Button bt2;
-	Button bt3;
+	Button otw;
+	Button zamk;
+	Button wroc;
 	ImageView imv;
 	VerticalSeekBar_Reverse sb;
+    //SeekBar sb;
 	TextView txt;
-	TextView txt2;
-	
+	TextView stan;
+    Connect c;
+    int prog;
 	public int[] roletaImg={
 			R.drawable.r0,
 			R.drawable.r1,
@@ -124,56 +130,100 @@ public class Rolety extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rolety);
-        
+        c=new Connect(this);
+        try {
+            prog=Integer.parseInt(c.request("1","0").getValue());
+            //Log.d("test",c.request("5","0").getValue());
+        } catch (NoInternetException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (ServerErrorException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         addListenerOnButton();
     }
 	public void addListenerOnButton(){
 		imv=(ImageView) findViewById(R.id.rolObrRol);
 		txt=(TextView)findViewById(R.id.rolety);
-		txt2=(TextView)findViewById(R.id.rolStatus);
+		stan =(TextView)findViewById(R.id.rolStatus);
+        stan.setText(""+prog);
 		
 		sb=(VerticalSeekBar_Reverse)findViewById(R.id.vertical_Seekbar);
+      //  sb=(SeekBar)findViewById(R.id.vertical_Seekbar);
+        imv.setImageResource(roletaImg[prog]);
+        sb.setProgress(prog);
 		
-		bt=(Button)findViewById(R.id.otwR);
-		bt2=(Button)findViewById(R.id.zamR);
-		bt3=(Button)findViewById(R.id.wrR);
+		otw =(Button)findViewById(R.id.otwR);
+		zamk =(Button)findViewById(R.id.zamR);
+		wroc =(Button)findViewById(R.id.wrR);
+        switch (prog){
+            case 0:
+                otw.setEnabled(false);
+                break;
+            case 100:
+                zamk.setEnabled(false);
+                break;
+        }
+		otw.setOnClickListener(new OnClickListener() {
+
+            public void onClick(View arg0) {
+                try {
+                    c.request("1","0",""+0);
+                } catch (NoInternetException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (ServerErrorException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                zamk.setEnabled(true);
+                otw.setEnabled(false);
+                sb.setProgress(0);
+            }
+        });
+		zamk.setOnClickListener(new OnClickListener() {
+
+            public void onClick(View arg0) {
+                try {
+                    c.request("1","0",""+100);
+                } catch (NoInternetException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (ServerErrorException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                sb.setProgress(100);
+                zamk.setEnabled(false);
+                otw.setEnabled(true);
+                //sb.klik();
+            }
+        });
 		
-		bt.setOnClickListener(new OnClickListener() {
-			
-			public void onClick(View arg0) {
-				sb.setProgress(0);
-			}
-		});
-		bt2.setOnClickListener(new OnClickListener() {
-			
-			public void onClick(View arg0) {
-				sb.setProgress(100);
-				sb.klik();
-			}
-		});
-		
-		bt3.setOnClickListener(new OnClickListener() {
-			
-			public void onClick(View arg0) {
-				finish();
-				
-			}
-		});
-		
+		wroc.setOnClickListener(new OnClickListener() {
+
+            public void onClick(View arg0) {
+                finish();
+
+            }
+        });
+
 		sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 			   public void onProgressChanged(SeekBar seekBar, int progress,
 			     boolean fromUser) {
 			    // TODO Auto-generated method stub
-			    txt2.setText(""+progress);
+			    stan.setText("" + progress);
 			    imv.setImageResource(roletaImg[progress]);
-			   }
-
+                prog=progress;
+               }
 			   public void onStartTrackingTouch(SeekBar seekBar) {
-			    // TODO Auto-generated method stub
-			   }
 
+			   }
 			   public void onStopTrackingTouch(SeekBar seekBar) {
-			    // TODO Auto-generated method stub
-			   } });
+                   try {
+                       c.request("1", "0", ""+seekBar.getProgress());
+                     //  Log.d("test",c.request("5","0").getValue());
+                   } catch (NoInternetException e) {
+                       e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                   } catch (ServerErrorException e) {
+                       e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                   }
+               } });
 	}
+
 }
