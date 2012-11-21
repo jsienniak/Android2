@@ -11,11 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-import com.example.zpi.communication.Connect;
+import com.example.zpi.communication.*;
 import com.example.zpi.communication.NoInternetException;
 import com.example.zpi.communication.ServerErrorException;
 
-public class Alarm extends Activity {
+public class Alarm extends Activity implements ResponseListener {
 	Button ok;
 	ToggleButton wlacznik;
 	Button wroc;
@@ -30,8 +30,9 @@ public class Alarm extends Activity {
         editText.setInputType(InputType.TYPE_CLASS_NUMBER);
         editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
         c=new Connect(this);
+        c.addResponseListener(this);
         try {
-            status=Boolean.valueOf(c.request("3", "0").getValue());
+            c.requestGet(3,0);
         } catch (NoInternetException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (ServerErrorException e) {
@@ -70,7 +71,7 @@ public class Alarm extends Activity {
             public void onClick(View view) {
                 if(wlacznik.isChecked())
                     try {
-                        c.request("3","0","true");
+                        c.requestSet(3,0,"true");
                     } catch (NoInternetException e) {
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     } catch (ServerErrorException e) {
@@ -78,7 +79,7 @@ public class Alarm extends Activity {
                     }
                 else
                     try {
-                        c.request("3","0","false");
+                        c.requestSet(3,0,"false");
                     } catch (NoInternetException e) {
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     } catch (ServerErrorException e) {
@@ -90,4 +91,11 @@ public class Alarm extends Activity {
 		
 	}
 
+    @Override
+    public void processResponse(Response res) {
+        if(res.getType()==Response.GET){
+            status = Boolean.valueOf(res.getValue());
+        }
+
+    }
 }

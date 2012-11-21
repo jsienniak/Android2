@@ -55,5 +55,7 @@
     <string name="zam">Zamknij</string>
     <string name="brStat">Status bramy:</string>
     <string name="rolStat">Stopień zamknięcia rolet</string>
+    <string name="wyczysc">Wyczyść</string>
+    <string name="usun">Usuń</string>
 	
 </resources>

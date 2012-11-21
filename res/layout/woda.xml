@@ -30,7 +30,7 @@
             android:id="@+id/wdSb"
             android:layout_width="299dp"
             android:layout_height="wrap_content"
-            android:max="41"
+            android:max="40"
             android:progress="0" />
 
         <TextView
@@ -76,7 +76,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/wodaUstHarm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ustaw" />
@@ -101,6 +101,12 @@
             android:layout_height="wrap_content"
             android:text=""
             android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <Button
+            android:id="@+id/wodWyczysc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wyczysc" />
 
     </LinearLayout>
 

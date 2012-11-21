@@ -1,6 +1,7 @@
 package com.example.zpi;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,11 +12,11 @@ import android.widget.ToggleButton;
 public class Ogrod extends Activity {
 	ToggleButton wl;
 	ToggleButton auto;
-	Button harm;
+	Button ustaw;
 	Button start;
 	Button stop;
 	Button wroc;
-	
+    Button wyczysc;
 	String s="";
 	TextView txt;
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,23 +39,17 @@ public class Ogrod extends Activity {
 		auto.setOnClickListener(new OnClickListener() {			
 			public void onClick(View arg0) {
 				if(auto.isChecked()){
-				harm.setEnabled(false);
+				ustaw.setEnabled(false);
 				wl.setEnabled(false);
 				wl.setChecked(false);
 				}
 				else{
-					harm.setEnabled(true);
+					ustaw.setEnabled(true);
 					wl.setEnabled(true);
 				}
 			}
 		});
-		
-		harm=(Button) findViewById(R.id.ogrUst);
-		harm.setOnClickListener(new OnClickListener() {			
-			public void onClick(View arg0) {
-				
-			}
-		});
+
 		
 		wroc=(Button) findViewById(R.id.ogrWr);
 		wroc.setOnClickListener(new OnClickListener() {			
@@ -62,6 +57,18 @@ public class Ogrod extends Activity {
 				finish();
 			}
 		});
+        ustaw=(Button) findViewById(R.id.ogrHarm);
+        ustaw.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(getApplicationContext(),Harmonogramy.class);
+                i.putExtra("modul",2);
+                startActivity(i);
+            }
+        });
+
+
+        wyczysc=(Button) findViewById(R.id.ogrWyczysc);
 	}
 
 }

@@ -1,67 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/brWroc"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.75"
-        android:gravity="center" >
-        <Button
-            android:id="@+id/brOtw"
-            android:layout_width="wrap_content"
-            android:layout_height="120dp"
-            android:layout_weight="0.30"
-            android:text="@string/otw" />
-        <Button
-            android:id="@+id/brZam"
-            android:layout_width="wrap_content"
-            android:layout_height="120dp"
-            android:layout_weight="0.30"
-            android:text="@string/zam" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.15" >
-
-        <TextView
-            android:id="@+id/brStatNap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.05"
-            android:gravity="center"
-            android:text="@string/brStat"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/wroc" />
 
-        <TextView
-            android:id="@+id/brStat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.09"
-            android:text=""
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.15"
-        android:orientation="vertical" >
+    <Button
+        android:id="@+id/brOtw"
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="92dp"
+        android:layout_toLeftOf="@+id/brZam"
+        android:layout_weight="0.30"
+        android:text="@string/otw" />
 
-        <Button
-            android:id="@+id/brWr"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="@string/wroc" />
+    <Button
+        android:id="@+id/brZam"
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:layout_alignBaseline="@+id/brOtw"
+        android:layout_alignBottom="@+id/brOtw"
+        android:layout_alignLeft="@+id/brStat"
+        android:layout_alignParentRight="true"
+        android:layout_weight="0.30"
+        android:text="@string/zam" />
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/brStatNap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/brOtw"
+        android:layout_marginTop="75dp"
+        android:layout_weight="0.05"
+        android:gravity="center"
+        android:text="@string/brStat"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/brStat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/brStatNap"
+        android:layout_alignBottom="@+id/brStatNap"
+        android:layout_marginLeft="18dp"
+        android:layout_toRightOf="@+id/brStatNap"
+        android:layout_weight="0.09"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</RelativeLayout>

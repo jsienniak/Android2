@@ -17,7 +17,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <ToggleButton
-            android:id="@+id/toggleButton1"
+            android:id="@+id/dodWlacz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="" />
@@ -66,6 +66,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.26"
             android:text="@string/dodaj" />
+
+        <Button
+            android:id="@+id/harmUsun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.22"
+            android:text="@string/usun" />
+
     </LinearLayout>
 
 </LinearLayout>

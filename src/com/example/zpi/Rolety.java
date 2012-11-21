@@ -1,6 +1,7 @@
 package com.example.zpi;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,19 +10,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import com.example.zpi.communication.Connect;
+import com.example.zpi.communication.*;
 import com.example.zpi.communication.NoInternetException;
 import com.example.zpi.communication.ServerErrorException;
 
-public class Rolety extends Activity {
+public class Rolety extends Activity implements ResponseListener{
 	Button otw;
 	Button zamk;
 	Button wroc;
+    Button ustaw;
+    Button wyczysc;
 	ImageView imv;
 	VerticalSeekBar_Reverse sb;
-    //SeekBar sb;
-	TextView txt;
-	TextView stan;
     Connect c;
     int prog;
 	public int[] roletaImg={
@@ -131,9 +131,11 @@ public class Rolety extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rolety);
         c=new Connect(this);
+        c.addResponseListener(this);
         try {
-            prog=Integer.parseInt(c.request("1","0").getValue());
-            //Log.d("test",c.request("5","0").getValue());
+            //System.out.print("dsd");
+            //prog=Integer.parseInt(c.request("1","0").getValue());
+            c.requestGet(1, 0);
         } catch (NoInternetException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (ServerErrorException e) {
@@ -143,12 +145,8 @@ public class Rolety extends Activity {
     }
 	public void addListenerOnButton(){
 		imv=(ImageView) findViewById(R.id.rolObrRol);
-		txt=(TextView)findViewById(R.id.rolety);
-		stan =(TextView)findViewById(R.id.rolStatus);
-        stan.setText(""+prog);
-		
+
 		sb=(VerticalSeekBar_Reverse)findViewById(R.id.vertical_Seekbar);
-      //  sb=(SeekBar)findViewById(R.id.vertical_Seekbar);
         imv.setImageResource(roletaImg[prog]);
         sb.setProgress(prog);
 		
@@ -167,7 +165,7 @@ public class Rolety extends Activity {
 
             public void onClick(View arg0) {
                 try {
-                    c.request("1","0",""+0);
+                    c.requestSet(1, 0, "" + 0);
                 } catch (NoInternetException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 } catch (ServerErrorException e) {
@@ -182,7 +180,7 @@ public class Rolety extends Activity {
 
             public void onClick(View arg0) {
                 try {
-                    c.request("1","0",""+100);
+                    c.requestSet(1, 0, "" + 100);
                 } catch (NoInternetException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 } catch (ServerErrorException e) {
@@ -191,7 +189,7 @@ public class Rolety extends Activity {
                 sb.setProgress(100);
                 zamk.setEnabled(false);
                 otw.setEnabled(true);
-                //sb.klik();
+                sb.klik();
             }
         });
 		
@@ -207,7 +205,6 @@ public class Rolety extends Activity {
 			   public void onProgressChanged(SeekBar seekBar, int progress,
 			     boolean fromUser) {
 			    // TODO Auto-generated method stub
-			    stan.setText("" + progress);
 			    imv.setImageResource(roletaImg[progress]);
                 prog=progress;
                }
@@ -216,7 +213,8 @@ public class Rolety extends Activity {
 			   }
 			   public void onStopTrackingTouch(SeekBar seekBar) {
                    try {
-                       c.request("1", "0", ""+seekBar.getProgress());
+                       //c.requestSet(1, 0, "" + seekBar.getProgress());
+                       c.requestGet(5, 0);
                      //  Log.d("test",c.request("5","0").getValue());
                    } catch (NoInternetException e) {
                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -224,6 +222,24 @@ public class Rolety extends Activity {
                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                    }
                } });
+        ustaw=(Button) findViewById(R.id.rolUstaw);
+        ustaw.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(getApplicationContext(),Harmonogramy.class);
+                i.putExtra("modul",1);
+                startActivity(i);
+            }
+        });
+
+        wyczysc=(Button) findViewById(R.id.rolWyczysc);
 	}
 
+    @Override
+    public void processResponse(Response res) {
+        if(res.getType()==Response.GET){
+            prog=40;
+            //prog = Integer.parseInt(res.getValue());
+        }
+    }
 }

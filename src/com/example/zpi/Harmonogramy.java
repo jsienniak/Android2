@@ -1,5 +1,6 @@
 package com.example.zpi;
 
+import android.util.Log;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -32,7 +33,30 @@ public class Harmonogramy extends Activity
     {
         super.onCreate(savedInstanceState);        
         setContentView(R.layout.harmonogram);
-        
+        int opcja;
+        try{
+
+            opcja=getIntent().getExtras().getInt("modul");
+        }
+        catch (Exception e){
+            opcja=-1;
+        }
+        switch (opcja){
+            case 0:
+                Log.d("modul","woda");
+                break;
+            case 1:
+                Log.d("modul","rolety");
+                break;
+            case 2:
+                Log.d("modul","ogrod");
+                break;
+            default:
+              /*  list = (ListView) findViewById(R.id.harmMenuList);
+                HarmMenuAdapter adapter = new HarmMenuAdapter(this, items,opisy);
+                list.setAdapter(adapter);*/
+                break;
+        }
         list = (ListView) findViewById(R.id.harmMenuList);
         HarmMenuAdapter adapter = new HarmMenuAdapter(this, items,opisy);
         list.setAdapter(adapter);

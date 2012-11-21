@@ -6,23 +6,24 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
-import com.example.zpi.communication.Connect;
+import com.example.zpi.communication.*;
 import com.example.zpi.communication.NoInternetException;
 import com.example.zpi.communication.ServerErrorException;
 
-public class Brama extends Activity {
+public class Brama extends Activity implements ResponseListener {
 	Button otw;
 	Button zamk;
 	Button wroc;
 	TextView txt;
     Connect c;
-    Boolean status;
+    //Boolean status=false;
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.brama);
         c=new Connect(this);
+        c.addResponseListener(this);
         try {
-            status= Boolean.valueOf(c.request("2", "0").getValue());
+            c.requestGet(2,0);
         } catch (NoInternetException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (ServerErrorException e) {
@@ -31,18 +32,12 @@ public class Brama extends Activity {
         addListenerOnButton();
     }
 	public void addListenerOnButton(){
-		txt=(TextView) findViewById(R.id.brStat);
-        if(status){
-            txt.setText("Zamknięta");
-        }
-        else
-            txt.setText("Zamknięta");
 
 		otw =(Button) findViewById(R.id.brOtw);
 		otw.setOnClickListener(new OnClickListener() {
             public void onClick(View arg0) {
                 try {
-                    c.request("2", "0", "false");
+                    c.requestSet(2,0,"false") ;
                 } catch (NoInternetException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 } catch (ServerErrorException e) {
@@ -56,7 +51,7 @@ public class Brama extends Activity {
 		zamk.setOnClickListener(new OnClickListener() {
             public void onClick(View arg0) {
                 try {
-                    c.request("2", "0", "true");
+                    c.requestSet(2,0,"true");
                 } catch (NoInternetException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 } catch (ServerErrorException e) {
@@ -66,7 +61,7 @@ public class Brama extends Activity {
             }
         });
 		
-		wroc =(Button) findViewById(R.id.brWr);
+		wroc =(Button) findViewById(R.id.brWroc);
 		wroc.setOnClickListener(new OnClickListener() {
             public void onClick(View arg0) {
                 finish();
@@ -75,4 +70,16 @@ public class Brama extends Activity {
 		
 	}
 
+    @Override
+    public void processResponse(Response res) {
+        if(res.getType()==Response.GET){
+            Boolean status = Boolean.valueOf(res.getValue());
+            txt=(TextView) findViewById(R.id.brStat);
+            if(status){
+                txt.setText("Zamknięta");
+            }
+            else
+                txt.setText("Otwarta");
+        }
+    }
 }

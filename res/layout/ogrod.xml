@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:gravity="right"
     android:orientation="vertical" >
-
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
@@ -23,7 +24,8 @@
             android:layout_height="wrap_content"
             android:text="" />
     </LinearLayout>
-
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
@@ -42,7 +44,8 @@
             android:layout_height="wrap_content"
             android:text="" />
     </LinearLayout>
-
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
@@ -54,7 +57,8 @@
             android:layout_weight="0.25"
             android:text="@string/harmonogram"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
+
         <Button
             android:id="@+id/ogrUst"
             android:layout_width="wrap_content"
@@ -62,20 +66,27 @@
             android:text="@string/ustaw" />
 
     </LinearLayout>
-
+
+
+
+
+
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical" >
-
+
+
         <TextView
             android:id="@+id/harmAkty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ogrAkty"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
         <TextView
             android:id="@+id/ogrHarm"
             android:layout_width="match_parent"
@@ -83,6 +94,12 @@
             android:layout_weight="0.01"
             android:text=""
             android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <Button
+            android:id="@+id/ogrWyczysc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wyczysc" />
 
     </LinearLayout>
 
