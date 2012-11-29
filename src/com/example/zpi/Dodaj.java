@@ -6,18 +6,16 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.TimePicker;
+
+import java.util.ArrayList;
 
 public class Dodaj extends Activity{
 		
@@ -26,29 +24,62 @@ public class Dodaj extends Activity{
     static final int CHECKBOX_DIALOG_ID=1;
     static final int RADIOBUTTON_DIALOG_ID=2;
     static final int SEEKBAR_DIALOG_ID=3;
-    boolean[] states = {false, false, false,false,false,false,false};
+    boolean[] states = {false,false,false,false,false,false,false};
 	String[] temp = null;
 	ListView list;
 	boolean wybor;
+    boolean edycja=false;
 	int i=0;
 	String progres;
 	String dni="";
 	Button zmien;
 	Button anuluj;
+    Button usun;
 	Button dodaj;
 	TextView txt;
+    ToggleButton wlacz;
+    Harmonogram h=new Harmonogram();
 	public void onCreate(Bundle savedInstanceState) {
-		   super.onCreate(savedInstanceState);
-		   setContentView(R.layout.dodaj_czas);
-		 
-		   list = (ListView) findViewById(R.id.list);
-		   showDialog(RADIOBUTTON_DIALOG_ID);
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.dodaj_czas);
+		//Harmonogram h=new Harmonogram();
+        zmien=(Button) findViewById(R.id.zmiana);
+        usun=(Button) findViewById(R.id.harmUsun);
+        dodaj=(Button) findViewById(R.id.harmDod);
+        wlacz=(ToggleButton)findViewById(R.id.dodWlacz);
+		list = (ListView) findViewById(R.id.list);
+        usun.setEnabled(false);
+		//   showDialog(RADIOBUTTON_DIALOG_ID);
+        try{
+            h= (Harmonogram)getIntent().getExtras().get("harm");
+            wlacz.setChecked(h.wl);
+            zmien.setEnabled(false);
+//            stanyDni(h);
+            usun.setEnabled(true);
+            edycja=true;
+        }
+        catch (Exception e){
+            wlacz.setChecked(true);
+            showDialog(RADIOBUTTON_DIALOG_ID);
+
+        }
+        switch (h.modul){
+            case 0:
+                setAdapter(1);
+                break;
+            case 1:
+                setAdapter(2);
+                break;
+            case 4:
+                setAdapter(0);
+                break;
+        }
 		   addListListener();
 		   addButtonListener();
 
 	}
 	public void addButtonListener() {
-		zmien=(Button) findViewById(R.id.zmiana);
+
 		zmien.setOnClickListener(new OnClickListener()
         {           
             public void onClick(View arg0){
@@ -86,7 +117,11 @@ public class Dodaj extends Activity{
 			temp=itemsRolety;
 			break;
 		}
-		SpecialAdapter adapter = new SpecialAdapter(this, temp);
+        SpecialAdapter adapter=null;
+        if(!edycja)
+		    adapter = new SpecialAdapter(this, temp);
+        else
+            adapter = new SpecialAdapter(this, temp,h);
 		list.setAdapter(adapter);
 	}
 	public void addListListener(){
@@ -94,12 +129,12 @@ public class Dodaj extends Activity{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             	switch(position){
             	case 0:
-            		showDialog(TIME_DIALOG_ID);
             		i=position;
+                    showDialog(TIME_DIALOG_ID);
             		break;
             	case 1:
-            		showDialog(TIME_DIALOG_ID);
             		i=position;
+                    showDialog(TIME_DIALOG_ID);
             		break;
             	case 2:
             		i=position;
@@ -141,9 +176,41 @@ public class Dodaj extends Activity{
     protected Dialog onCreateDialog(int id) 
     {
         switch (id) {
-            case TIME_DIALOG_ID: 
-                return new TimePickerDialog(
-                    this, mTimeSetListener, hour, minute, true);
+            case TIME_DIALOG_ID:
+                final TimePickerDialog tp;
+                Log.d("wybor",""+i);
+                if(i==0){
+                    tp=new TimePickerDialog(this, mTimeSetListener, godziny(h.czasStart), minuty(h.czasStart), true);
+                    Log.d("zegar1","klej");
+                    tp.setCancelable(true);
+                   /* tp.setOnCancelListener(new TimePickerDialog.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialogInterface) {
+                            Log.d("zegar3","klej");
+                            dialogInterface.cancel();
+                        }
+                    });*/
+
+
+                //return new TimePickerDialog(
+                  //  this, mTimeSetListener, godziny(h.czasStart), minuty(h.czasStart), true);
+                }
+                else{
+                    tp=new TimePickerDialog(this, mTimeSetListener, godziny(h.czasStop), minuty(h.czasStop), true);
+                    Log.d("zegar2","klej");
+                  //  return new TimePickerDialog(
+                    //        this, mTimeSetListener, godziny(h.czasStop), minuty(h.czasStop), true);
+                }
+                tp.setOnDismissListener(new TimePickerDialog.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        Log.d("zegar3","klej");
+                        tp.dismiss();
+                        dialogInterface.cancel();
+                    }
+                });
+
+                return tp;
             case CHECKBOX_DIALOG_ID:
             	final CharSequence[] items = {
             			pobZasob(R.string.ponP), pobZasob(R.string.wtP),
@@ -154,7 +221,10 @@ public class Dodaj extends Activity{
                 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(pobZasob(R.string.powt));
-                builder.setMultiChoiceItems(items, states, new DialogInterface.OnMultiChoiceClickListener(){
+                for(int i=0;i<states.length;i++){
+                    Log.d("stanyDial",""+states[i]);
+                }
+                builder.setMultiChoiceItems(items, stanyDni(h), new DialogInterface.OnMultiChoiceClickListener(){
                     public void onClick(DialogInterface dialogInterface, int item, boolean state) {
                     }
                 });
@@ -225,21 +295,29 @@ public class Dodaj extends Activity{
                 b.setTitle(pobZasob(R.string.tytRodzHarm));
                 b.setSingleChoiceItems(opcje, -1, new DialogInterface.OnClickListener() {
 
-                    public void onClick(DialogInterface dialog, int item){
-                    	SparseBooleanArray zaznaczone = ((AlertDialog)dialog).getListView().getCheckedItemPositions();
-                    	if(zaznaczone.get(0)){
-                    		setAdapter(0);
-                    	}
-                    	if(zaznaczone.get(1)){
-                    		setAdapter(1);
-                    		wybor=true;
-                    	}
-                    	if(zaznaczone.get(2)){
-                    		setAdapter(2);
-                    		wybor=false;
-                    	}
-                    	dialog.cancel();
-                    }});
+                    public void onClick(DialogInterface dialog, int item) {
+                        SparseBooleanArray zaznaczone = ((AlertDialog) dialog).getListView().getCheckedItemPositions();
+                        if (zaznaczone.get(0)) {
+                            setAdapter(0);
+                        }
+                        if (zaznaczone.get(1)) {
+                            setAdapter(1);
+                            wybor = true;
+                        }
+                        if (zaznaczone.get(2)) {
+                            setAdapter(2);
+                            wybor = false;
+                        }
+                        dialog.dismiss();
+                    }
+                });
+                b.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        dialogInterface.cancel();
+                        finish();
+                    }
+                });
                 b.create().show();
                 break;
             case SEEKBAR_DIALOG_ID:
@@ -255,6 +333,8 @@ public class Dodaj extends Activity{
             		seek.setMax(40);
             	else
             		seek.setMax(100);
+                seek.setProgress(suwakProgres(h));
+                txt.setText(""+suwakProgres(h));
             	seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 					
 					public void onStopTrackingTouch(SeekBar seekBar) {}
@@ -299,21 +379,86 @@ public class Dodaj extends Activity{
         return null;    
     }
     private TimePickerDialog.OnTimeSetListener mTimeSetListener =
-    new TimePickerDialog.OnTimeSetListener() 
-    {        
-        public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour) 
+    new TimePickerDialog.OnTimeSetListener()
+    {
+        public void onTimeSet(TimePicker view, int hourOfDay, int minuteOfHour)
         {
             hour = hourOfDay;
             minute = minuteOfHour;
-            	changeItems();
+            changeItems();
+
         }
     };
+    private  TimePickerDialog.OnCancelListener mTCancelListener= new TimePickerDialog.OnCancelListener() {
+        @Override
+        public void onCancel(DialogInterface dialogInterface) {
+            dialogInterface.cancel();
+        }
+    };
+
 	static class ViewHolder {
     TextView text;
 	}
 	public String pobZasob(int z){
 		return getResources().getString(z);
 	}
+    public boolean[] stanyDni(Harmonogram h){
+        String[] pom2={"Pon","Wt","Śr","Cz","Pt","Sob","Nd"};
+        String[] pom3={"Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota","Niedziela","Codziennie"};
+        try{
+            String dni=h.dni;
+            String[] pom=dni.split("[., ]+");
+            if(pom.length>1){
+                for(int i=0;i<pom.length;i++){
+                    for(int j=0;j<pom2.length;j++){
+                        if(pom[i].equals(pom2[j]))
+                            states[j]=true;
+                    }
+                }
+            }
+            else{
+                for(int i=0;i<pom2.length;i++){
+                    if(pom[0].equals(pom3[i])){
+                        if(i!=7){
+                            states[i]=true;
+                        }
+                        else{
+                            for(int j=0;j<states.length;j++){
+                                states[j]=true;
+                            }
+                        }
+                    }
+                }
 
+            }
+        }
+        catch (NullPointerException e){}
+        return states;
+    }
+    public int suwakProgres(Harmonogram h){
+        try{
+            String[] pom=h.valStart.split("[st,% ]+");
+            return Integer.parseInt(pom[0]);
+        }
+        catch (Exception e){
+            return 0;
+        }
+    }
+    public int godziny(int czas){
+        try{
+            return czas/100;
+        }
+        catch (Exception e){
+            return 0;
+        }
 
+    }
+    public int minuty(int czas){
+        try{
+            return czas%100;
+        }
+        catch (Exception e){
+        return 0;
+        }
+    }
 }

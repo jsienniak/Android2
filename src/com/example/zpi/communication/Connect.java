@@ -18,7 +18,8 @@ import android.util.Log;
 
 public class Connect {
 
-	private static final String url = "156.17.234.1:8080/zpi_server/";
+	//private static final String url = "156.17.234.1:8080/zpi_server/";
+    private static final String url = "192.168.1.106:8080/zpi_server/";
 	private Context ctx = null;
     private ArrayList<ResponseListener> listeners = new ArrayList<ResponseListener>();
 
@@ -91,17 +92,23 @@ public class Connect {
 				StringBuffer sb = null;
 				try {
 					urlConnection = (HttpURLConnection) link.openConnection();
+                    urlConnection.setReadTimeout(1);
 					BufferedReader in = new BufferedReader(
 							new InputStreamReader(
 									urlConnection.getInputStream()));
 					sb = new StringBuffer();
+
 					String line;
 					while ((line = in.readLine()) != null) {
 						sb.append(line);
 					}
+
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
+
 					e.printStackTrace();
+                    res.setERROR(true);
+                    return res;
 				} finally {
 					urlConnection.disconnect();
 				}

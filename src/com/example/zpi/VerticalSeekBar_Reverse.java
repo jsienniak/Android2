@@ -3,6 +3,7 @@ package com.example.zpi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.SeekBar;
 
@@ -53,7 +54,16 @@ public class VerticalSeekBar_Reverse extends SeekBar{
                 break;
             case MotionEvent.ACTION_MOVE:
                 int i=0;
-                i=getMax() - (int) (getMax() * event.getY() / getHeight());
+                Log.d("max",""+getMax());
+                Log.d("getY",""+event.getY());
+                Log.d("height",""+getHeight());
+                float pom=event.getY();
+                if (pom>=getHeight())
+                    pom=getHeight();
+                if(pom<=0)
+                    pom=0;
+                i=getMax() - (int) (getMax() * pom / getHeight());
+                Log.d("i",""+i);
                 setProgress(100-i);
                 onSizeChanged(getWidth(), getHeight(), 0, 0);
                 myListener.onProgressChanged(this,100-i,true);

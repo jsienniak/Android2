@@ -16,6 +16,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+
 
 public class Harmonogramy extends Activity
 {
@@ -24,13 +26,24 @@ public class Harmonogramy extends Activity
 	private Button dodaj;
 	private Button wroc;
     private String[] items={"Pierwsze","Drugie","Trzecie"};
-    private String[] opisy={"15:00-19:00","15:00-9:00","14:00-20:00" };
+    private String[] opisy={"15:00-19:00 100%","15:00-9:00","14:00-20:00 85st" };
+    Harmonogram h1=new Harmonogram(900,1200,"90st","60st",0,0,"Pon., Wt., Śr.",true);
+    Harmonogram h2=new Harmonogram(1200,1500,"80%","100%",0,1,"Pon Śr",false);
+    Harmonogram h3=new Harmonogram(800,1209,"","",0,4,"Pon., Wt., Śr., Pt., Sob., Nd.",true);
+    ArrayList<Harmonogram> harm=new ArrayList<Harmonogram>();
     Context ctx;
     ListView list;
- 
+    HarmMenuAdapter adapter;
     @Override  
     protected void onCreate(Bundle savedInstanceState) 
     {
+
+        harm.add(h1);
+        harm.add(h2);
+        harm.add(h3);
+        //harm.add(new Harmonogram(900,1200,"90st","60st",0,0,"Pon Wt Sr"));
+        //harm.add(new Harmonogram(1200,1500,"90st","100%",0,1,"Pon Sr"));
+        //harm.add(new Harmonogram(800,1200,"90st","",0,4,"Pon Wt Nd"));
         super.onCreate(savedInstanceState);        
         setContentView(R.layout.harmonogram);
         int opcja;
@@ -58,7 +71,8 @@ public class Harmonogramy extends Activity
                 break;
         }
         list = (ListView) findViewById(R.id.harmMenuList);
-        HarmMenuAdapter adapter = new HarmMenuAdapter(this, items,opisy);
+       // adapter = new HarmMenuAdapter(this, items,opisy);
+        adapter=new HarmMenuAdapter(this,harm);
         list.setAdapter(adapter);
         addListener();
         ctx = this.getApplicationContext();
@@ -70,41 +84,8 @@ public class Harmonogramy extends Activity
         {           
             public void onClick(View arg0)
             {
-            	/*try {
-        			URL url = new URL(
-        					"http://192.168.43.252:8080/servtest/do?action=module.ping");
-        			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        			conn.connect();
-        			BufferedReader br = new BufferedReader( new InputStreamReader(conn.getInputStream()));
-        			StringBuilder sb = new StringBuilder();
-        			String line = "";
-        			while ((line = br.readLine())!=null){
-        				sb.append(line);
-        				Log.d("http",line);
-        			}
-        			TextView tv = (TextView) findViewById(R.id.textView1);
-        			tv.setText(sb.toString());
-        			Toast t =	Toast.makeText(ctx, sb.toString(), 1000);
-        			t.show();
-                } catch (Exception e) {
-        			e.printStackTrace();
-        		}
-            	*/
-           /* 	Context ctx=getApplication();
-            	Connect c = new Connect(ctx);
-                Response req = null;
-                        try {
-                                req = c.request("module", "dupa");
-                        } catch (NoInternetException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                        }
-                TextView tv = (TextView) findViewById(R.id.textView1);
-                //tv.setText("text"/*req.getMessage()*///);
-                //tv.setText(req.getMessage());
             	Intent i=new Intent(getApplicationContext(),Dodaj.class);
     			startActivity(i);
-            	//showDialog(TIME_DIALOG_ID);
             }
         });
         wroc=(Button) findViewById(R.id.harmWroc);
@@ -116,7 +97,9 @@ public class Harmonogramy extends Activity
 		});
         list.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            	System.out.println(position);
+                Intent i=new Intent(getApplicationContext(),Dodaj.class);
+                i.putExtra("harm",adapter.getHarmonogram(position));
+                startActivity(i);
             }
         } );
     }

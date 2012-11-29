@@ -8,21 +8,30 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+import com.example.zpi.communication.*;
 
-public class Ogrod extends Activity {
+public class Ogrod extends Activity implements ResponseListener {
 	ToggleButton wl;
 	ToggleButton auto;
 	Button ustaw;
-	Button start;
-	Button stop;
 	Button wroc;
     Button wyczysc;
 	String s="";
 	TextView txt;
+    Connect c;
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ogrod);
-        
+        c=new Connect(this);
+        c.addResponseListener(this);
+        try {
+            c.requestGet(4,0);
+            c.requestGet(4,1);
+        } catch (ServerErrorException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (NoInternetException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         addListenerOnButton();
     }
 	public void addListenerOnButton(){
@@ -31,17 +40,29 @@ public class Ogrod extends Activity {
 		wl=(ToggleButton) findViewById(R.id.ogrOswWl);
 		wl.setOnClickListener(new OnClickListener() {			
 			public void onClick(View arg0) {
-				
-			}
+                try {
+                    c.requestSet(4,0,""+wl.isChecked());
+                } catch (ServerErrorException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (NoInternetException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }
 		});
 		
 		auto=(ToggleButton) findViewById(R.id.ogrAutoB);
 		auto.setOnClickListener(new OnClickListener() {			
 			public void onClick(View arg0) {
 				if(auto.isChecked()){
-				ustaw.setEnabled(false);
-				wl.setEnabled(false);
-				wl.setChecked(false);
+                    try {
+                        c.requestSet(4,1,""+auto.isChecked());
+                    } catch (ServerErrorException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (NoInternetException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+                    ustaw.setEnabled(false);
+				    wl.setEnabled(false);
 				}
 				else{
 					ustaw.setEnabled(true);
@@ -57,7 +78,7 @@ public class Ogrod extends Activity {
 				finish();
 			}
 		});
-        ustaw=(Button) findViewById(R.id.ogrHarm);
+        ustaw=(Button) findViewById(R.id.ogrUst);
         ustaw.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,4 +92,20 @@ public class Ogrod extends Activity {
         wyczysc=(Button) findViewById(R.id.ogrWyczysc);
 	}
 
+    @Override
+    public void processResponse(Response res) {
+        if(res.getType()==Response.GET){
+            switch (res.getPort()){
+                case 0:
+                    wl.setChecked(Boolean.valueOf(res.getValue()));
+                    break;
+                case 1:
+                    auto.setChecked(Boolean.valueOf(res.getValue()));
+                    if(Boolean.valueOf(res.getValue()))
+                        wl.setEnabled(false);
+                        ustaw.setEnabled(false);
+                    break;
+            }
+        }
+    }
 }

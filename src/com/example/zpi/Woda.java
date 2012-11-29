@@ -1,6 +1,7 @@
 package com.example.zpi;
 
 import android.content.Intent;
+import android.util.Log;
 import com.example.zpi.communication.*;
 
 import android.app.Activity;
@@ -30,7 +31,7 @@ public class Woda extends Activity implements ResponseListener{
         try {
 		//prog=Integer.parseInt(c.request("0","1").getValue());
             c.requestGet(0,1);
-            System.out.print(prog);
+
 		} 
         catch (NoInternetException e) {
 			// TODO: handle exception
@@ -45,7 +46,7 @@ public class Woda extends Activity implements ResponseListener{
 		status =(TextView)findViewById(R.id.wdStatus);
 		
 		sb=(SeekBar)findViewById(R.id.wdSb);
-		sb.setProgress(prog/10);
+		sb.setProgress(30);
 		
 		zmniejsz =(Button)findViewById(R.id.wdZm);
 		zwieksz =(Button)findViewById(R.id.wdZw);
@@ -72,7 +73,8 @@ public class Woda extends Activity implements ResponseListener{
 
             }
         });
-		
+
+
 		sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
 			   public void onProgressChanged(SeekBar seekBar, int progress,
@@ -80,14 +82,8 @@ public class Woda extends Activity implements ResponseListener{
 			    // TODO Auto-generated method stub
 				   progress+=40;
                    prog=progress;
-			    status.setText("" + progress);
-                   try {
-                       c.requestGet(5,0);
-                   } catch (ServerErrorException e) {
-                       e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                   } catch (NoInternetException e) {
-                       e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                   }
+			    //status.setText("" + progress);
+
                }
 
 			    public void onStartTrackingTouch(SeekBar seekBar) {
@@ -95,16 +91,16 @@ public class Woda extends Activity implements ResponseListener{
 			   }
 
 			   public void onStopTrackingTouch(SeekBar seekBar) {
-                  /* try {
-                       //c.requestSet(0,0,""+prog*10);
-                       c.requestGet(5,0);
+                   try {
+                       c.requestSet(0,0,""+prog*10);
+                       //c.requestGet(5,0);
                    }
                    catch (NoInternetException e) {
                        // TODO: handle exception
                    }
                    catch (ServerErrorException e) {
                        // TODO: handle exception
-                   }*/
+                   }
 			   }
 			       });
         ustaw=(Button) findViewById(R.id.wodaUstHarm);
@@ -123,7 +119,7 @@ public class Woda extends Activity implements ResponseListener{
     @Override
     public void processResponse(Response res) {
         if(res.getType()==Response.GET){
-            prog = Integer.parseInt(res.getValue());
+            status.setText(res.getValue());
         }
     }
 }

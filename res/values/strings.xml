@@ -57,5 +57,6 @@
     <string name="rolStat">Stopień zamknięcia rolet</string>
     <string name="wyczysc">Wyczyść</string>
     <string name="usun">Usuń</string>
+    <string name="anuluj">Anuluj</string>
 	
 </resources>

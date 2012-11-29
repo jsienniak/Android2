@@ -16,8 +16,21 @@ public class Response {
     private int module = -1;
 
     private int port = -1;
-	
-	public Response(){
+
+    private boolean ERROR =false;
+
+    @Override
+    public String toString() {
+        return "Response{" +
+                "type=" + type +
+                ", message='" + message + '\'' +
+                ", value='" + value + '\'' +
+                ", module=" + module +
+                ", port=" + port +
+                '}';
+    }
+
+    public Response(){
 	}
 
     public String getValue() {
@@ -59,5 +72,13 @@ public class Response {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public boolean isERROR() {
+        return ERROR;
+    }
+
+    public void setERROR(boolean ERROR) {
+        this.ERROR = ERROR;
     }
 }

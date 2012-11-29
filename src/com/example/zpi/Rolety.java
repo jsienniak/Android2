@@ -148,19 +148,19 @@ public class Rolety extends Activity implements ResponseListener{
 
 		sb=(VerticalSeekBar_Reverse)findViewById(R.id.vertical_Seekbar);
         imv.setImageResource(roletaImg[prog]);
-        sb.setProgress(prog);
+
 		
 		otw =(Button)findViewById(R.id.otwR);
 		zamk =(Button)findViewById(R.id.zamR);
 		wroc =(Button)findViewById(R.id.wrR);
-        switch (prog){
+       /* switch (prog){
             case 0:
                 otw.setEnabled(false);
                 break;
             case 100:
                 zamk.setEnabled(false);
                 break;
-        }
+        }*/
 		otw.setOnClickListener(new OnClickListener() {
 
             public void onClick(View arg0) {
@@ -174,6 +174,7 @@ public class Rolety extends Activity implements ResponseListener{
                 zamk.setEnabled(true);
                 otw.setEnabled(false);
                 sb.setProgress(0);
+                imv.setImageResource(roletaImg[0]);
             }
         });
 		zamk.setOnClickListener(new OnClickListener() {
@@ -187,6 +188,7 @@ public class Rolety extends Activity implements ResponseListener{
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
                 sb.setProgress(100);
+                imv.setImageResource(roletaImg[100]);
                 zamk.setEnabled(false);
                 otw.setEnabled(true);
                 sb.klik();
@@ -213,8 +215,8 @@ public class Rolety extends Activity implements ResponseListener{
 			   }
 			   public void onStopTrackingTouch(SeekBar seekBar) {
                    try {
-                       //c.requestSet(1, 0, "" + seekBar.getProgress());
-                       c.requestGet(5, 0);
+                       c.requestSet(1, 0, "" + seekBar.getProgress());
+                       //c.requestGet(5, 0);
                      //  Log.d("test",c.request("5","0").getValue());
                    } catch (NoInternetException e) {
                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -238,8 +240,10 @@ public class Rolety extends Activity implements ResponseListener{
     @Override
     public void processResponse(Response res) {
         if(res.getType()==Response.GET){
-            prog=40;
-            //prog = Integer.parseInt(res.getValue());
+            prog = Integer.parseInt(res.getValue());
+            sb.setProgress(prog);
+            imv.setImageResource(roletaImg[prog]);
+            sb.klik();
         }
     }
 }

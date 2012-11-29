@@ -15,11 +15,13 @@
             android:layout_weight="1.0"
             android:gravity="center" >
 
-            <Button
+            <ToggleButton
                 android:id="@+id/brama"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_weight="1.5"
+                android:textOff="@string/brama"
+                android:textOn="@string/brama"
                 android:text="@string/brama" />
 
             <Button
@@ -44,11 +46,13 @@
                 android:layout_weight="1.5"
                 android:text="@string/rolety" />
 
-            <Button
+            <ToggleButton
                 android:id="@+id/alarm"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_weight="1.0"
+                android:textOff="@string/alarm"
+                android:textOn="@string/alarm"
                 android:text="@string/alarm" />
         </TableRow>
 
