@@ -36,6 +36,7 @@ public class Connect {
 		ConnectivityManager conMgr = (ConnectivityManager) ctx
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo net = conMgr.getActiveNetworkInfo();
+
 		if (net == null || !net.isConnected()) {
 			return false;
 		}
@@ -92,7 +93,8 @@ public class Connect {
 				StringBuffer sb = null;
 				try {
 					urlConnection = (HttpURLConnection) link.openConnection();
-                    urlConnection.setReadTimeout(1);
+                    urlConnection.setReadTimeout(1000);
+
 					BufferedReader in = new BufferedReader(
 							new InputStreamReader(
 									urlConnection.getInputStream()));

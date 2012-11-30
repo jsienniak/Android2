@@ -13,6 +13,7 @@ import java.io.Serializable;
  * To change this template use File | Settings | File Templates.
  */
 public class Harmonogram implements Serializable {
+    int id;
     int czasStart;
     int czasStop;
     String valStart;
@@ -25,7 +26,8 @@ public class Harmonogram implements Serializable {
 
     }
 
-    public Harmonogram(int czasStart, int czasStop, String valStart, String valStop, int port, int modul, String dni, boolean  wl) {
+    public Harmonogram(int id,int czasStart, int czasStop, String valStart, String valStop, int port, int modul, String dni, boolean  wl) {
+        this.id=id;
         this.czasStart = czasStart;
         this.czasStop = czasStop;
         this.valStart = valStart;

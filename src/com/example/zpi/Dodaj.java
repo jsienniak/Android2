@@ -106,6 +106,10 @@ public class Dodaj extends Activity{
 				pobZasob(R.string.powt),pobZasob(R.string.ustPoz)};
 		for(int i=0;i<7;i++)
 			states[i]=false;
+        for(String i: itemsWoda){
+            Log.d("items",i);
+        }
+
 		switch(x){
 		case 0:
 			temp=items;
@@ -458,7 +462,8 @@ public class Dodaj extends Activity{
             return czas%100;
         }
         catch (Exception e){
-        return 0;
+            return 0;
         }
     }
+
 }

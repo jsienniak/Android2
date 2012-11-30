@@ -27,10 +27,11 @@ public class Harmonogramy extends Activity
 	private Button wroc;
     private String[] items={"Pierwsze","Drugie","Trzecie"};
     private String[] opisy={"15:00-19:00 100%","15:00-9:00","14:00-20:00 85st" };
-    Harmonogram h1=new Harmonogram(900,1200,"90st","60st",0,0,"Pon., Wt., Śr.",true);
-    Harmonogram h2=new Harmonogram(1200,1500,"80%","100%",0,1,"Pon Śr",false);
-    Harmonogram h3=new Harmonogram(800,1209,"","",0,4,"Pon., Wt., Śr., Pt., Sob., Nd.",true);
+    Harmonogram h1=new Harmonogram(1,900,1200,"90st","60st",0,0,"Pon., Wt., Śr.",true);
+    Harmonogram h2=new Harmonogram(2,1200,1500,"80%","100%",0,1,"Pon Śr",false);
+    Harmonogram h3=new Harmonogram(3,800,1209,"","",0,4,"Pon., Wt., Śr., Pt., Sob., Nd.",true);
     ArrayList<Harmonogram> harm=new ArrayList<Harmonogram>();
+    ArrayList<Harmonogram> harmPom=new ArrayList<Harmonogram>();
     Context ctx;
     ListView list;
     HarmMenuAdapter adapter;
@@ -38,9 +39,9 @@ public class Harmonogramy extends Activity
     protected void onCreate(Bundle savedInstanceState) 
     {
 
-        harm.add(h1);
-        harm.add(h2);
-        harm.add(h3);
+        harmPom.add(h1);
+        harmPom.add(h2);
+        harmPom.add(h3);
         //harm.add(new Harmonogram(900,1200,"90st","60st",0,0,"Pon Wt Sr"));
         //harm.add(new Harmonogram(1200,1500,"90st","100%",0,1,"Pon Sr"));
         //harm.add(new Harmonogram(800,1200,"90st","",0,4,"Pon Wt Nd"));
@@ -50,8 +51,14 @@ public class Harmonogramy extends Activity
         try{
 
             opcja=getIntent().getExtras().getInt("modul");
+            for(int i=0;i<harmPom.size();i++){
+                if(harmPom.get(i).modul==opcja){
+                    harm.add(harmPom.get(i));
+                }
+            }
         }
         catch (Exception e){
+            harm=harmPom;
             opcja=-1;
         }
         switch (opcja){
@@ -61,7 +68,7 @@ public class Harmonogramy extends Activity
             case 1:
                 Log.d("modul","rolety");
                 break;
-            case 2:
+            case 4:
                 Log.d("modul","ogrod");
                 break;
             default:

@@ -2,10 +2,11 @@ package com.example.zpi;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.AlertDialog;
-import android.app.Dialog;
+import android.app.*;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Point;
+import android.net.Uri;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -15,7 +16,6 @@ import com.example.zpi.communication.*;
 import com.google.android.gcm.GCMRegistrar;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
 import android.view.View.OnClickListener;
 
@@ -39,6 +39,15 @@ public class MainActivity extends Activity implements ResponseListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try{
+            if(getIntent().getExtras().containsKey("notification")){
+                //((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE)).cancel(1);
+            }
+        }
+        catch (Exception e){
+            testuNotyfikacje();
+        }
+       // testuNotyfikacje();
         setContentView(R.layout.activity_main);
         c=new Connect(this);
         c.addResponseListener(this);
@@ -62,9 +71,24 @@ public class MainActivity extends Activity implements ResponseListener {
         final String regId = GCMRegistrar.getRegistrationId(this);
         if (regId.equals("")) {
           GCMRegistrar.register(this, SENDER_ID);
-        } 
-        
+        }
+
         addListenerOnButton();
+    }
+
+    private void testuNotyfikacje() {
+        Intent i=new Intent(getApplicationContext(),MainActivity.class);
+        i.putExtra("notification",1);
+        PendingIntent pIntent = PendingIntent.getActivity(this, 0, i, 0);
+
+        NotificationManager mn= (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Notification n= new Notification(R.drawable.ic_launcher,"ALARM!",System.currentTimeMillis()+5000);
+        n.setLatestEventInfo(this, "Uruchomił się alarm!", "Powiadom POLICJE!", pIntent);
+        n.flags |= Notification.FLAG_AUTO_CANCEL;
+        n.defaults |= Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE ;
+        mn.notify(1,n);
+
     }
 
     @Override

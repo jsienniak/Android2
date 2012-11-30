@@ -1,5 +1,6 @@
 package com.example.zpi;
 
+import android.util.Log;
 import com.example.zpi.Dodaj.ViewHolder;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -35,11 +36,10 @@ public class SpecialAdapter extends BaseAdapter {
     }
     public String czas(int cz){
         String czas="";
-
-        if(cz/1000!=0){
+        /*if(cz/1000!=0){
             czas+=cz/1000;
             cz-=(cz/1000)*1000;
-        }
+        } */
         czas+=cz/100+":";
         cz-=(cz/100)*100;
         if(cz/10!=0){
@@ -74,11 +74,14 @@ public class SpecialAdapter extends BaseAdapter {
          holder = new ViewHolder();
          holder.text = (TextView) convertView.findViewById(R.id.headline);
          convertView.setTag(holder);
+
      } 
      else
     	 holder = (ViewHolder) convertView.getTag();
-     
+
+
      holder.text.setText(data[position]);
+         Log.d("data",data[position]);
      convertView.setBackgroundColor(0xFFFFFFF);
      return convertView;
      }

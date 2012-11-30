@@ -83,7 +83,7 @@ public class Ogrod extends Activity implements ResponseListener {
             @Override
             public void onClick(View view) {
                 Intent i=new Intent(getApplicationContext(),Harmonogramy.class);
-                i.putExtra("modul",2);
+                i.putExtra("modul",4);
                 startActivity(i);
             }
         });
