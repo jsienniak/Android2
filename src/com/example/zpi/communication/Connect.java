@@ -49,7 +49,7 @@ public class Connect {
     }
 
     public void requestSetHarm(Harmonogram h)throws ServerErrorException, NoInternetException {
-        request(h.getDni(),""+h.getCzasStart(),""+h.getCzasStop(),""+h.getModul(),""+h.getPort(),h.getValStart(),h.getValStop(),""+h.isWl());
+        request(h.getDni(),h.getCzasStart(),h.getCzasStop(),""+h.getModul(),""+h.getPort(),h.getValStart(),h.getValStop(),""+(h.isWl()?1:0));
     }
 
     public void requestGet(int m, int p) throws ServerErrorException, NoInternetException {
