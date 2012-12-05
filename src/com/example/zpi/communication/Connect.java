@@ -94,7 +94,7 @@ public class Connect {
                     res.setType(Response.SET);
 					break;
                 case 8:
-                    //u="harmonogram.set&dni="+t[0]+"&g_start="+t[1]+"&g_stop="+t[2]+"&m_id="+t[3]
+                    u="harmonogram.set&dni="+t[0]+"&g_start="+t[1]+"&g_stop="+t[2]+"&m_id="+t[3]+"&p="+t[4]+"&w_start="+t[5]+"&w_end="+t[6]+"&active="+t[7];
                     break;
 				default:
 					throw new Error("Wrong argument list!");
