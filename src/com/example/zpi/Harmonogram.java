@@ -13,15 +13,17 @@ import java.io.Serializable;
  * To change this template use File | Settings | File Templates.
  */
 public class Harmonogram implements Serializable {
-    int id;
-    int czasStart;
-    int czasStop;
-    String valStart;
-    String valStop;
-    String dni;
-    int modul;
-    int port;
-    boolean wl;
+
+    private int id;
+    private int czasStart;
+    private int czasStop;
+    private String valStart;
+    private String valStop;
+    private String dni;
+    private int modul;
+    private int port;
+    private boolean wl;
+
     public Harmonogram(){
 
     }
@@ -36,5 +38,77 @@ public class Harmonogram implements Serializable {
         this.modul = modul;
         this.dni = dni;
         this.wl=wl;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getCzasStart() {
+        return czasStart;
+    }
+
+    public void setCzasStart(int czasStart) {
+        this.czasStart = czasStart;
+    }
+
+    public int getCzasStop() {
+        return czasStop;
+    }
+
+    public void setCzasStop(int czasStop) {
+        this.czasStop = czasStop;
+    }
+
+    public String getValStart() {
+        return valStart;
+    }
+
+    public void setValStart(String valStart) {
+        this.valStart = valStart;
+    }
+
+    public String getValStop() {
+        return valStop;
+    }
+
+    public void setValStop(String valStop) {
+        this.valStop = valStop;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public int getModul() {
+        return modul;
+    }
+
+    public void setModul(int modul) {
+        this.modul = modul;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public boolean isWl() {
+        return wl;
+    }
+
+    public void setWl(boolean wl) {
+        this.wl = wl;
     }
 }

@@ -43,6 +43,10 @@ public class Connect {
 		return true;
 	}
 
+    public void requestGetHarm()throws ServerErrorException, NoInternetException {
+        request("harmonogramy.get");
+    }
+
     public void requestGet(int m, int p) throws ServerErrorException, NoInternetException {
         request(""+m,""+p);
     }
@@ -68,19 +72,23 @@ public class Connect {
 				String u = "";
                 Response res = new Response();
 				switch (arg0.length) {
+                case 1:
+                     u=arg0[0];
+                     res.setType(Response.GETHARM);
+                     break;
 				case 2:
-					u="get&id="+arg0[0]+"&port_num="+arg0[1];
+					u="module.get&id="+arg0[0]+"&port_num="+arg0[1];
                     res.setType(Response.GET);
                     break;
 				case 3:
-					u="set&id="+arg0[0]+"&port_num="+arg0[1]+"&value="+arg0[2];
+					u="module.set&id="+arg0[0]+"&port_num="+arg0[1]+"&value="+arg0[2];
                     res.setType(Response.SET);
 					break;
 				default:
 					throw new Error("Wrong argument list!");
 				}
 				try {
-					String s = "http://" + url + "do?action=module."+u;
+					String s = "http://" + url + "do?action="+u;
                     Log.d("URL",s);
                     link = new URL(s);
 				} catch (MalformedURLException e) {
@@ -94,7 +102,6 @@ public class Connect {
 				try {
 					urlConnection = (HttpURLConnection) link.openConnection();
                     urlConnection.setReadTimeout(1000);
-
 					BufferedReader in = new BufferedReader(
 							new InputStreamReader(
 									urlConnection.getInputStream()));

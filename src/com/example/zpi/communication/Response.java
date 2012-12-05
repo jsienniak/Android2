@@ -6,6 +6,9 @@ public class Response {
 
     public static int GET = 0;
     public static int SET = 1;
+    public static int GETHARM = 2;
+
+    private Object extras = null;
 
     private int type =-1;
 
@@ -80,5 +83,13 @@ public class Response {
 
     public void setERROR(boolean ERROR) {
         this.ERROR = ERROR;
+    }
+
+    public Object getExtras() {
+        return extras;
+    }
+
+    public void setExtras(Object extras) {
+        this.extras = extras;
     }
 }

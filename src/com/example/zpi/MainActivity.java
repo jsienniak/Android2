@@ -66,9 +66,9 @@ public class MainActivity extends Activity implements ResponseListener {
         }
         accountManager = AccountManager.get(getApplicationContext());
         Account[] accounts = accountManager.getAccountsByType("com.google");
-        Log.d("cos",""+accounts[0]);
-        GCMRegistrar.checkDevice(this);
-        GCMRegistrar.checkManifest(this);
+        //Log.d("cos",""+accounts[0]);
+        //GCMRegistrar.checkDevice(this);
+        //GCMRegistrar.checkManifest(this);
         final String regId = GCMRegistrar.getRegistrationId(this);
         if (regId.equals("")) {
           GCMRegistrar.register(this, SENDER_ID);
