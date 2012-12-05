@@ -15,8 +15,8 @@ import java.io.Serializable;
 public class Harmonogram implements Serializable {
 
     private int id;
-    private int czasStart;
-    private int czasStop;
+    private String czasStart;
+    private String czasStop;
     private String valStart;
     private String valStop;
     private String dni;
@@ -28,7 +28,7 @@ public class Harmonogram implements Serializable {
 
     }
 
-    public Harmonogram(int id,int czasStart, int czasStop, String valStart, String valStop, int port, int modul, String dni, boolean  wl) {
+    public Harmonogram(int id, String czasStart, String czasStop, String valStart, String valStop, int port, int modul, String dni, boolean  wl) {
         this.id=id;
         this.czasStart = czasStart;
         this.czasStop = czasStop;
@@ -48,19 +48,19 @@ public class Harmonogram implements Serializable {
         this.id = id;
     }
 
-    public int getCzasStart() {
+    public String getCzasStart() {
         return czasStart;
     }
 
-    public void setCzasStart(int czasStart) {
+    public void setCzasStart(String czasStart) {
         this.czasStart = czasStart;
     }
 
-    public int getCzasStop() {
+    public String getCzasStop() {
         return czasStop;
     }
 
-    public void setCzasStop(int czasStop) {
+    public void setCzasStop(String czasStop) {
         this.czasStop = czasStop;
     }
 

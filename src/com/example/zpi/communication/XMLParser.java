@@ -70,7 +70,7 @@ public class XMLParser {
                     parser.next();
                     parser.next();
                     parser.next();
-                    h.setCzasStart(Integer.parseInt(parser.getText().replace(":","")));
+                    h.setCzasStart(parser.getText());
                     parser.next();
                     parser.next();
                     parser.next();
@@ -82,7 +82,7 @@ public class XMLParser {
                     parser.next();
                     parser.next();
                     parser.next();
-                    h.setCzasStop(Integer.parseInt(parser.getText().replace(":","")));
+                    h.setCzasStop(parser.getText());
                     parser.next();
                     parser.next();
                     parser.next();

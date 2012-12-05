@@ -15,6 +15,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
+import com.example.zpi.Harmonogram;
 
 public class Connect {
 
@@ -47,6 +48,10 @@ public class Connect {
         request("harmonogram.get");
     }
 
+    public void requestSetHarm(Harmonogram h)throws ServerErrorException, NoInternetException {
+        request(h.getDni(),""+h.getCzasStart(),""+h.getCzasStop(),""+h.getModul(),""+h.getPort(),h.getValStart(),h.getValStop(),""+h.isWl());
+    }
+
     public void requestGet(int m, int p) throws ServerErrorException, NoInternetException {
         request(""+m,""+p);
     }
@@ -67,27 +72,30 @@ public class Connect {
             }
 
 			@Override
-			protected Response doInBackground(String... arg0) {
+			protected Response doInBackground(String... t) {
 				URL link = null;
 				String u = "";
                 Response res = new Response();
-				switch (arg0.length) {
+				switch (t.length) {
                 case 1:
-                     u=arg0[0];
+                     u=t[0];
                      res.setType(Response.GETHARM);
                      break;
 				case 2:
-					u="module.get&id="+arg0[0]+"&port_num="+arg0[1];
-                    res.setModule(Integer.parseInt(arg0[0]));
-                    res.setPort(Integer.parseInt(arg0[1]));
+					u="module.get&id="+t[0]+"&port_num="+t[1];
+                    res.setModule(Integer.parseInt(t[0]));
+                    res.setPort(Integer.parseInt(t[1]));
                     res.setType(Response.GET);
                     break;
 				case 3:
-					u="module.set&id="+arg0[0]+"&port_num="+arg0[1]+"&value="+arg0[2];
-                    res.setModule(Integer.parseInt(arg0[0]));
-                    res.setPort(Integer.parseInt(arg0[1]));
+					u="module.set&id="+t[0]+"&port_num="+t[1]+"&value="+t[2];
+                    res.setModule(Integer.parseInt(t[0]));
+                    res.setPort(Integer.parseInt(t[1]));
                     res.setType(Response.SET);
 					break;
+                case 8:
+                    //u="harmonogram.set&dni="+t[0]+"&g_start="+t[1]+"&g_stop="+t[2]+"&m_id="+t[3]
+                    break;
 				default:
 					throw new Error("Wrong argument list!");
 				}
