@@ -6,6 +6,7 @@ import android.app.*;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Point;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
@@ -26,8 +27,8 @@ public class MainActivity extends Activity implements ResponseListener {
 	Button rolety;
 	Button ogrod;
 	Button status;
-	Button koniec;
 	Button harmon;
+    Button profil;
     EditText haslo;
     Boolean statusAlarm;
     Connect c;
@@ -77,8 +78,10 @@ public class MainActivity extends Activity implements ResponseListener {
     }
 
     private void testuNotyfikacje() {
-        Intent i=new Intent(getApplicationContext(),MainActivity.class);
-        i.putExtra("notification",1);
+        AudioManager am=(AudioManager) getBaseContext().getSystemService(Context.AUDIO_SERVICE);
+        am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+        Intent i=new Intent(getApplicationContext(),WywolanieAlarmu.class);
+        //i.putExtra("notification",1);
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, i, 0);
 
         NotificationManager mn= (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -103,8 +106,8 @@ public class MainActivity extends Activity implements ResponseListener {
     	rolety=(Button)findViewById(R.id.rolety);
     	ogrod=(Button)findViewById(R.id.ogrod);
     	status=(Button)findViewById(R.id.status);
-    	koniec=(Button)findViewById(R.id.koniec);
     	harmon=(Button)findViewById(R.id.harmonogram);
+        profil=(Button) findViewById(R.id.profil);
     	brama.setOnClickListener(new OnClickListener() {
     		
 			
@@ -173,12 +176,13 @@ public class MainActivity extends Activity implements ResponseListener {
 			startActivity(i);
 			}
 		});
-    	koniec.setOnClickListener(new OnClickListener() {
-			
-			public void onClick(View arg0) {
-			finish();
-			}
-		});
+        profil.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(getApplicationContext(),Profile.class);
+                startActivity(i);
+            }
+        });
     	harmon.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View arg0) {

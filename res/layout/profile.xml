@@ -1,0 +1,31 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+    <ListView
+            android:id="@+id/profMenuList"
+            android:layout_width="match_parent"
+            android:layout_height="312dp"
+            android:layout_above="@+id/profWroc"
+            android:layout_below="@+id/profDodaj" >
+
+    </ListView>
+
+    <Button
+            android:id="@+id/profWroc"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:text="@string/wroc" />
+
+    <Button
+            android:id="@+id/profDodaj"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/dodaj" />
+
+</RelativeLayout>

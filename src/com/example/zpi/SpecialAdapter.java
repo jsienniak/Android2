@@ -14,7 +14,8 @@ public class SpecialAdapter extends BaseAdapter {
 	 private LayoutInflater mInflater;
      private String[] data;
      private Harmonogram harm;
-
+    private Profil profil;
+    private String[] pom={"Roleta","Woda"};
      public SpecialAdapter(Context context, String[] results) {
          mInflater = LayoutInflater.from(context);
          this.data = results;

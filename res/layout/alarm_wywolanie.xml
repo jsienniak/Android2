@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical"
+              android:gravity="center_horizontal">
+    <TextView
+        android:id="@+id/wywAlarmWiad"
+        android:layout_marginTop="40dp"
+        android:textSize="30dp"
+        android:textColor="#FF0000"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Uruchomił sie alarm!"
+        />
+    <TextView
+        android:id="@+id/wywAlarmOpcja"
+        android:layout_marginTop="50dp"
+        android:textSize="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Czy powiadomić policję?"
+        />
+    <LinearLayout
+        android:id="@+id/LinearLayoutAlarm1"
+        android:layout_marginTop="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/wywAlarmNie"
+            android:text="Nie"
+            android:layout_weight="1"
+            android:layout_height="80dp"
+            android:layout_width="wrap_content"
+            />
+        <Button
+            android:id="@+id/wywAlarmTak"
+            android:text="Tak"
+            android:layout_weight="1"
+            android:layout_height="80dp"
+            android:layout_width="wrap_content"
+            />
+
+        </LinearLayout>
+
+
+</LinearLayout>

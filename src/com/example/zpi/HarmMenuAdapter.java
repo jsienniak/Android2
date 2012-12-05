@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
 import android.widget.ToggleButton;
@@ -31,6 +30,7 @@ public class HarmMenuAdapter extends BaseAdapter {
         opis=opisy(h);
         harm=h;
     }
+
 
     public String[] naglowki(ArrayList<Harmonogram> h){
         String[] naglowki=null;
@@ -117,7 +117,7 @@ public class HarmMenuAdapter extends BaseAdapter {
     ToggleButton btn = null;
     final int pos=position;
     if (convertView == null) {
-        convertView = mInflater.inflate(R.layout.menu, null);
+        convertView = mInflater.inflate(R.layout.harm_menu_adapter, null);
         holder = new ViewHolder();
         holder2 = new ViewHolder();
         holder.text = (TextView) convertView.findViewById(R.id.harmNagl);

@@ -15,8 +15,6 @@ import android.view.ViewGroup;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 
-import java.util.ArrayList;
-
 public class Dodaj extends Activity{
 		
 	int hour, minute;
@@ -41,7 +39,7 @@ public class Dodaj extends Activity{
     Harmonogram h=new Harmonogram();
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.dodaj_czas);
+		setContentView(R.layout.dadaj_harmonogram);
 		//Harmonogram h=new Harmonogram();
         zmien=(Button) findViewById(R.id.zmiana);
         usun=(Button) findViewById(R.id.harmUsun);

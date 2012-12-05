@@ -22,7 +22,6 @@ import java.util.ArrayList;
 public class Harmonogramy extends Activity
 {
 
-	int hour, minute;
 	private Button dodaj;
 	private Button wroc;
     private String[] items={"Pierwsze","Drugie","Trzecie"};
@@ -42,9 +41,6 @@ public class Harmonogramy extends Activity
         harmPom.add(h1);
         harmPom.add(h2);
         harmPom.add(h3);
-        //harm.add(new Harmonogram(900,1200,"90st","60st",0,0,"Pon Wt Sr"));
-        //harm.add(new Harmonogram(1200,1500,"90st","100%",0,1,"Pon Sr"));
-        //harm.add(new Harmonogram(800,1200,"90st","",0,4,"Pon Wt Nd"));
         super.onCreate(savedInstanceState);        
         setContentView(R.layout.harmonogram);
         int opcja;
