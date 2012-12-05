@@ -96,9 +96,29 @@ public class MainActivity extends Activity implements ResponseListener {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main, menu);
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+
+        /*switch (item.getItemId()) {
+            case R.id.new_game:
+                newGame();
+                return true;
+            case R.id.help:
+                showHelp();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);*/
+        //}
+        return true;
+    }
+
     public void addListenerOnButton(){
     	brama= (ToggleButton) findViewById(R.id.brama);
     	woda=(Button)findViewById(R.id.woda);

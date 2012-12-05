@@ -116,13 +116,13 @@ public class DodajProfil extends Activity {
     public String pobZasob(int z){
         return getResources().getString(z);
     }
-    public int suwakProgres(Harmonogram h){
-        try{
-            String[] pom=h.valStart.split("[st,% ]+");
+    /*public int suwakProgres(Profil p){
+      8  try{
+            String[] pom=p..split("[st,% ]+");
             return Integer.parseInt(pom[0]);
         }
         catch (Exception e){
             return 0;
         }
-    }
+    }  */
 }

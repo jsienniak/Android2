@@ -18,8 +18,8 @@ import android.util.Log;
 
 public class Connect {
 
-	//private static final String url = "156.17.234.1:8080/zpi_server/";
-    private static final String url = "192.168.1.106:8080/zpi_server/";
+	private static final String url = "156.17.234.1:8080/zpi_server/";
+    //private static final String url = "192.168.1.106:8080/zpi_server/";
 	private Context ctx = null;
     private ArrayList<ResponseListener> listeners = new ArrayList<ResponseListener>();
 
@@ -44,7 +44,7 @@ public class Connect {
 	}
 
     public void requestGetHarm()throws ServerErrorException, NoInternetException {
-        request("harmonogramy.get");
+        request("harmonogram.get");
     }
 
     public void requestGet(int m, int p) throws ServerErrorException, NoInternetException {
@@ -78,10 +78,14 @@ public class Connect {
                      break;
 				case 2:
 					u="module.get&id="+arg0[0]+"&port_num="+arg0[1];
+                    res.setModule(Integer.parseInt(arg0[0]));
+                    res.setPort(Integer.parseInt(arg0[1]));
                     res.setType(Response.GET);
                     break;
 				case 3:
 					u="module.set&id="+arg0[0]+"&port_num="+arg0[1]+"&value="+arg0[2];
+                    res.setModule(Integer.parseInt(arg0[0]));
+                    res.setPort(Integer.parseInt(arg0[1]));
                     res.setType(Response.SET);
 					break;
 				default:
@@ -95,8 +99,7 @@ public class Connect {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-                res.setModule(Integer.parseInt(arg0[0]));
-                res.setPort(Integer.parseInt(arg0[1]));
+
 				HttpURLConnection urlConnection = null;
 				StringBuffer sb = null;
 				try {

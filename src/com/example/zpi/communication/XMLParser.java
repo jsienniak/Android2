@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 
+import android.util.Log;
 import com.example.zpi.Harmonogram;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -49,6 +50,7 @@ public class XMLParser {
                 }  else if(eventType == XmlPullParser.START_TAG&&parser.getName().equals("harmonogramy")){
                     Harmonogram h = new Harmonogram();
                     harmonogramy.add(h);
+                    Log.d("liczba",""+harmonogramy.size());
                     parser.next();
                     parser.next();
                     h.setValStop(parser.getText());
@@ -59,7 +61,8 @@ public class XMLParser {
                     parser.next();
                     parser.next();
                     parser.next();
-                    h.setPort(Integer.parseInt(parser.getText()));
+                    String port = parser.getText();
+                    h.setPort(port.equals("null")?0:Integer.parseInt(port));
                     parser.next();
                     parser.next();
                     parser.next();

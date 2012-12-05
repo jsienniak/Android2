@@ -50,7 +50,7 @@ public class Dodaj extends Activity{
 		//   showDialog(RADIOBUTTON_DIALOG_ID);
         try{
             h= (Harmonogram)getIntent().getExtras().get("harm");
-            wlacz.setChecked(h.wl);
+            wlacz.setChecked(h.isWl());
             zmien.setEnabled(false);
 //            stanyDni(h);
             usun.setEnabled(true);
@@ -61,7 +61,7 @@ public class Dodaj extends Activity{
             showDialog(RADIOBUTTON_DIALOG_ID);
 
         }
-        switch (h.modul){
+        switch (h.getModul()){
             case 0:
                 setAdapter(1);
                 break;
@@ -182,7 +182,7 @@ public class Dodaj extends Activity{
                 final TimePickerDialog tp;
                 Log.d("wybor",""+i);
                 if(i==0){
-                    tp=new TimePickerDialog(this, mTimeSetListener, godziny(h.czasStart), minuty(h.czasStart), true);
+                    tp=new TimePickerDialog(this, mTimeSetListener, godziny(h.getCzasStart()), minuty(h.getCzasStart()), true);
                     Log.d("zegar1","klej");
                     tp.setCancelable(true);
                    /* tp.setOnCancelListener(new TimePickerDialog.OnCancelListener() {
@@ -198,7 +198,7 @@ public class Dodaj extends Activity{
                   //  this, mTimeSetListener, godziny(h.czasStart), minuty(h.czasStart), true);
                 }
                 else{
-                    tp=new TimePickerDialog(this, mTimeSetListener, godziny(h.czasStop), minuty(h.czasStop), true);
+                    tp=new TimePickerDialog(this, mTimeSetListener, godziny(h.getCzasStop()), minuty(h.getCzasStop()), true);
                     Log.d("zegar2","klej");
                   //  return new TimePickerDialog(
                     //        this, mTimeSetListener, godziny(h.czasStop), minuty(h.czasStop), true);
@@ -408,7 +408,7 @@ public class Dodaj extends Activity{
         String[] pom2={"Pon","Wt","Śr","Cz","Pt","Sob","Nd"};
         String[] pom3={"Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota","Niedziela","Codziennie"};
         try{
-            String dni=h.dni;
+            String dni=h.getDni();
             String[] pom=dni.split("[., ]+");
             if(pom.length>1){
                 for(int i=0;i<pom.length;i++){
@@ -439,7 +439,7 @@ public class Dodaj extends Activity{
     }
     public int suwakProgres(Harmonogram h){
         try{
-            String[] pom=h.valStart.split("[st,% ]+");
+            String[] pom=h.getValStart().split("[st,% ]+");
             return Integer.parseInt(pom[0]);
         }
         catch (Exception e){

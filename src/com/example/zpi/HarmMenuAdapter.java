@@ -1,6 +1,7 @@
 package com.example.zpi;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,8 +37,9 @@ public class HarmMenuAdapter extends BaseAdapter {
         String[] naglowki=null;
         String pom = "";
         if(!h.isEmpty()){
+            Log.d("kleje1234",""+h.size());
             for(int i=0;i<h.size();i++){
-                switch(h.get(i).modul){
+                switch(h.get(i).getModul()){
                     case 0:
                         pom+="Woda/";
                         break;
@@ -47,10 +49,13 @@ public class HarmMenuAdapter extends BaseAdapter {
                     case 4:
                         pom+="Oświetlenie/";
                         break;
+                    default:
+                        pom+="Klej/";
                 }
             }
             naglowki=pom.split("/");
         }
+        Log.d("kleje123",""+naglowki.length);
         return naglowki;
     }
     public String[] opisy(ArrayList<Harmonogram> h){
@@ -58,15 +63,16 @@ public class HarmMenuAdapter extends BaseAdapter {
         String pom = "";
         if(!h.isEmpty()){
             for(int i=0;i<h.size();i++){
-                pom+=czas(h.get(i).czasStart)+"-";
-                pom+=czas(h.get(i).czasStop)+" ";
-                if(!h.get(i).valStart.equals(""))
-                pom+=h.get(i).valStart+" ";
-                pom+=h.get(i).dni;
+                pom+=czas(h.get(i).getCzasStart())+"-";
+                pom+=czas(h.get(i).getCzasStop())+" ";
+                if(!h.get(i).getValStart().equals(""))
+                pom+=h.get(i).getValStart()+" ";
+                pom+=h.get(i).getDni();
                 pom+="/";
             }
             opisy=pom.split("/");
         }
+        Log.d("kleje12",""+opisy.length);
         return opisy;
     }
     public String czas(int cz){
@@ -139,7 +145,7 @@ public class HarmMenuAdapter extends BaseAdapter {
     	}
         holder.text.setText(naglowek[position]);
         holder2.text.setText(opis[position]);
-        btn.setChecked(harm.get(position).wl);
+        btn.setChecked(harm.get(position).isWl());
         convertView.setBackgroundColor(0xFFFFFFF);
     return convertView;
     }

@@ -1,6 +1,7 @@
 package com.example.zpi;
 
 import android.util.Log;
+import com.example.zpi.communication.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -19,7 +20,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 
-public class Harmonogramy extends Activity
+public class Harmonogramy extends Activity implements ResponseListener
 {
 
 	private Button dodaj;
@@ -34,50 +35,28 @@ public class Harmonogramy extends Activity
     Context ctx;
     ListView list;
     HarmMenuAdapter adapter;
-    @Override  
+    Connect c;
+    @Override
     protected void onCreate(Bundle savedInstanceState) 
     {
-
-        harmPom.add(h1);
+        c=new Connect(this);
+        c.addResponseListener(this);
+        try {
+            c.requestGetHarm();
+        } catch (ServerErrorException e) {
+            Log.d("klej","ServErr");
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (NoInternetException e) {
+            //Log.d("klej2","ServErr");
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    /*    harmPom.add(h1);
         harmPom.add(h2);
-        harmPom.add(h3);
+        harmPom.add(h3);*/
         super.onCreate(savedInstanceState);        
         setContentView(R.layout.harmonogram);
-        int opcja;
-        try{
 
-            opcja=getIntent().getExtras().getInt("modul");
-            for(int i=0;i<harmPom.size();i++){
-                if(harmPom.get(i).modul==opcja){
-                    harm.add(harmPom.get(i));
-                }
-            }
-        }
-        catch (Exception e){
-            harm=harmPom;
-            opcja=-1;
-        }
-        switch (opcja){
-            case 0:
-                Log.d("modul","woda");
-                break;
-            case 1:
-                Log.d("modul","rolety");
-                break;
-            case 4:
-                Log.d("modul","ogrod");
-                break;
-            default:
-              /*  list = (ListView) findViewById(R.id.harmMenuList);
-                HarmMenuAdapter adapter = new HarmMenuAdapter(this, items,opisy);
-                list.setAdapter(adapter);*/
-                break;
-        }
-        list = (ListView) findViewById(R.id.harmMenuList);
-       // adapter = new HarmMenuAdapter(this, items,opisy);
-        adapter=new HarmMenuAdapter(this,harm);
-        list.setAdapter(adapter);
-        addListener();
+
         ctx = this.getApplicationContext();
         
     }
@@ -125,6 +104,36 @@ public class Harmonogramy extends Activity
              }
              return "";
       }
+
+    @Override
+    public void processResponse(Response res) {
+        if(res.getType()==Response.GETHARM){
+            harmPom= (ArrayList<Harmonogram>) res.getExtras();
+            Log.d("costam3",""+harmPom.size());
+            int opcja;
+            try{
+
+                opcja=getIntent().getExtras().getInt("modul");
+                for(int i=0;i<harmPom.size();i++){
+                    if(harmPom.get(i).getModul()==opcja){
+                        harm.add(harmPom.get(i));
+                    }
+                }
+            }
+            catch (Exception e){
+                harm=harmPom;
+                opcja=-1;
+            }
+            Log.d("costam",""+harm.size());
+            Log.d("costam2",""+harm.get(0).toString());
+            list = (ListView) findViewById(R.id.harmMenuList);
+            // adapter = new HarmMenuAdapter(this, items,opisy);
+            adapter=new HarmMenuAdapter(this,harm);
+            list.setAdapter(adapter);
+            addListener();
+        }
+
+    }
 }
 
 

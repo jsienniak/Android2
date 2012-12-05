@@ -27,11 +27,11 @@ public class SpecialAdapter extends BaseAdapter {
         this.harm=harm;
     }
     public String[] adapter(String [] d,Harmonogram h){
-        d[0]+=" "+czas(h.czasStart);
-        d[1]+=" "+czas(h.czasStop);
-        d[2]+=" "+h.dni;
+        d[0]+=" "+czas(h.getCzasStart());
+        d[1]+=" "+czas(h.getCzasStop());
+        d[2]+=" "+h.getDni();
         if(d.length>3){
-            d[3]+=" "+h.valStart;
+            d[3]+=" "+h.getValStart();
         }
         return d;
     }
