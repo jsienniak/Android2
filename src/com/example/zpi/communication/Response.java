@@ -7,6 +7,7 @@ public class Response {
     public static int GET = 0;
     public static int SET = 1;
     public static int GETHARM = 2;
+    public static int GETPROFILE = 3;
 
     private Object extras = null;
 

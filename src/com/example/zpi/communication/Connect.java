@@ -48,6 +48,10 @@ public class Connect {
         request("harmonogram.get");
     }
 
+    public void requestGetProfile()throws ServerErrorException, NoInternetException {
+        request("profile.get");
+    }
+
     public void requestSetHarm(Harmonogram h)throws ServerErrorException, NoInternetException {
         request(h.getDni(),h.getCzasStart(),h.getCzasStop(),""+h.getModul(),""+h.getPort(),h.getValStart(),h.getValStop(),""+(h.isWl()?1:0));
     }
@@ -79,7 +83,11 @@ public class Connect {
 				switch (t.length) {
                 case 1:
                      u=t[0];
-                     res.setType(Response.GETHARM);
+                     if(u.equals("harmonogram.get")){
+                        res.setType(Response.GETHARM);
+                     } else {
+                         res.setType(Response.GETPROFILE);
+                     }
                      break;
 				case 2:
 					u="module.get&id="+t[0]+"&port_num="+t[1];

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import android.util.Log;
 import com.example.zpi.Harmonogram;
+import com.example.zpi.Profil;
+import com.example.zpi.Profile;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -14,8 +16,9 @@ import android.util.Xml;
 public class XMLParser {
 
     private static ArrayList<Harmonogram> harmonogramy;
+    private static ArrayList<Profil> profile;
 
-	public static Response parse(Reader in, Response res) throws ServerErrorException {
+    public static Response parse(Reader in, Response res) throws ServerErrorException {
 		XmlPullParser parser = null;
 		try {
 			parser = Xml.newPullParser();
@@ -33,6 +36,10 @@ public class XMLParser {
             if(wyn.getType()==Response.GETHARM){
                 harmonogramy = new ArrayList<Harmonogram>();
                 wyn.setExtras(harmonogramy);
+            }
+            if(wyn.getType()==Response.GETPROFILE){
+                profile = new ArrayList<Profil>();
+                wyn.setExtras(profile);
             }
 			int eventType = parser.getEventType();
 			parser.require(XmlPullParser.START_DOCUMENT, null, null);
@@ -87,6 +94,28 @@ public class XMLParser {
                     parser.next();
                     parser.next();
                     h.setDni(parser.getText());
+                } else if(eventType == XmlPullParser.START_TAG&&parser.getName().equals("profiles")){
+                    Profil p = new Profil();
+                    profile.add(p);
+                    parser.next();
+                    parser.next();
+                    p.setWoda(parser.getText());
+                    parser.next();
+                    parser.next();
+                    parser.next();
+                    p.setSwiatlo(parser.getText());
+                    parser.next();
+                    parser.next();
+                    parser.next();
+                    p.setRoleta(parser.getText());
+                    parser.next();
+                    parser.next();
+                    parser.next();
+                    p.setNazwa(parser.getText());
+                    parser.next();
+                    parser.next();
+                    parser.next();
+                    p.setId(Integer.parseInt(parser.getText()));
                 }
                 eventType = parser.next();
 			}
