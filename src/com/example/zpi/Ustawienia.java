@@ -23,7 +23,7 @@ public class Ustawienia extends PreferenceActivity {
         al.tel="tel:";
 
         SharedPreferences sp= PreferenceManager.getDefaultSharedPreferences(this);
-        //sp.edit().putString("adres_ip",sp.getString("adres_ip",""""))
+        sp.edit().putString("adres_ip",sp.getString("adres_ip",""+"dds"));
 
     }
 }
