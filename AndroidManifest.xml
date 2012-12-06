@@ -83,6 +83,7 @@
                   android:configChanges="keyboardHidden|orientation"/>
         <activity android:name=".Profile"/>
         <activity android:name=".DodajProfil"/>
+        <activity android:name=".Ustawienia"/>
 
         <receiver
                 android:name="com.google.android.gcm.GCMBroadcastReceiver"

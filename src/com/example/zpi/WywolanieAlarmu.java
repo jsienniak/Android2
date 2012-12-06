@@ -17,6 +17,7 @@ import android.widget.Button;
 public class WywolanieAlarmu extends Activity {
     Button tak;
     Button nie;
+    public String tel="tel:123";
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alarm_wywolanie);
@@ -38,7 +39,7 @@ public class WywolanieAlarmu extends Activity {
             @Override
             public void onClick(View view) {
                 Intent callIntent=new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse("tel:888968680"));
+                callIntent.setData(Uri.parse(tel));
                 startActivity(callIntent);
                 finish();
             }

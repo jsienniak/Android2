@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+            android:title="Adnres IP Serwera"
+            android:key="opcja1_ip">
+
+        <EditTextPreference
+            android:key="adres_ip"
+            android:title="Adres IP serwera"
+            android:summary="Wprowadz adres IP serwera do sterowania domem"
+            android:dialogTitle="Andres IP"
+            android:dialogMessage="Wprowadz adres IP "
+            android:defaultValue="192.168.1.100/8080"/>
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="Telefon alarmowy"
+            android:key="opcja2_tel_alarm">
+
+        <EditTextPreference
+                android:key="tel_alarm"
+                android:title="Telefon alarmowy"
+                android:summary="Wprowadź nr telefonu pod jaki należy zadzwonić w czasie alarmu"
+                android:dialogTitle="Numer telefonu"
+                android:dialogMessage="Wprowadz nr telefonu"
+                android:defaultValue="888968680" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

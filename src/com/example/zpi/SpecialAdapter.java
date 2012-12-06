@@ -27,13 +27,35 @@ public class SpecialAdapter extends BaseAdapter {
         this.harm=harm;
     }
     public String[] adapter(String [] d,Harmonogram h){
-        d[0]+=" "+czas(h.getCzasStart());
-        d[1]+=" "+czas(h.getCzasStop());
-        d[2]+=" "+h.getDni();
+        d[0]+=" "+h.getCzasStart();
+        d[1]+=" "+h.getCzasStop();
+        d[2]+=" "+dni(h.getDni());
         if(d.length>3){
             d[3]+=" "+h.getValStart();
         }
         return d;
+    }
+    public String dni(String d){
+        String dni="";
+
+        String[] dniSkrot={"Pon.,","Wt.,","Sr.,","Cz.,","Pt.,","Sob.,","Nd.,"};
+        String[] dniPelne={"Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota","Niedziela","Codziennie"};
+        Log.d("pom23",""+d);
+
+        if(!d.equals("null")){
+            char[] pom=d.toCharArray();
+            Log.d("dniKlej",""+pom.length);
+            if(pom.length==1)
+                dni=dniPelne[Integer.valueOf(String.valueOf(pom[0]))];
+            else if(pom.length==7)
+                dni=dniPelne[7];
+            else{
+                for(int i=0;i<pom.length;i++){
+                    dni+=dniSkrot[Integer.valueOf(String.valueOf(pom[i]))-1];
+                }
+            }
+        }
+        return dni;
     }
     public String czas(int cz){
         String czas="";
