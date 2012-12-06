@@ -19,6 +19,7 @@ public class HarmMenuAdapter extends BaseAdapter {
     private String[] naglowek;
     private String[] opis;
     private ArrayList<Harmonogram> harm;
+    private boolean brakHarm=false;
     
     public HarmMenuAdapter(Context context, String[] results, String[] op) {
         mInflater = LayoutInflater.from(context);
@@ -50,7 +51,9 @@ public class HarmMenuAdapter extends BaseAdapter {
                         pom+="Oświetlenie/";
                         break;
                     default:
-                        pom+="Klej/";
+                        pom+="Brak Harmonogramów/";
+                        brakHarm=true;
+                        break;
                 }
             }
             naglowki=pom.split("/");
@@ -63,16 +66,25 @@ public class HarmMenuAdapter extends BaseAdapter {
         String pom = "";
         if(!h.isEmpty()){
             for(int i=0;i<h.size();i++){
-                pom+=czas(h.get(i).getCzasStart())+"-";
-                pom+=czas(h.get(i).getCzasStop())+" ";
-                if(!h.get(i).getValStart().equals(""))
-                pom+=h.get(i).getValStart()+" ";
-                pom+=h.get(i).getDni();
+                pom+=h.get(i).getCzasStart()+"-";
+                pom+=h.get(i).getCzasStop()+" ";
+                if(!(h.get(i).getValStart().equals("true")||h.get(i).getValStart().equals("false"))){
+                    switch (h.get(i).getModul()){
+                        case 0:
+                            pom+=h.get(i).getValStart()+"C"+" ";
+                            break;
+                        case 1:
+                            pom+=h.get(i).getValStart()+"%"+" ";
+                            break;
+                        case -1:
+                            pom+="Dodaj harmonogram";
+                    }
+                }
+                pom+=dni(h.get(i).getDni());
                 pom+="/";
             }
             opisy=pom.split("/");
         }
-        Log.d("kleje12",""+opisy.length);
         return opisy;
     }
     public String czas(int cz){
@@ -95,6 +107,28 @@ public class HarmMenuAdapter extends BaseAdapter {
             }
 
         return czas;
+    }
+    public String dni(String d){
+        String dni="";
+
+        String[] dniSkrot={"Pon.,","Wt.,","Sr.,","Cz.,","Pt.,","Sob.,","Nd.,"};
+        String[] dniPelne={"Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota","Niedziela","Codziennie"};
+        Log.d("pom23",""+d);
+
+        if(!d.equals("null")){
+            char[] pom=d.toCharArray();
+            Log.d("dniKlej",""+pom.length);
+        if(pom.length==1)
+            dni=dniPelne[Integer.valueOf(String.valueOf(pom[0]))];
+        else if(pom.length==7)
+            dni=dniPelne[7];
+        else{
+            for(int i=0;i<pom.length;i++){
+                dni+=dniSkrot[Integer.valueOf(String.valueOf(pom[i]))-1];
+            }
+        }
+        }
+        return dni;
     }
     public Harmonogram getHarmonogram(int position){
         return harm.get(position);
@@ -129,6 +163,8 @@ public class HarmMenuAdapter extends BaseAdapter {
         holder.text = (TextView) convertView.findViewById(R.id.harmNagl);
         holder2.text=(TextView) convertView.findViewById(R.id.harmOpis);
         btn=(ToggleButton) convertView.findViewById(R.id.HarmMenuWl);
+        if(brakHarm)
+            btn.setEnabled(false);
         btn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				System.out.println(pos);			
@@ -145,7 +181,12 @@ public class HarmMenuAdapter extends BaseAdapter {
     	}
         holder.text.setText(naglowek[position]);
         holder2.text.setText(opis[position]);
+//        Log.d("pozycja",""+harm.get(8).toString());
+        try{
         btn.setChecked(harm.get(position).isWl());
+        }catch(Exception e){
+
+        }
         convertView.setBackgroundColor(0xFFFFFFF);
     return convertView;
     }

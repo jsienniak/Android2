@@ -42,6 +42,8 @@ public class Ogrod extends Activity implements ResponseListener {
 			public void onClick(View arg0) {
                 try {
                     c.requestSet(4,0,""+wl.isChecked());
+                    c.requestGet(4,0);
+                    c.requestGet(4,1);
                 } catch (ServerErrorException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 } catch (NoInternetException e) {
@@ -56,6 +58,8 @@ public class Ogrod extends Activity implements ResponseListener {
 				if(auto.isChecked()){
                     try {
                         c.requestSet(4,1,""+auto.isChecked());
+                        c.requestGet(4,0);
+                        c.requestGet(4,1);
                     } catch (ServerErrorException e) {
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     } catch (NoInternetException e) {

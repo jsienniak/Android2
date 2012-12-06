@@ -116,6 +116,8 @@ public class MainActivity extends Activity implements ResponseListener {
             default:
                 return super.onOptionsItemSelected(item);*/
         //}
+        Intent i =new Intent(getApplicationContext(),Ustawienia.class);
+        startActivity(i);
         return true;
     }
 

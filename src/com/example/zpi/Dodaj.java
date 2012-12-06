@@ -14,6 +14,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
+import com.example.zpi.communication.Connect;
+import com.example.zpi.communication.NoInternetException;
+import com.example.zpi.communication.ServerErrorException;
 
 public class Dodaj extends Activity{
 		
@@ -26,6 +29,7 @@ public class Dodaj extends Activity{
 	String[] temp = null;
 	ListView list;
 	boolean wybor;
+    int opcja;
     boolean edycja=false;
 	int i=0;
 	String progres;
@@ -36,9 +40,11 @@ public class Dodaj extends Activity{
 	Button dodaj;
 	TextView txt;
     ToggleButton wlacz;
+    Connect c;
     Harmonogram h=new Harmonogram();
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        c=new Connect(this);
 		setContentView(R.layout.dadaj_harmonogram);
 		//Harmonogram h=new Harmonogram();
         zmien=(Button) findViewById(R.id.zmiana);
@@ -85,6 +91,19 @@ public class Dodaj extends Activity{
             }
             
         });
+        dodaj.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    c.requestSetHarm(h);
+                    finish();
+                } catch (ServerErrorException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (NoInternetException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }
+        });
 		anuluj=(Button) findViewById(R.id.harmAnl);
 		anuluj.setOnClickListener(new OnClickListener()
         {           
@@ -104,9 +123,6 @@ public class Dodaj extends Activity{
 				pobZasob(R.string.powt),pobZasob(R.string.ustPoz)};
 		for(int i=0;i<7;i++)
 			states[i]=false;
-        for(String i: itemsWoda){
-            Log.d("items",i);
-        }
 
 		switch(x){
 		case 0:
@@ -153,11 +169,25 @@ public class Dodaj extends Activity{
 		String czas="";
 		switch(i){
 		case 0:
+            if(minute>10){
+                czas="Godzina start: "+hour+":"+minute;
+                ustawHarmonogram(""+(hour>=10?hour:"0"+hour)+":"+minute);
+            }
+            else{
+                czas="Godzina start: "+hour+":0"+minute;
+                ustawHarmonogram(""+(hour>=10?hour:"0"+hour)+":0"+minute);
+            }
+            temp[i]=czas;
+            break;
 		case 1:
-			if(minute>10)
-				czas="Godzina start: "+hour+":"+minute;
-			else
-				czas="Godzina start: "+hour+":0"+minute;
+			if(minute>10){
+				czas="Godzina stop: "+hour+":"+minute;
+                ustawHarmonogram(""+(hour>=10?hour:"0"+hour)+":"+minute);
+            }
+			else{
+				czas="Godzina stop: "+hour+":0"+minute;
+                ustawHarmonogram(""+(hour>=10?hour:"0"+hour)+":0"+minute);
+            }
 			temp[i]=czas; 
 			break;
 		case 2:
@@ -180,10 +210,8 @@ public class Dodaj extends Activity{
         switch (id) {
             case TIME_DIALOG_ID:
                 final TimePickerDialog tp;
-                Log.d("wybor",""+i);
                 if(i==0){
                     tp=new TimePickerDialog(this, mTimeSetListener, godziny(h.getCzasStart()), minuty(h.getCzasStart()), true);
-                    Log.d("zegar1","klej");
                     tp.setCancelable(true);
                    /* tp.setOnCancelListener(new TimePickerDialog.OnCancelListener() {
                         @Override
@@ -199,14 +227,12 @@ public class Dodaj extends Activity{
                 }
                 else{
                     tp=new TimePickerDialog(this, mTimeSetListener, godziny(h.getCzasStop()), minuty(h.getCzasStop()), true);
-                    Log.d("zegar2","klej");
                   //  return new TimePickerDialog(
                     //        this, mTimeSetListener, godziny(h.czasStop), minuty(h.czasStop), true);
                 }
                 tp.setOnDismissListener(new TimePickerDialog.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
-                        Log.d("zegar3","klej");
                         tp.dismiss();
                         dialogInterface.cancel();
                     }
@@ -235,46 +261,55 @@ public class Dodaj extends Activity{
                         SparseBooleanArray zaznaczone = ((AlertDialog)dialog).getListView().getCheckedItemPositions();
                         int i=0;
                         String pom="";
+                        String pom2="";
                         if(zaznaczone.get(0)){ 
                         	dni+=pobZasob(R.string.pon)+" ";
                         	pom=pobZasob(R.string.ponP);
+                            pom2+=1;
                         	states[0]=true;
+
                         	i++;
                         }
                         if(zaznaczone.get(1)){
                         	dni+=pobZasob(R.string.wt)+" ";
                         	pom=pobZasob(R.string.wtP);
                         	states[1]=true;
+                            pom2+=2;
                         	i++;
                         }
                         if(zaznaczone.get(2)){
                         	dni+=pobZasob(R.string.sr)+" ";
                         	pom=pobZasob(R.string.srP);
                         	states[2]=true;
+                            pom2+=3;
                         	i++;
                         }
                         if(zaznaczone.get(3)){
                         	dni+=pobZasob(R.string.cz)+" ";
                         	pom=pobZasob(R.string.czP);
                         	states[3]=true;
+                            pom2+=4;
                         	i++;
                         }
                         if(zaznaczone.get(4)){
                         	dni+=pobZasob(R.string.pt)+" ";
                         	pom=pobZasob(R.string.ptP);
                         	states[4]=true;
+                            pom2+=5;
                         	i++;
                         }
                         if(zaznaczone.get(5)){
                         	dni+=pobZasob(R.string.sb)+" ";
                         	pom=pobZasob(R.string.sobP);
                         	states[5]=true;
+                            pom2+=6;
                         	i++;
                         }
                         if(zaznaczone.get(6)){
                         	dni+=pobZasob(R.string.nd)+" ";
                         	pom=pobZasob(R.string.ndP);
                         	states[6]=true;
+                            pom2+=7;
                         	i++;
                         }
                         if(i==1)
@@ -282,6 +317,7 @@ public class Dodaj extends Activity{
                         if(i==7)
                         	dni=pobZasob(R.string.codz);
                         changeItems();
+                        ustawHarmonogram(pom2);
                     }
                 });
                 builder.setNegativeButton(pobZasob(R.string.harmAnl), new DialogInterface.OnClickListener() {
@@ -301,14 +337,17 @@ public class Dodaj extends Activity{
                         SparseBooleanArray zaznaczone = ((AlertDialog) dialog).getListView().getCheckedItemPositions();
                         if (zaznaczone.get(0)) {
                             setAdapter(0);
+                            opcja=0;
                         }
                         if (zaznaczone.get(1)) {
                             setAdapter(1);
                             wybor = true;
+                            opcja=1;
                         }
                         if (zaznaczone.get(2)) {
                             setAdapter(2);
                             wybor = false;
+                            opcja=2;
                         }
                         dialog.dismiss();
                     }
@@ -363,6 +402,7 @@ public class Dodaj extends Activity{
 					
 					public void onClick(View v) {
 						changeItems();
+                        ustawHarmonogram(progres);
 						sk.cancel();
 
 					}
@@ -446,22 +486,61 @@ public class Dodaj extends Activity{
             return 0;
         }
     }
-    public int godziny(int czas){
+    public int godziny(String czas){
+        String[] pom;
         try{
-            return czas/100;
+            pom=czas.split(":");
+            return Integer.parseInt(pom[0]);
         }
         catch (Exception e){
             return 0;
         }
 
     }
-    public int minuty(int czas){
+    public int minuty(String czas){
+        String[] pom;
         try{
-            return czas%100;
+            pom=czas.split(":");
+            return Integer.parseInt(pom[1]);
         }
         catch (Exception e){
             return 0;
         }
     }
 
+    public void ustawHarmonogram(String wart){
+        if(!edycja){
+            h.setWl(true);
+        }
+        switch (opcja){
+            case 0:
+                h.setValStart("true");
+                h.setModul(4);
+
+                break;
+            case 1:
+                h.setModul(0);
+
+                break;
+            case 2:
+                h.setModul(1);
+
+                break;
+        }
+        switch (i){
+            case 0:
+                h.setCzasStart(wart);
+                break;
+            case 1:
+                h.setCzasStop(wart);
+                break;
+            case 2:
+                h.setDni(wart);
+                break;
+            case 3:
+                h.setValStart(wart);
+                break;
+        }
+        h.setValStop("10");
+    }
 }

@@ -19,7 +19,7 @@ import com.example.zpi.Harmonogram;
 
 public class Connect {
 
-	private static final String url = "156.17.234.1:8080/zpi_server/";
+	public static String url = "156.17.234.1:8080/zpi_server/";
     //private static final String url = "192.168.1.106:8080/zpi_server/";
 	private Context ctx = null;
     private ArrayList<ResponseListener> listeners = new ArrayList<ResponseListener>();
@@ -112,7 +112,7 @@ public class Connect {
 				StringBuffer sb = null;
 				try {
 					urlConnection = (HttpURLConnection) link.openConnection();
-                    urlConnection.setReadTimeout(1000);
+                    //urlConnection.setReadTimeout(1000);
 					BufferedReader in = new BufferedReader(
 							new InputStreamReader(
 									urlConnection.getInputStream()));
