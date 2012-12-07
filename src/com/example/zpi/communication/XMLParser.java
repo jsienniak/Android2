@@ -44,11 +44,13 @@ public class XMLParser {
 			int eventType = parser.getEventType();
 			parser.require(XmlPullParser.START_DOCUMENT, null, null);
 			while (eventType != XmlPullParser.END_DOCUMENT) {
-				if (eventType == XmlPullParser.START_TAG&&parser.getName().equals("error")) {
+				if (eventType == XmlPullParser.START_TAG&&parser.getName().equals("status")) {
 					parser.next();
-					throw new ServerErrorException(parser.getText());
-				} 
-				if (eventType == XmlPullParser.START_TAG&&parser.getName().equals("message")) {
+                    if(parser.getText().equals("ERR")){
+                        wyn.setERROR(true);
+                        return wyn;
+                    }
+				}  else if (eventType == XmlPullParser.START_TAG&&parser.getName().equals("message")) {
 					parser.next();
 					wyn.setMessage(parser.getText());
 				}  else if (eventType == XmlPullParser.START_TAG&&parser.getName().equals("value")) {

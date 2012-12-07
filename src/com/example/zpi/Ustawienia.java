@@ -32,7 +32,9 @@ public class Ustawienia extends PreferenceActivity{
 
        // SharedPreferences sp= PreferenceManager.getDefaultSharedPreferences(this);
         adres=(EditTextPreference) findPreference("adres_ip");
+        telefon=(EditTextPreference)findPreference("tel_alarm");
         setDefaults("adres_ip",adres.getText().toString(),this);
+        setDefaults("tel_alarm",telefon.getText().toString(),this);
         //sp.edit().putString("adres_ip",adres.getText().toString());
         //Log.d("uberKlej",adres.getText());
         //sp.edit().commit();

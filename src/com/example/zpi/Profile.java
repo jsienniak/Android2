@@ -35,6 +35,7 @@ public class Profile extends Activity implements ResponseListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
         c=new Connect(this);
+        Log.d("profilki",c.url);
         c.addResponseListener(this);
         try {
             c.requestGetProfile();
@@ -92,7 +93,7 @@ public class Profile extends Activity implements ResponseListener{
             lista=(ListView)findViewById(R.id.profMenuList);
             profile=(ArrayList<Profil>)res.getExtras();
 
-            Profil p1=new Profil(-1,"Brak profili","Dodaj","nowe","profile",true);
+            Profil p1=new Profil(-1,"Brak profili","Dodaj","nowe","profile",false);
             if(profile.isEmpty()){
                 profile.add(p1);
             }

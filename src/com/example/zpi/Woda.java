@@ -132,7 +132,13 @@ public class Woda extends Activity implements ResponseListener{
         }
         if(res.getType()==Response.GET){
             if(res.getPort()==1){
-                prog = Integer.parseInt(res.getValue());
+                try{
+                prog = Integer.parseInt(res.getValue().equals(null)?"0":res.getValue());
+                }
+                catch (NullPointerException e){
+                    prog=0;
+                    status.setText("Brak polaczenia");
+                }
                 Log.d("aktualna",""+prog);
                 status.setText(""+prog/10);
             }

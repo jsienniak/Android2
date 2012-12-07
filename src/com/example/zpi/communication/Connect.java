@@ -122,6 +122,7 @@ public class Connect {
 				StringBuffer sb = null;
 				try {
 					urlConnection = (HttpURLConnection) link.openConnection();
+                    urlConnection.setRequestProperty("TOKEN","eloprotoken");
                     //urlConnection.setReadTimeout(1000);
 					BufferedReader in = new BufferedReader(
 							new InputStreamReader(

@@ -1,7 +1,6 @@
 package com.example.zpi;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
+import android.accounts.*;
 import android.app.*;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,7 +19,9 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.view.View.OnClickListener;
 
-public class MainActivity extends Activity implements ResponseListener {
+import java.io.IOException;
+
+public class MainActivity extends Activity implements ResponseListener, TokenListener {
 	ToggleButton brama;
 	Button woda;
 	ToggleButton alarm;
@@ -43,14 +44,16 @@ public class MainActivity extends Activity implements ResponseListener {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         Log.d("Adres_ip",sharedPrefs.getString("adres_ip","NULL"));
         Connect.url=sharedPrefs.getString("adres_ip","NULL");
-
+        Token t = new Token();
+        t.addTokenListener(this);
+        t.getToken(this);
         try{
             if(getIntent().getExtras().containsKey("notification")){
                 //((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE)).cancel(1);
             }
         }
         catch (Exception e){
-            //testuNotyfikacje();
+            testuNotyfikacje();
         }
        // testuNotyfikacje();
         setContentView(R.layout.activity_main);
@@ -70,8 +73,7 @@ public class MainActivity extends Activity implements ResponseListener {
             brakInternetu();
             //To change body of catch statement use File | Settings | File Templates.
         }
-        accountManager = AccountManager.get(getApplicationContext());
-        Account[] accounts = accountManager.getAccountsByType("com.google");
+
         //Log.d("cos",""+accounts[0]);
         //GCMRegistrar.checkDevice(this);
         //GCMRegistrar.checkManifest(this);
@@ -286,7 +288,7 @@ public class MainActivity extends Activity implements ResponseListener {
     @Override
     public void processResponse(Response res) {
         if(res.isERROR())   {
-            Log.d("err","dkjashdj");
+            Log.d("sedesdf","dkjashdj");
             problemSerwer();
             return;
         }
@@ -328,4 +330,8 @@ public class MainActivity extends Activity implements ResponseListener {
         }
     }
 
+    @Override
+    public void processToken(String token) {
+        Log.d("token",token);
+    }
 }

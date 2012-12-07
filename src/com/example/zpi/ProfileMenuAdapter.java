@@ -38,7 +38,6 @@ public class ProfileMenuAdapter extends BaseAdapter {
             pom+=prof.get(i).getNazwa()+" ";
         }
         String[] nazwy=pom.split("[ ]+");
-        Log.d("profil",nazwy[1]);
         return nazwy;
     }
     public String[] opisy(ArrayList<Profil> prof){

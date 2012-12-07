@@ -27,6 +27,8 @@ public class WywolanieAlarmu extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alarm_wywolanie);
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        tel="tel:"+sharedPrefs.getString("tel_alarm","NULL");
         nie=(Button)findViewById(R.id.wywAlarmNie);
         tak=(Button)findViewById((R.id.wywAlarmTak));
         ///telefon=(EditTextPreference) findPreference("tel_alarm");
@@ -46,7 +48,7 @@ public class WywolanieAlarmu extends Activity {
             @Override
             public void onClick(View view) {
                 Intent callIntent=new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse("tel:888765432"));
+                callIntent.setData(Uri.parse(tel));
                 startActivity(callIntent);
                 finish();
             }
