@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.LoginFilter;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -42,6 +43,7 @@ public class Dodaj extends Activity{
     ToggleButton wlacz;
     Connect c;
     Harmonogram h=new Harmonogram();
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         c=new Connect(this);
@@ -70,12 +72,15 @@ public class Dodaj extends Activity{
         switch (h.getModul()){
             case 0:
                 setAdapter(1);
+                opcja=1;
                 break;
             case 1:
                 setAdapter(2);
+                opcja=2;
                 break;
             case 4:
                 setAdapter(0);
+                opcja=0;
                 break;
         }
 		   addListListener();
@@ -95,8 +100,14 @@ public class Dodaj extends Activity{
             @Override
             public void onClick(View view) {
                 try {
-                    c.requestSetHarm(h);
-                    finish();
+                    if(czyPoprawnieWypelniony()){
+                        c.requestSetHarm(h);
+                        Log.d("modul2",""+h.getModul());
+                        finish();
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), "Uzupełnij wszystkie dane!", Toast.LENGTH_LONG).show();
+                    }
                 } catch (ServerErrorException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 } catch (NoInternetException e) {
@@ -509,22 +520,19 @@ public class Dodaj extends Activity{
     }
 
     public void ustawHarmonogram(String wart){
-        if(!edycja){
-            h.setWl(true);
-        }
+
+        h.setWl(wlacz.isChecked());
+        Log.d("modul",""+opcja);
         switch (opcja){
             case 0:
                 h.setValStart("true");
                 h.setModul(4);
-
                 break;
             case 1:
                 h.setModul(0);
-
                 break;
             case 2:
                 h.setModul(1);
-
                 break;
         }
         switch (i){
@@ -542,5 +550,17 @@ public class Dodaj extends Activity{
                 break;
         }
         h.setValStop("10");
+    }
+    public boolean czyPoprawnieWypelniony(){
+        boolean wypelnione=false;
+
+        for(int i=0;i<temp.length;i++){
+            if((temp[i].split("[ ]+")).length>1)
+                wypelnione=true;
+            else
+                wypelnione=false;
+        }
+
+        return wypelnione;
     }
 }

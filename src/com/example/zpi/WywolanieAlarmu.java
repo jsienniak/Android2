@@ -2,8 +2,11 @@ package com.example.zpi;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 
@@ -17,13 +20,17 @@ import android.widget.Button;
 public class WywolanieAlarmu extends Activity {
     Button tak;
     Button nie;
-    public String tel="tel:123";
+    public static String tel="";
+    SharedPreferences sp;
+    private EditTextPreference telefon;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alarm_wywolanie);
         nie=(Button)findViewById(R.id.wywAlarmNie);
         tak=(Button)findViewById((R.id.wywAlarmTak));
-
+        ///telefon=(EditTextPreference) findPreference("tel_alarm");
+        sp= PreferenceManager.getDefaultSharedPreferences(this);
         addListners();
 
     }
@@ -39,7 +46,7 @@ public class WywolanieAlarmu extends Activity {
             @Override
             public void onClick(View view) {
                 Intent callIntent=new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse(tel));
+                callIntent.setData(Uri.parse("tel:888765432"));
                 startActivity(callIntent);
                 finish();
             }

@@ -1,6 +1,7 @@
 package com.example.zpi;
 
 import android.content.Intent;
+import android.util.Log;
 import com.example.zpi.communication.*;
 
 import android.app.Activity;
@@ -19,6 +20,7 @@ public class Woda extends Activity implements ResponseListener{
     Button wyczysc;
 	SeekBar sb;
 	TextView status;
+    TextView zadana;
 	Connect c;
 	int prog;
 	@Override
@@ -30,6 +32,7 @@ public class Woda extends Activity implements ResponseListener{
         try {
 		//prog=Integer.parseInt(c.request("0","1").getValue());
             c.requestGet(0,1);
+            c.requestGet(0,0);
             System.out.print(prog);
 		} 
         catch (NoInternetException e) {
@@ -43,6 +46,7 @@ public class Woda extends Activity implements ResponseListener{
     }
 	public void addListenerOnButton(){
 		status =(TextView)findViewById(R.id.wdStatus);
+        zadana=(TextView) findViewById(R.id.wdZadana);
 		
 		sb=(SeekBar)findViewById(R.id.wdSb);
 		sb.setProgress(prog/10);
@@ -80,14 +84,15 @@ public class Woda extends Activity implements ResponseListener{
 			    // TODO Auto-generated method stub
 				   progress+=40;
                    prog=progress;
-			    status.setText("" + progress);
-                   try {
+			    //status.setText("" + progress);
+                   zadana.setText("" + progress);
+                  /* try {
                        c.requestGet(5,0);
                    } catch (ServerErrorException e) {
                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                    } catch (NoInternetException e) {
                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                   }
+                   }    */
                }
 
 			    public void onStartTrackingTouch(SeekBar seekBar) {
@@ -95,16 +100,16 @@ public class Woda extends Activity implements ResponseListener{
 			   }
 
 			   public void onStopTrackingTouch(SeekBar seekBar) {
-                  /* try {
-                       //c.requestSet(0,0,""+prog*10);
-                       c.requestGet(5,0);
+                  try {
+                       c.requestSet(0,0,""+prog*10);
+                       //c.requestGet(5,0);
                    }
                    catch (NoInternetException e) {
                        // TODO: handle exception
                    }
                    catch (ServerErrorException e) {
                        // TODO: handle exception
-                   }*/
+                   }
 			   }
 			       });
         ustaw=(Button) findViewById(R.id.wodaUstHarm);
@@ -117,13 +122,24 @@ public class Woda extends Activity implements ResponseListener{
             }
         });
 
-        wyczysc=(Button) findViewById(R.id.wodWyczysc);
+//        wyczysc=(Button) findViewById(R.id.wodWyczysc);
 	}
 
     @Override
     public void processResponse(Response res) {
+        if(res.isERROR()){
+
+        }
         if(res.getType()==Response.GET){
-            prog = Integer.parseInt(res.getValue());
+            if(res.getPort()==1){
+                prog = Integer.parseInt(res.getValue());
+                Log.d("aktualna",""+prog);
+                status.setText(""+prog/10);
+            }
+            if (res.getPort()==0){
+                sb.setProgress(Integer.parseInt(res.getValue())/10-40);
+                zadana.setText(""+Integer.parseInt(res.getValue())/10);
+            }
         }
     }
 }

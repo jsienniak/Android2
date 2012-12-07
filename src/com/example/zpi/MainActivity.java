@@ -5,9 +5,9 @@ import android.accounts.AccountManager;
 import android.app.*;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Point;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
-import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -40,13 +40,17 @@ public class MainActivity extends Activity implements ResponseListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Log.d("Adres_ip",sharedPrefs.getString("adres_ip","NULL"));
+        Connect.url=sharedPrefs.getString("adres_ip","NULL");
+
         try{
             if(getIntent().getExtras().containsKey("notification")){
                 //((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE)).cancel(1);
             }
         }
         catch (Exception e){
-            testuNotyfikacje();
+            //testuNotyfikacje();
         }
        // testuNotyfikacje();
         setContentView(R.layout.activity_main);
@@ -61,6 +65,8 @@ public class MainActivity extends Activity implements ResponseListener {
             Log.d("serwer","brak");
         } catch (NoInternetException e) {
             e.printStackTrace();
+            //InternetAlert ia=new InternetAlert(this);
+            //ia.zwrocAlert();
             brakInternetu();
             //To change body of catch statement use File | Settings | File Templates.
         }
@@ -263,11 +269,14 @@ public class MainActivity extends Activity implements ResponseListener {
     protected void problemSerwer(){
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setTitle("Brak połączenia z serwerem");
-        builder.setMessage("Wynikł problem połączenia z serwerem systemu. Zrestartuj serwer i spróbuj ponownie");
+        builder.setMessage("Wynikł problem połączenia z serwerem systemu. Zrestartuj serwer poczym wciśnij OK");
         builder.setPositiveButton("OK", new Dialog.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.cancel();
+                //Intent intent = getIntent();
+                //finish();
+               // startActivity(intent);
 
             }
         });
@@ -278,6 +287,7 @@ public class MainActivity extends Activity implements ResponseListener {
     public void processResponse(Response res) {
         if(res.isERROR())   {
             Log.d("err","dkjashdj");
+            problemSerwer();
             return;
         }
         if(res.getType()==Response.GET){
@@ -288,12 +298,14 @@ public class MainActivity extends Activity implements ResponseListener {
             else
             if(res.getModule()==3){
                 if(res.getPort()==0){
+                    Log.d("cokolwiek","dsodsds");
                     statusAlarm = Integer.parseInt(res.getValue())>0;
                     alarm.setChecked(statusAlarm);
                 }
                 else{
                     if(res.getValue().equals(haslo.getText().toString())){
                             try {
+                                Log.d("statusAlr",""+statusAlarm);
                                 c.requestSet(3,0,""+(statusAlarm?0:1));
                                 sk.cancel();
                             } catch (ServerErrorException e) {
@@ -315,4 +327,5 @@ public class MainActivity extends Activity implements ResponseListener {
                 alarm.setChecked(statusAlarm = !statusAlarm);
         }
     }
+
 }

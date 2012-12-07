@@ -3,10 +3,30 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical" >
-
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+        <TextView
+                android:id="@+id/textView1"
+                android:layout_width="0dip"
+                android:layout_height="40dp"
+                android:layout_weight="0.92"
+                android:text="Włącz profil: "
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <ToggleButton
+                android:id="@+id/profDodWlacz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+
+    </LinearLayout>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
 
         <TextView
                 android:id="@+id/textView1"
@@ -17,12 +37,11 @@
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <ToggleButton
-                android:id="@+id/dodWlacz"
+                android:id="@+id/profDodSwiatlo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="" />
     </LinearLayout>
-
     <ListView
             android:id="@+id/prof_list"
             android:layout_width="fill_parent"

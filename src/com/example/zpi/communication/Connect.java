@@ -8,9 +8,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -19,8 +19,10 @@ import com.example.zpi.Harmonogram;
 
 public class Connect {
 
-	public static String url = "156.17.234.1:8080/zpi_server/";
-    //private static final String url = "192.168.1.106:8080/zpi_server/";
+	//public static String url="156.17.234.1:8080/zpi_server/";
+    public static String url="";
+
+    //private static final String url = "192.168.1.103:8080/zpi_server/";
 	private Context ctx = null;
     private ArrayList<ResponseListener> listeners = new ArrayList<ResponseListener>();
 

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-import com.example.zpi.Dodaj.ViewHolder;
+import com.example.zpi.Harmonogramy.ViewHolder;
 
 import java.util.ArrayList;
 
@@ -35,7 +35,7 @@ public class ProfileMenuAdapter extends BaseAdapter {
 
         String pom="";
         for(int i=0;i<prof.size();i++){
-            pom+=prof.get(i).nazwa+" ";
+            pom+=prof.get(i).getNazwa()+" ";
         }
         String[] nazwy=pom.split("[ ]+");
         Log.d("profil",nazwy[1]);
@@ -44,7 +44,7 @@ public class ProfileMenuAdapter extends BaseAdapter {
     public String[] opisy(ArrayList<Profil> prof){
         String[] opisy=new String[prof.size()];
         for(int i=0;i<prof.size();i++){
-            opisy[i]+="Swiatlo "+prof.get(i).swiatlo+" Roleta "+prof.get(i).roleta+" Woda "+prof.get(i).woda;
+            opisy[i]="Swiatlo "+(prof.get(i).getSwiatlo().equals("true")?"Wł.":"Wył")+" Roleta "+prof.get(i).getRoleta()+"%"+" Woda "+prof.get(i).getWoda()+"C";
         }
         return opisy;
     }
@@ -68,15 +68,13 @@ public class ProfileMenuAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        ViewHolder holder2 = null;
-        ToggleButton btn = null;
+        ToggleButton btn;
         final int pos=position;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.harm_menu_adapter, null);
             holder = new ViewHolder();
-            holder2 = new ViewHolder();
             holder.text = (TextView) convertView.findViewById(R.id.harmNagl);
-            holder2.text=(TextView) convertView.findViewById(R.id.harmOpis);
+            holder.text2=(TextView) convertView.findViewById(R.id.harmOpis);
             btn=(ToggleButton) convertView.findViewById(R.id.HarmMenuWl);
             btn.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -85,15 +83,17 @@ public class ProfileMenuAdapter extends BaseAdapter {
             });
             btn.setFocusable(false);
             convertView.setTag(holder);
-            convertView.setTag(holder2);
         }
         else {
-            holder = (Dodaj.ViewHolder) convertView.getTag();
-            holder2 = (Dodaj.ViewHolder) convertView.getTag();
+            holder = (ViewHolder) convertView.getTag();
         }
         holder.text.setText(naglowek[position]);
-        holder2.text.setText(opis[position]);
-        btn.setChecked(profile.get(position).wl);
+        holder.text2.setText(opis[position]);
+        try{
+            btn=(ToggleButton) convertView.findViewById(R.id.HarmMenuWl);
+            btn.setChecked(profile.get(position).isWl());
+        }
+        catch (Exception e){}
         convertView.setBackgroundColor(0xFFFFFFF);
         return convertView;
     }

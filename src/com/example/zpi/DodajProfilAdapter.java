@@ -19,22 +19,23 @@ public class DodajProfilAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private String[] data;
     private Profil profil;
-    private String[] pom={"Roleta","Woda"};
+   // private String[] pom={"Roleta","Woda"};
 
-    public DodajProfilAdapter(Context context,Profil profil){
+    public DodajProfilAdapter(Context context,String[] d,Profil profil){
         mInflater=LayoutInflater.from(context);
-        this.data=adapter(profil);
+        this.data=adapter(d,profil);
         this.profil=profil;
     }
-    public DodajProfilAdapter(Context context){
+    public DodajProfilAdapter(Context context,String[] data){
         mInflater=LayoutInflater.from(context);
-        this.data=pom;
+        this.data=data;
     }
 
-    private String[] adapter(Profil profil) {
-        pom[0]+=" "+profil.roleta;
-        pom[1]+=" "+profil.woda;
-        return pom;
+    private String[] adapter(String[] d,Profil profil) {
+        d[0]+=" "+profil.getRoleta()+"%";
+        d[1]+=" "+profil.getWoda()+"C";
+        d[2]+=" "+profil.getNazwa();
+        return d;
     }
 
     @Override
@@ -65,7 +66,7 @@ public class DodajProfilAdapter extends BaseAdapter {
 
 
         holder.text.setText(data[position]);
-        Log.d("data", data[position]);
+//        Log.d("data", data[position]);
         convertView.setBackgroundColor(0xFFFFFFF);
         return convertView;
     }

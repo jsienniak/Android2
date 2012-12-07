@@ -10,7 +10,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import android.widget.ToggleButton;
-import com.example.zpi.Dodaj.ViewHolder;
+import com.example.zpi.Harmonogramy.ViewHolder;
+import com.example.zpi.communication.Connect;
+import com.example.zpi.communication.NoInternetException;
+import com.example.zpi.communication.ServerErrorException;
 
 import java.util.ArrayList;
 
@@ -20,15 +23,18 @@ public class HarmMenuAdapter extends BaseAdapter {
     private String[] opis;
     private ArrayList<Harmonogram> harm;
     private boolean brakHarm=false;
+    Connect c;
     
     public HarmMenuAdapter(Context context, String[] results, String[] op) {
         mInflater = LayoutInflater.from(context);
+        c=new Connect(context);
         this.naglowek = results;
         this.opis=op;
     }
     public HarmMenuAdapter(Context context, ArrayList<Harmonogram> h){
         mInflater=LayoutInflater.from(context);
         naglowek=naglowki(h);
+        c=new Connect(context);
         opis=opisy(h);
         harm=h;
     }
@@ -38,8 +44,8 @@ public class HarmMenuAdapter extends BaseAdapter {
         String[] naglowki=null;
         String pom = "";
         if(!h.isEmpty()){
-            Log.d("kleje1234",""+h.size());
             for(int i=0;i<h.size();i++){
+                Log.d("kleje1234",""+h.get(i).getModul());
                 switch(h.get(i).getModul()){
                     case 0:
                         pom+="Woda/";
@@ -56,6 +62,7 @@ public class HarmMenuAdapter extends BaseAdapter {
                         break;
                 }
             }
+            Log.d("naglowki",pom);
             naglowki=pom.split("/");
         }
         Log.d("kleje123",""+naglowki.length);
@@ -83,7 +90,9 @@ public class HarmMenuAdapter extends BaseAdapter {
                 pom+=dni(h.get(i).getDni());
                 pom+="/";
             }
+            Log.d("naglowki2",pom);
             opisy=pom.split("/");
+            Log.d("naglowki2",""+opisy.length);
         }
         return opisy;
     }
@@ -136,6 +145,17 @@ public class HarmMenuAdapter extends BaseAdapter {
     public int getCount() {
         return naglowek.length;
     }
+    public void setHarmonogram(Harmonogram h,int position){
+        harm.remove(position);
+        harm.add(position,h);
+        try {
+            c.requestSetHarm(h);
+        } catch (ServerErrorException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (NoInternetException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
 
     public Object getItem(int position) {
         return position;
@@ -153,40 +173,42 @@ public class HarmMenuAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
     ViewHolder holder;
-    ViewHolder holder2 = null;
-    ToggleButton btn = null;
+
+    final ToggleButton btn;
     final int pos=position;
     if (convertView == null) {
         convertView = mInflater.inflate(R.layout.harm_menu_adapter, null);
         holder = new ViewHolder();
-        holder2 = new ViewHolder();
+
         holder.text = (TextView) convertView.findViewById(R.id.harmNagl);
-        holder2.text=(TextView) convertView.findViewById(R.id.harmOpis);
+        holder.text2=(TextView) convertView.findViewById(R.id.harmOpis);
         btn=(ToggleButton) convertView.findViewById(R.id.HarmMenuWl);
         if(brakHarm)
             btn.setEnabled(false);
-        btn.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				System.out.println(pos);			
-			}
-		});
+
         btn.setFocusable(false);
         convertView.setTag(holder);
-        convertView.setTag(holder2);
+
     } 
     else {
+        btn=(ToggleButton) convertView.findViewById(R.id.HarmMenuWl);
+        btn.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                Harmonogram pom=getHarmonogram(pos);
+                pom.setWl(btn.isChecked());
+                setHarmonogram(pom, pos);
+            }
+        });
         holder = (ViewHolder) convertView.getTag();
-        holder2 = (ViewHolder) convertView.getTag();
-        //btn=(ToggleButton) convertView.findViewById()
+
     	}
         holder.text.setText(naglowek[position]);
-        holder2.text.setText(opis[position]);
-//        Log.d("pozycja",""+harm.get(8).toString());
-        try{
+        holder.text2.setText(opis[position]);
+//
         btn.setChecked(harm.get(position).isWl());
-        }catch(Exception e){
+        Log.d("ehhh",""+position);
 
-        }
+
         convertView.setBackgroundColor(0xFFFFFFF);
     return convertView;
     }

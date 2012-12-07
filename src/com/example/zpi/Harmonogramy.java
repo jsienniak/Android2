@@ -1,6 +1,7 @@
 package com.example.zpi;
 
 import android.util.Log;
+import android.widget.TextView;
 import com.example.zpi.communication.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -18,6 +19,8 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class Harmonogramy extends Activity implements ResponseListener
@@ -27,9 +30,6 @@ public class Harmonogramy extends Activity implements ResponseListener
 	private Button wroc;
     private String[] items={"Pierwsze","Drugie","Trzecie"};
     private String[] opisy={"15:00-19:00 100%","15:00-9:00","14:00-20:00 85st" };
-    //Harmonogram h1=new Harmonogram(1,900,1200,"90st","60st",0,0,"Pon., Wt., Śr.",true);
-    //Harmonogram h2=new Harmonogram(2,1200,1500,"80%","100%",0,1,"Pon Śr",false);
-    //Harmonogram h3=new Harmonogram(3,800,1209,"","",0,4,"Pon., Wt., Śr., Pt., Sob., Nd.",true);
     ArrayList<Harmonogram> harm=new ArrayList<Harmonogram>();
     ArrayList<Harmonogram> harmPom=new ArrayList<Harmonogram>();
     Context ctx;
@@ -41,18 +41,15 @@ public class Harmonogramy extends Activity implements ResponseListener
     {
         c=new Connect(this);
         c.addResponseListener(this);
+
         try {
             c.requestGetHarm();
         } catch (ServerErrorException e) {
-            Log.d("klej","ServErr");
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (NoInternetException e) {
-            //Log.d("klej2","ServErr");
+
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-    /*    harmPom.add(h1);
-        harmPom.add(h2);
-        harmPom.add(h3);*/
         super.onCreate(savedInstanceState);        
         setContentView(R.layout.harmonogram);
 
@@ -67,7 +64,6 @@ public class Harmonogramy extends Activity implements ResponseListener
         try {
             c.requestGetHarm();
         } catch (ServerErrorException e) {
-            Log.d("klej","ServErr");
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (NoInternetException e) {
             //Log.d("klej2","ServErr");
@@ -122,8 +118,13 @@ public class Harmonogramy extends Activity implements ResponseListener
 
     @Override
     public void processResponse(Response res) {
+        if(res.isERROR()){
+
+        }
         if(res.getType()==Response.GETHARM){
             harmPom= (ArrayList<Harmonogram>) res.getExtras();
+
+
 ///            Log.d("costam3",""+harmPom.size());
             int opcja;
             try{
@@ -153,6 +154,11 @@ public class Harmonogramy extends Activity implements ResponseListener
             addListener();
         }
 
+    }
+
+    static class ViewHolder{
+        TextView text;
+        TextView text2;
     }
 }
 

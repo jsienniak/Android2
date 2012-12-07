@@ -170,6 +170,9 @@ public class Status extends Activity implements ResponseListener{
     }
     @Override
     public void processResponse(Response res) {
+        if(res.isERROR()){
+
+        }
         if(res.getType()==Response.GET){
             switch (res.getModule()){
                 case 0:

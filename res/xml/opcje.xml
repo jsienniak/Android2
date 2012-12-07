@@ -10,7 +10,7 @@
             android:summary="Wprowadz adres IP serwera do sterowania domem"
             android:dialogTitle="Andres IP"
             android:dialogMessage="Wprowadz adres IP "
-            android:defaultValue="192.168.1.100/8080"/>
+            android:defaultValue="192.168.1.100:8080/zpi_server/"/>
 
 
     </PreferenceCategory>

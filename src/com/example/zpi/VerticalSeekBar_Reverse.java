@@ -60,8 +60,8 @@ public class VerticalSeekBar_Reverse extends SeekBar{
                 float pom=event.getY();
                 if (pom>=getHeight())
                     pom=getHeight();
-                if(pom<=0)
-                    pom=0;
+                if(pom<=-3)
+                    pom=-3;
                 i=getMax() - (int) (getMax() * pom / getHeight());
                 Log.d("i",""+i);
                 setProgress(100-i);

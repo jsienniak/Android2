@@ -58,5 +58,6 @@
     <string name="wyczysc">Wyczyść</string>
     <string name="usun">Usuń</string>
     <string name="anuluj">Anuluj</string>
+    <string name="nr_telefonu"></string>
 	
 </resources>

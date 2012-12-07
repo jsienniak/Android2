@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import com.example.zpi.communication.*;
 
 import java.util.ArrayList;
 
@@ -17,7 +19,7 @@ import java.util.ArrayList;
  * Time: 23:06
  * To change this template use File | Settings | File Templates.
  */
-public class Profile extends Activity {
+public class Profile extends Activity implements ResponseListener{
 
     ListView lista;
     ProfileMenuAdapter adapter;
@@ -27,20 +29,30 @@ public class Profile extends Activity {
     Profil p2=new Profil(2,"Nazwa2","Włączone","80%","50st",false);
     Profil p3=new Profil(3,"Nazwa3","Włączone","80%","50st",false);
     ArrayList<Profil> profile=new ArrayList<Profil>();
+    Connect c;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
-        profile.add(p1);
-        profile.add(p2);
-        profile.add(p3);
+        c=new Connect(this);
+        c.addResponseListener(this);
+        try {
+            c.requestGetProfile();
+        } catch (ServerErrorException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (NoInternetException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        // profile.add(p1);
+      //  profile.add(p2);
+       //profile.add(p3);
 
-        lista=(ListView)findViewById(R.id.profMenuList);
+      /*  lista=(ListView)findViewById(R.id.profMenuList);
         adapter=new ProfileMenuAdapter(this,profile);
-        Log.d("adapter",adapter.pobierzProfil(0).nazwa);
-        lista.setAdapter(adapter);
+        Log.d("adapter",adapter.pobierzProfil(0).getNazwa());
+        lista.setAdapter(adapter);                           */
 
-        addListeners();
+
     }
 
     private void addListeners() {
@@ -52,6 +64,14 @@ public class Profile extends Activity {
                 startActivity(i);
             }
         });
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intencja =new Intent(getApplicationContext(),DodajProfil.class);
+                intencja.putExtra("profil", adapter.pobierzProfil(i));
+                startActivity(intencja);
+            }
+        });
 
         wroc=(Button) findViewById(R.id.profWroc);
         wroc.setOnClickListener(new View.OnClickListener() {
@@ -61,5 +81,26 @@ public class Profile extends Activity {
             }
         });
 
+    }
+
+    @Override
+    public void processResponse(Response res) {
+        if(res.isERROR()){
+
+        }
+        if(res.getType()==Response.GETPROFILE){
+            lista=(ListView)findViewById(R.id.profMenuList);
+            profile=(ArrayList<Profil>)res.getExtras();
+
+            Profil p1=new Profil(-1,"Brak profili","Dodaj","nowe","profile",true);
+            if(profile.isEmpty()){
+                profile.add(p1);
+            }
+            else
+            adapter=new ProfileMenuAdapter(this,profile);
+
+            lista.setAdapter(adapter);
+            addListeners();
+        }
     }
 }

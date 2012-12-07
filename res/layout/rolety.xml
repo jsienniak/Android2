@@ -16,15 +16,15 @@
         <ImageView
             android:id="@+id/rolObrRol"
             android:layout_width="match_parent"
-            android:layout_height="165dp"
-            android:layout_marginTop="10px"
+            android:layout_height="210dp"
+            android:layout_marginTop="10dp"
             android:paddingBottom="10dp"
             android:src="@drawable/r0" />
 
         <com.example.zpi.VerticalSeekBar_Reverse
             android:id="@+id/vertical_Seekbar"
             android:layout_width="30dp"
-            android:layout_height="180dp"
+            android:layout_height="210dp"
             android:max="99" />
     </LinearLayout>
 
@@ -45,20 +45,21 @@
             <Button
                 android:id="@+id/otwR"
                 android:layout_width="wrap_content"
-                android:layout_height="41dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/otw" />
 
             <Button
                 android:id="@+id/zamR"
                 android:layout_width="wrap_content"
-                android:layout_height="41dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/zam" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
             android:layout_height="wrap_content" >
 
             <TextView
@@ -70,45 +71,16 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textSize="22dp" />
 
-
-
-
             <Button
                 android:id="@+id/rolUstaw"
                 android:layout_width="wrap_content"
-                android:layout_height="41dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.03"
                 android:text="@string/ustaw" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
 
-
-
-
-            <TextView
-                android:id="@+id/rolAktyNapis"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/ogrAkty"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="20dp" />
-
-
-            <TextView
-                android:id="@+id/rolAktywHarm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="18dp" />
-
-        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -127,12 +99,5 @@
             android:text="@string/wroc" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/rolWyczysc"
-        android:layout_width="wrap_content"
-        android:layout_height="41dp"
-        android:layout_above="@+id/linearLayout3"
-        android:layout_alignParentLeft="true"
-        android:text="@string/wyczysc" />
 
 </RelativeLayout>
