@@ -96,7 +96,7 @@ public class HarmMenuAdapter extends BaseAdapter {
         }
         return opisy;
     }
-    public String czas(int cz){
+   /* public String czas(int cz){
         String czas="";
 
         if(cz/1000!=0){
@@ -116,7 +116,7 @@ public class HarmMenuAdapter extends BaseAdapter {
             }
 
         return czas;
-    }
+    } */
     public String dni(String d){
         String dni="";
 

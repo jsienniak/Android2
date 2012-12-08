@@ -9,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+import com.example.zpi.alerts.ServerAlert;
 import com.example.zpi.communication.*;
 
 public class Ogrod extends Activity implements ResponseListener {
@@ -104,7 +105,11 @@ public class Ogrod extends Activity implements ResponseListener {
     @Override
     public void processResponse(Response res) {
         if(res.isERROR()){
-
+            auto.setEnabled(false);
+            wl.setEnabled(false);
+            ustaw.setEnabled(false);
+            ServerAlert serverAlert=new ServerAlert(this);
+            serverAlert.zwrocAlert();
         }
         if(res.getType()==Response.GET){
             switch (res.getPort()){
@@ -114,9 +119,10 @@ public class Ogrod extends Activity implements ResponseListener {
                     break;
                 case 1:
                     auto.setChecked(Boolean.valueOf(res.getValue()));
-                    if(Boolean.valueOf(res.getValue()))
+                    if(Boolean.valueOf(res.getValue())){
                         wl.setEnabled(false);
                         ustaw.setEnabled(false);
+                    }
                     break;
             }
         }

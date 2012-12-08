@@ -29,6 +29,7 @@ public class Connect {
 
     public Connect(Context c) {
 		ctx = c;
+        System.out.print(url);
 	}
 
     public void addResponseListener(ResponseListener rl){

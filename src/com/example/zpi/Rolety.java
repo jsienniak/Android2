@@ -94,8 +94,8 @@ public class Rolety extends Activity implements ResponseListener{
                 } catch (ServerErrorException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
-                zamk.setEnabled(true);
-                otw.setEnabled(false);
+               // zamk.setEnabled(true);
+               // otw.setEnabled(false);
                 sb.setProgress(0);
                 imv.setImageResource(roletaImg[0]);
             }
@@ -112,8 +112,8 @@ public class Rolety extends Activity implements ResponseListener{
                 }
                 sb.setProgress(100);
                 imv.setImageResource(roletaImg[100]);
-                zamk.setEnabled(false);
-                otw.setEnabled(true);
+                //zamk.setEnabled(false);
+               // otw.setEnabled(true);
                 sb.klik();
             }
         });
@@ -139,6 +139,15 @@ public class Rolety extends Activity implements ResponseListener{
 			   public void onStopTrackingTouch(SeekBar seekBar) {
                    try {
                        c.requestSet(1, 0, "" + seekBar.getProgress());
+                       if(seekBar.getProgress()!=0||seekBar.getProgress()!=99){
+                           otw.setEnabled(true);
+                           zamk.setEnabled(true);
+                       }
+                       Log.d("seekbar",""+seekBar.getProgress());
+                       if(seekBar.getProgress()==0)
+                           otw.setEnabled(false);
+                       if(seekBar.getProgress()==99)
+                           zamk.setEnabled(false);
                    } catch (NoInternetException e) {
                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                    } catch (ServerErrorException e) {
@@ -164,7 +173,13 @@ public class Rolety extends Activity implements ResponseListener{
 
         }
         if(res.getType()==Response.GET){
-            prog = Integer.parseInt(res.getValue());
+            prog=0;
+            try{
+                prog = Integer.parseInt(res.getValue().equals(null)?"0":res.getValue());
+            }
+            catch (NullPointerException e){
+
+            }
             sb.setProgress(prog);
             imv.setImageResource(roletaImg[prog]);
             sb.klik();

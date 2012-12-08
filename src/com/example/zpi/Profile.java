@@ -92,6 +92,13 @@ public class Profile extends Activity implements ResponseListener{
         if(res.getType()==Response.GETPROFILE){
             lista=(ListView)findViewById(R.id.profMenuList);
             profile=(ArrayList<Profil>)res.getExtras();
+            try{
+
+                Log.d("brakPro",profile.get(0).getNazwa());
+            }
+            catch (Exception e){
+                Log.d("brakPro","nie ma");
+            }
 
             Profil p1=new Profil(-1,"Brak profili","Dodaj","nowe","profile",false);
             if(profile.isEmpty()){

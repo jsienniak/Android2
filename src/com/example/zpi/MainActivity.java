@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import com.example.zpi.communication.*;
+import com.example.zpi.alerts.*;
 import com.google.android.gcm.GCMRegistrar;
 
 import android.os.Bundle;
@@ -35,6 +36,7 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
     Connect c;
     Dialog sk;
     protected AccountManager accountManager;
+    int i=0;
 
     final private static String SENDER_ID = "303941619301";
 	
@@ -47,6 +49,7 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
         Token t = new Token();
         t.addTokenListener(this);
         t.getToken(this);
+        Log.d("serweru",Connect.url);
         try{
             if(getIntent().getExtras().containsKey("notification")){
                 //((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE)).cancel(1);
@@ -64,13 +67,15 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
             c.requestGet(3,0);
         } catch (ServerErrorException e) {
             e.printStackTrace();
-            problemSerwer();
+//            problemSerwer();
+            ServerAlert servP=new ServerAlert(this);
             Log.d("serwer","brak");
         } catch (NoInternetException e) {
             e.printStackTrace();
-            //InternetAlert ia=new InternetAlert(this);
-            //ia.zwrocAlert();
-            brakInternetu();
+            InternetAlert ia=new InternetAlert(this);
+            ia.zwrocAlert();
+            //finish();
+           // brakInternetu();
             //To change body of catch statement use File | Settings | File Templates.
         }
 
@@ -89,7 +94,6 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
         AudioManager am=(AudioManager) getBaseContext().getSystemService(Context.AUDIO_SERVICE);
         am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
         Intent i=new Intent(getApplicationContext(),WywolanieAlarmu.class);
-        //i.putExtra("notification",1);
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, i, 0);
 
         NotificationManager mn= (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -288,8 +292,11 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
     @Override
     public void processResponse(Response res) {
         if(res.isERROR())   {
-            Log.d("sedesdf","dkjashdj");
-            problemSerwer();
+            if(i==0){
+                ServerAlert servP=new ServerAlert(this);
+                servP.zwrocAlert();
+                i++;
+            }
             return;
         }
         if(res.getType()==Response.GET){

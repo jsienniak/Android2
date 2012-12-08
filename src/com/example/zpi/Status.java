@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,11 +14,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.example.zpi.alerts.InternetAlert;
+import com.example.zpi.alerts.ServerAlert;
 import com.example.zpi.communication.*;
 
 public class Status extends Activity implements ResponseListener{
 	Button br;
-	Button wd;
+	Button woda;
 	Button rol;
 	Button alr;
     Button ogr;
@@ -32,6 +33,7 @@ public class Status extends Activity implements ResponseListener{
     TextView statusOgrod;
 	Connect c;
     Dialog sk;
+    int i=0;
     Boolean statAlr;
     Boolean statBr;
     EditText haslo;
@@ -49,12 +51,20 @@ public class Status extends Activity implements ResponseListener{
         } catch (ServerErrorException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (NoInternetException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            InternetAlert ia=new InternetAlert(this);
+            ia.zwrocAlert();
         }
 
         addListenerOnButton();
     }
-	public void addListenerOnButton(){
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        odswiez(1,0);
+    }
+
+    public void addListenerOnButton(){
         statusBrama=(TextView)findViewById(R.id.statBr2);
         statusWoda=(TextView)findViewById(R.id.statWd2);
         statusRoleta=(TextView)findViewById(R.id.statRol2);
@@ -74,13 +84,13 @@ public class Status extends Activity implements ResponseListener{
             }
 		});
 		
-		wd=(Button) findViewById(R.id.statWdZm);
-		wd.setOnClickListener(new OnClickListener() {			
-			public void onClick(View arg0) {
-				Intent i=new Intent(getApplicationContext(),Woda.class);
-				startActivity(i);
-			}
-		});
+		woda =(Button) findViewById(R.id.statWdZm);
+		woda.setOnClickListener(new OnClickListener() {
+            public void onClick(View arg0) {
+                Intent i = new Intent(getApplicationContext(), Woda.class);
+                startActivity(i);
+            }
+        });
 		rol=(Button) findViewById(R.id.statRolZm);
 		rol.setOnClickListener(new OnClickListener() {			
 			public void onClick(View arg0) {
@@ -107,6 +117,7 @@ public class Status extends Activity implements ResponseListener{
             @Override
             public void onClick(View view) {
                 try {
+                    odswiez(0,0);
                     c.requestGet(0,0);
                     c.requestGet(1,0);
                     c.requestGet(2,0);
@@ -119,7 +130,7 @@ public class Status extends Activity implements ResponseListener{
                 }
             }
         });
-		
+
 		wr=(Button) findViewById(R.id.statWr);
 		wr.setOnClickListener(new OnClickListener() {			
 			public void onClick(View arg0) {
@@ -131,6 +142,12 @@ public class Status extends Activity implements ResponseListener{
     public void odswiez(int mod,int port){
         try {
             c.requestGet(mod,port);
+            c.requestGet(0,0);
+            c.requestGet(1,0);
+            c.requestGet(2,0);
+            c.requestGet(3,0);
+            c.requestGet(4,0);
+            i=0;
         } catch (ServerErrorException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (NoInternetException e) {
@@ -171,12 +188,29 @@ public class Status extends Activity implements ResponseListener{
     @Override
     public void processResponse(Response res) {
         if(res.isERROR()){
+            br.setEnabled(false);
+            alr.setEnabled(false);
+            rol.setEnabled(false);
+            woda.setEnabled(false);
+            ogr.setEnabled(false);
+            statusBrama.setText("Błąd serwera");
+            statusOgrod.setText("Błąd serwera");
+            statusRoleta.setText("Błąd serwera");
+            statusWoda.setText("Błąd serwera");
+            statusAlarm.setText("Błąd serwera");
+            if(i==0){
+                ServerAlert servAl=new ServerAlert(this);
+                servAl.zwrocAlert();
+                i++;
+            }
+
 
         }
+        else{
         if(res.getType()==Response.GET){
             switch (res.getModule()){
                 case 0:
-                    statusWoda.setText(""+Integer.parseInt(res.getValue())/10);
+                     statusWoda.setText(""+Integer.parseInt(res.getValue())/10);
                      break;
                 case 1:
                     statusRoleta.setText(res.getValue());
@@ -220,5 +254,6 @@ public class Status extends Activity implements ResponseListener{
 
             }
         }
+    }
     }
 }

@@ -48,19 +48,18 @@ public class Dodaj extends Activity{
 		super.onCreate(savedInstanceState);
         c=new Connect(this);
 		setContentView(R.layout.dadaj_harmonogram);
-		//Harmonogram h=new Harmonogram();
+
         zmien=(Button) findViewById(R.id.zmiana);
         usun=(Button) findViewById(R.id.harmUsun);
         dodaj=(Button) findViewById(R.id.harmDod);
         wlacz=(ToggleButton)findViewById(R.id.dodWlacz);
 		list = (ListView) findViewById(R.id.list);
         usun.setEnabled(false);
-		//   showDialog(RADIOBUTTON_DIALOG_ID);
+
         try{
             h= (Harmonogram)getIntent().getExtras().get("harm");
             wlacz.setChecked(h.isWl());
             zmien.setEnabled(false);
-//            stanyDni(h);
             usun.setEnabled(true);
             edycja=true;
         }
@@ -102,7 +101,6 @@ public class Dodaj extends Activity{
                 try {
                     if(czyPoprawnieWypelniony()){
                         c.requestSetHarm(h);
-                        Log.d("modul2",""+h.getModul());
                         finish();
                     }
                     else{
@@ -224,22 +222,10 @@ public class Dodaj extends Activity{
                 if(i==0){
                     tp=new TimePickerDialog(this, mTimeSetListener, godziny(h.getCzasStart()), minuty(h.getCzasStart()), true);
                     tp.setCancelable(true);
-                   /* tp.setOnCancelListener(new TimePickerDialog.OnCancelListener() {
-                        @Override
-                        public void onCancel(DialogInterface dialogInterface) {
-                            Log.d("zegar3","klej");
-                            dialogInterface.cancel();
-                        }
-                    });*/
 
-
-                //return new TimePickerDialog(
-                  //  this, mTimeSetListener, godziny(h.czasStart), minuty(h.czasStart), true);
                 }
                 else{
                     tp=new TimePickerDialog(this, mTimeSetListener, godziny(h.getCzasStop()), minuty(h.getCzasStop()), true);
-                  //  return new TimePickerDialog(
-                    //        this, mTimeSetListener, godziny(h.czasStop), minuty(h.czasStop), true);
                 }
                 tp.setOnDismissListener(new TimePickerDialog.OnDismissListener() {
                     @Override
@@ -456,37 +442,29 @@ public class Dodaj extends Activity{
 		return getResources().getString(z);
 	}
     public boolean[] stanyDni(Harmonogram h){
-        String[] pom2={"Pon","Wt","Śr","Cz","Pt","Sob","Nd"};
-        String[] pom3={"Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota","Niedziela","Codziennie"};
         try{
-            String dni=h.getDni();
-            String[] pom=dni.split("[., ]+");
-            if(pom.length>1){
-                for(int i=0;i<pom.length;i++){
-                    for(int j=0;j<pom2.length;j++){
-                        if(pom[i].equals(pom2[j]))
-                            states[j]=true;
-                    }
+        String d=h.getDni();
+
+        if(!d.equals(null)){
+            char[] pom=d.toCharArray();
+            if(pom.length==1)
+                states[Integer.valueOf(String.valueOf(pom[0]))-1]=true;
+            else if(pom.length==7){
+                for(int i=0;i<states.length;i++){
+                    states[i]=true;
                 }
             }
             else{
-                for(int i=0;i<pom2.length;i++){
-                    if(pom[0].equals(pom3[i])){
-                        if(i!=7){
-                            states[i]=true;
-                        }
-                        else{
-                            for(int j=0;j<states.length;j++){
-                                states[j]=true;
-                            }
-                        }
-                    }
+                for(int i=0;i<pom.length;i++){
+                    states[Integer.parseInt(String.valueOf(pom[i]))-1]=true;
                 }
-
             }
         }
+        }
         catch (NullPointerException e){}
+
         return states;
+
     }
     public int suwakProgres(Harmonogram h){
         try{

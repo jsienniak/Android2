@@ -30,10 +30,8 @@ public class Woda extends Activity implements ResponseListener{
         c=new Connect(this);
         c.addResponseListener(this);
         try {
-		//prog=Integer.parseInt(c.request("0","1").getValue());
             c.requestGet(0,1);
             c.requestGet(0,0);
-            System.out.print(prog);
 		} 
         catch (NoInternetException e) {
 			// TODO: handle exception
@@ -143,8 +141,15 @@ public class Woda extends Activity implements ResponseListener{
                 status.setText(""+prog/10);
             }
             if (res.getPort()==0){
-                sb.setProgress(Integer.parseInt(res.getValue())/10-40);
-                zadana.setText(""+Integer.parseInt(res.getValue())/10);
+                int pom=0;
+                try{
+                    pom=Integer.parseInt((res.getValue().equals(null)?"0":res.getValue()));
+                }
+                catch (NullPointerException e){
+
+                }
+                sb.setProgress(pom/10-40);
+                zadana.setText(""+pom/10);
             }
         }
     }

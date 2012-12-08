@@ -69,6 +69,13 @@ public class DodajProfil extends Activity {
                 opcja=i;
             }
         });
+        wroc=(Button)findViewById(R.id.profAnl);
+        wroc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         wlacz=(ToggleButton) findViewById(R.id.profDodWlacz);
         if(!edycja)
             wlacz.setChecked(true);

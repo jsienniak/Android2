@@ -97,7 +97,7 @@ public class Harmonogramy extends Activity implements ResponseListener
         } );
     }
 
-    public String getValue(Element item, String str) {
+   /* public String getValue(Element item, String str) {
         NodeList n = item.getElementsByTagName(str);
         return this.getElementValue(n.item(0));
     }
@@ -114,7 +114,7 @@ public class Harmonogramy extends Activity implements ResponseListener
                  }
              }
              return "";
-      }
+      }   */
 
     @Override
     public void processResponse(Response res) {
