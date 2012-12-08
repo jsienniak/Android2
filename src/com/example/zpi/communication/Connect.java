@@ -16,6 +16,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.example.zpi.Harmonogram;
+import com.example.zpi.Profil;
 
 public class Connect {
 
@@ -57,6 +58,14 @@ public class Connect {
 
     public void requestSetHarm(Harmonogram h)throws ServerErrorException, NoInternetException {
         request(h.getDni(),h.getCzasStart(),h.getCzasStop(),""+h.getModul(),""+h.getPort(),h.getValStart(),h.getValStop(),""+(h.isWl()?1:0));
+    }
+
+    public void requestSetProfile(Profil p)throws ServerErrorException, NoInternetException {
+        request(p.getNazwa(),p.getWoda(),p.getSwiatlo(),p.getRoleta());
+    }
+
+    public void requestUseProfile(int id) throws ServerErrorException, NoInternetException {
+        request("profile.use&id="+id);
     }
 
     public void requestGet(int m, int p) throws ServerErrorException, NoInternetException {
@@ -104,6 +113,9 @@ public class Connect {
                     res.setPort(Integer.parseInt(t[1]));
                     res.setType(Response.SET);
 					break;
+                    case 4:
+                     u="profile.set&name="+t[0]+"&m1_v="+t[1]+"&m2_v="+t[2]+"&m3_v="+t[3];
+                        break;
                 case 8:
                     u="harmonogram.set&dni="+t[0]+"&g_start="+t[1]+"&g_stop="+t[2]+"&m_id="+t[3]+"&p="+t[4]+"&w_start="+t[5]+"&w_end="+t[6]+"&active="+t[7];
                     break;
