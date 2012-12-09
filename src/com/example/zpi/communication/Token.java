@@ -38,6 +38,7 @@ public class Token {
         AsyncTask<Activity, Void, String> at = new AsyncTask<Activity, Void, String>() {
 
             protected void onPostExecute(String res){
+                Log.d("token",res);
                 raiseEvent(res);
             }
 

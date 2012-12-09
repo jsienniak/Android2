@@ -181,7 +181,9 @@ public class Connect {
 					BufferedReader in = new BufferedReader(
 							new InputStreamReader(
 									urlConnection.getInputStream()));
-                    String cookiet=    urlConnection.getHeaderField("Set-Cookie");
+                    //urlConnection.
+                    String cookiet=  urlConnection.getHeaderField("Set-Cookie");
+
                     if(cookiet!=null && cookiet.length()>0){
                         cookie = cookiet;
                     }
@@ -225,5 +227,10 @@ public class Connect {
     public void requestRegister(String regId) throws ServerErrorException, NoInternetException {
         login(1);
         request("device.register&device="+regId);
+    }
+
+    public void requestUnregister(String regId) throws ServerErrorException, NoInternetException {
+        login(1);
+        request("device.unregister&device="+regId);
     }
 }

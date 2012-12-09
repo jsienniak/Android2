@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.util.Log;
 import android.widget.Toast;
-
-import com.example.zpi.alerts.Notyfikacje;
 import com.example.zpi.communication.Connect;
 import com.example.zpi.communication.NoInternetException;
 import com.example.zpi.communication.ServerErrorException;
@@ -68,9 +66,14 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	@Override
 	protected void onUnregistered(Context arg0, String regId) {
-
-		// TODO unregister do serwera tutaj
-		//throw new UnsupportedOperationException();
+        Connect c = new Connect(arg0);
+        try {
+            c.requestUnregister(regId);
+        } catch (ServerErrorException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (NoInternetException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 	}
 
 }
