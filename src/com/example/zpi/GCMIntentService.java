@@ -4,15 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.example.zpi.communication.Connect;
+import com.example.zpi.communication.NoInternetException;
+import com.example.zpi.communication.ServerErrorException;
 import com.google.android.gcm.GCMBaseIntentService;
 
 
 public class GCMIntentService extends GCMBaseIntentService {
 	
 	final private static String SENDER_ID = "303941619301";
+
 	
 	public GCMIntentService(){
 		super(SENDER_ID);
+
 	}
 
 	@Override
@@ -28,9 +33,15 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	@Override
 	protected void onRegistered(Context arg0, String regId) {
-		// TODO register do serwera tutaj
-		throw new UnsupportedOperationException();
-	}
+        Connect c = new Connect(arg0);
+        try {
+            c.requestRegister(regId);
+        } catch (ServerErrorException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (NoInternetException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
 
 	@Override
 	protected void onUnregistered(Context arg0, String regId) {

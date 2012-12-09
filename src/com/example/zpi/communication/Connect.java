@@ -177,4 +177,7 @@ public class Connect {
         }
     }
 
+    public void requestRegister(String regId) throws ServerErrorException, NoInternetException {
+        request("device.register&device="+regId);
+    }
 }
