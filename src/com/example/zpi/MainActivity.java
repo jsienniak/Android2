@@ -54,7 +54,7 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
             }
         }
         catch (Exception e){
-            testuNotyfikacje();
+           // testuNotyfikacje();
         }
         setContentView(R.layout.activity_main);
         c=new Connect(this);

@@ -1,6 +1,7 @@
 package com.example.zpi;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,10 +27,12 @@ public class HarmMenuAdapter extends BaseAdapter {
     private ArrayList<Harmonogram> harm;
     private boolean brakHarm=false;
     Connect c;
+    Harmonogramy harmy;
 
     public HarmMenuAdapter(Context context, ArrayList<Harmonogram> h){
         mInflater=LayoutInflater.from(context);
         naglowek=naglowki(h);
+        harmy = (Harmonogramy) context;
         c=new Connect(context);
         opis=opisy(h);
         harm=h;
@@ -115,6 +118,8 @@ public class HarmMenuAdapter extends BaseAdapter {
         harm.remove(position);
         harm.add(position,h);
         try {
+            Log.d("idUsun",""+h.getId());
+            c.requestDelHarm(h.getId());
             c.requestSetHarm(h);
         } catch (ServerErrorException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -138,7 +143,6 @@ public class HarmMenuAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
-
     public View getView(int position, View convertView, ViewGroup parent) {
     ViewHolder holder;
     final ViewGroup rodzic=parent;
@@ -156,6 +160,7 @@ public class HarmMenuAdapter extends BaseAdapter {
                 Harmonogram pom=getHarmonogram(pos);
                 pom.setWl(btn.isChecked());
                 setHarmonogram(pom, pos);
+                harmy.onResume();
                 if(btn.isChecked())
                     Toast.makeText(rodzic.getContext(), "Uruchomiono harmonogram", Toast.LENGTH_SHORT).show();
                 else
@@ -176,6 +181,7 @@ public class HarmMenuAdapter extends BaseAdapter {
                 Harmonogram pom=getHarmonogram(pos);
                 pom.setWl(btn.isChecked());
                 setHarmonogram(pom, pos);
+                harmy.onResume();
                 if(btn.isChecked())
                     Toast.makeText(rodzic.getContext(), "Uruchomiono harmonogram", Toast.LENGTH_SHORT).show();
                 else

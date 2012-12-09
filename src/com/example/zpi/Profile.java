@@ -26,7 +26,6 @@ public class Profile extends Activity implements ResponseListener{
     ListView lista;
     ProfileMenuAdapter adapter;
     private Button dodaj;
-    private Button wroc;
     ArrayList<Profil> profile=new ArrayList<Profil>();
     ArrayList<Profil> pom=new ArrayList<Profil>();
     Connect c;
@@ -39,6 +38,7 @@ public class Profile extends Activity implements ResponseListener{
         Log.d("profilki",c.url);
         c.addResponseListener(this);
         try {
+            c.login(1);
             c.requestGetProfile();
         } catch (ServerErrorException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -80,15 +80,6 @@ public class Profile extends Activity implements ResponseListener{
                 startActivity(intencja);
             }
         });
-
-        wroc=(Button) findViewById(R.id.profWroc);
-        wroc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
     }
 
     @Override

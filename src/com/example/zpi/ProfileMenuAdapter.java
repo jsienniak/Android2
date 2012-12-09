@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import com.example.zpi.Harmonogramy.ViewHolder;
+import com.example.zpi.communication.Connect;
+import com.example.zpi.communication.NoInternetException;
+import com.example.zpi.communication.ServerErrorException;
 
 import java.util.ArrayList;
 
@@ -23,11 +26,15 @@ public class ProfileMenuAdapter extends BaseAdapter {
     private String[] opis;
     private ArrayList<Profil> profile;
     private boolean brakProfilu=false;
+    Connect c;
+    Profile profy;
 
     public ProfileMenuAdapter(Context context,ArrayList<Profil> p){
         mInflater = LayoutInflater.from(context);
         this.naglowek = nazwy(p);
         this.opis=opisy(p);
+        profy = (Profile)context;
+        c=new Connect(context);
         profile=p;
     }
     public String[] nazwy(ArrayList<Profil> prof){
@@ -69,11 +76,28 @@ public class ProfileMenuAdapter extends BaseAdapter {
     public long getItemId(int i) {
         return 0;  //To change body of implemented methods use File | Settings | File Templates.
     }
+    public Profil getProfil(int i){
+        return profile.get(i);
+    }
+    public void setProfil(Profil p,int position){
+        profile.remove(position);
+        profile.add(position, p);
+        try {
+            c.requestDelProfile(p.getId());
+            c.requestSetProfile(p);
+        } catch (ServerErrorException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (NoInternetException e) {
+            e.printStackTrace();
+            //InternetAlert internetAlert=new InternetAlert();
+            //internetAlert.zwrocAlert();
+        }
+    }
 
     @Override
     public View getView(int position, View convertView, final ViewGroup parent) {
         ViewHolder holder;
-        Button btn;
+         Button btn;
         final int pos=position;
         final ViewGroup rodzic=parent;
         if (convertView == null) {
@@ -84,7 +108,10 @@ public class ProfileMenuAdapter extends BaseAdapter {
             btn=(Button) convertView.findViewById(R.id.ProfMenuWl);
             btn.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    Toast.makeText(rodzic.getContext(), "Uruchomiono profil "+profile.get(pos).getNazwa(), Toast.LENGTH_SHORT).show();
+
+                    setProfil(getProfil(pos), pos);
+                    profy.onResume();
+                    Toast.makeText(rodzic.getContext(), "Uruchomiono profil "+getProfil(pos).getNazwa(), Toast.LENGTH_SHORT).show();
                 }
             });
             if(brakProfilu)
@@ -104,7 +131,9 @@ public class ProfileMenuAdapter extends BaseAdapter {
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(rodzic.getContext(), "Uruchomiono profil "+profile.get(pos).getNazwa(), Toast.LENGTH_SHORT).show();
+                    setProfil(getProfil(pos), pos);
+                    profy.onResume();
+                    Toast.makeText(rodzic.getContext(), "Uruchomiono profil "+getProfil(pos).getNazwa(), Toast.LENGTH_SHORT).show();
                 }
             });
             //btn.setChecked(profile.get(position).isWl());

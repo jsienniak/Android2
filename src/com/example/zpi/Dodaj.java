@@ -90,7 +90,21 @@ public class Dodaj extends Activity{
 
 	}
 	public void addButtonListener() {
-
+        usun.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    c.requestDelHarm(h.getId());
+                    finish();
+                } catch (ServerErrorException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (NoInternetException e) {
+                    e.printStackTrace();
+                    InternetAlert internetAlert=new InternetAlert(getApplicationContext());
+                    internetAlert.zwrocAlert();
+                }
+            }
+        });
 		zmien.setOnClickListener(new OnClickListener()
         {           
             public void onClick(View arg0){
@@ -103,6 +117,7 @@ public class Dodaj extends Activity{
             public void onClick(View view) {
                 try {
                     if(czyPoprawnieWypelniony()){
+                        c.requestDelHarm(h.getId());
                         c.requestSetHarm(h);
                         Toast.makeText(getApplicationContext(), "Zapisano harmonogram", Toast.LENGTH_LONG).show();
                         finish();

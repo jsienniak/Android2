@@ -13,14 +13,6 @@
     </ListView>
 
     <Button
-            android:id="@+id/profWroc"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:text="@string/wroc" />
-
-    <Button
             android:id="@+id/profDodaj"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

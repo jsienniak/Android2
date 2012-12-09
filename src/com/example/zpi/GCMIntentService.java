@@ -1,10 +1,15 @@
 package com.example.zpi;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.zpi.alerts.Notyfikacje;
 import com.example.zpi.communication.Connect;
 import com.example.zpi.communication.NoInternetException;
 import com.example.zpi.communication.ServerErrorException;
@@ -29,7 +34,23 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@Override
 	protected void onMessage(Context arg0, Intent arg1) {
 		// TODO What's up tutaj
-        Log.d("messageGCM",arg1.getExtras().toString());
+
+        Log.d("messageGCM",arg1.getExtras().getString("event"));
+        String event=arg1.getExtras().getString("event");
+        if(event.equals("ALARM")){
+            AudioManager am=(AudioManager) arg0.getSystemService(Context.AUDIO_SERVICE);
+            am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+            NotificationManager mn= (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+            Intent i=new Intent(arg0,WywolanieAlarmu.class);
+            PendingIntent pIntent = PendingIntent.getActivity(this, 0, i, 0);
+            Notification n= new Notification(R.drawable.ic_launcher,"ALARM!",System.currentTimeMillis()+5000);
+            n.setLatestEventInfo(this, "Uruchomił się alarm!", "Powiadom POLICJE!", pIntent);
+            n.flags |= Notification.FLAG_AUTO_CANCEL;
+            n.defaults |= Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE ;
+            mn.notify(1,n);
+        }
+
+
 //		throw new UnsupportedOperationException();
 	}
 

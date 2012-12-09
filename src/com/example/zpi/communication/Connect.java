@@ -223,7 +223,7 @@ public class Connect {
     }
 
     public void requestRegister(String regId) throws ServerErrorException, NoInternetException {
-        //login(1);
+        login(1);
         request("device.register&device="+regId);
     }
 }

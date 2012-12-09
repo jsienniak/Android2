@@ -30,8 +30,8 @@ public class DodajProfil extends Activity {
     DodajProfilAdapter adapter;
     Profil prof=new Profil();
     boolean wybor;
-    String nazwa;
-    String progres;
+    String nazwa="";
+    String progres="0";
     String[] temp=null;
     boolean edycja=false;
     EditText haslo;
@@ -53,10 +53,13 @@ public class DodajProfil extends Activity {
             Log.d("statusWod",prof.getWoda());
             swiatlo.setChecked(Boolean.valueOf(prof.getSwiatlo()));
             wlacz.setChecked(Boolean.valueOf(prof.isWl()));
+            setTitle("Edycja profilu "+prof.getNazwa());
             edycja=true;
         }
         catch (Exception e){
             adapter=new DodajProfilAdapter(this,temp);
+            setTitle("Dodawanie profilu");
+
         }
         lista=(ListView)findViewById(R.id.prof_list);
 
@@ -77,6 +80,19 @@ public class DodajProfil extends Activity {
                 opcja=i;
             }
         });
+        usun=(Button) findViewById(R.id.profUsun);
+        usun.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    c.requestDelProfile(prof.getId());
+                } catch (ServerErrorException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (NoInternetException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }
+        });
         wroc=(Button)findViewById(R.id.profAnl);
         wroc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,10 +100,14 @@ public class DodajProfil extends Activity {
                 finish();
             }
         });
-        if(!edycja)
+        if(!edycja){
             wlacz.setChecked(true);
-        else
+            usun.setEnabled(false);
+        }
+        else{
             wlacz.setChecked(prof.isWl());
+            usun.setEnabled(true);
+        }
         wlacz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,6 +123,7 @@ public class DodajProfil extends Activity {
                 opcja=-1;
             }
         });
+
         dodaj=(Button)findViewById(R.id.profDod);
         dodaj.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +135,7 @@ public class DodajProfil extends Activity {
                 Log.d("profil5",""+prof.isWl());
                 try{
                     if(czyPoprawnieWypelniony()){
+                        c.requestDelProfile(prof.getId());
                         c.requestSetProfile(prof);
                         finish();
                         Toast.makeText(getApplicationContext(), "Dodano profil", Toast.LENGTH_LONG).show();
@@ -163,7 +185,6 @@ public class DodajProfil extends Activity {
         View layout=inflater.inflate(R.layout.seek_dialog, (ViewGroup)findViewById(R.id.dialog_lay));
         sk.setContentView(layout);
         sk.setTitle(pobZasob(R.string.ustPoz));
-//        Log.d("statusWod2",prof.getWoda());
         txt=(TextView)layout.findViewById(R.id.dialog_status);
         SeekBar seek=(SeekBar)layout.findViewById(R.id.dialog_seek_bar);
         switch (i){
@@ -174,8 +195,8 @@ public class DodajProfil extends Activity {
                     txt.setText(Integer.parseInt(prof.getRoleta()));
                 }
                 else{
-                    seek.setProgress(0);
-                    txt.setText(""+0);
+                    seek.setProgress(Integer.parseInt(progres));
+                    txt.setText(""+progres);
                 }
                 break;
             case 2:seek.setMax(40);
@@ -184,8 +205,8 @@ public class DodajProfil extends Activity {
                     txt.setText(Integer.parseInt(prof.getWoda()));
                 }
                 else{
-                    seek.setProgress(0);
-                    txt.setText(""+0);
+                    seek.setProgress(Integer.parseInt(progres)-40);
+                    txt.setText(""+progres);
                     }
                 wybor=true;
                 break;
@@ -241,6 +262,8 @@ public class DodajProfil extends Activity {
 
         if(edycja)
             haslo.setText(prof.getNazwa());
+        else
+            haslo.setText(nazwa);
         sk.setContentView(layout);
         sk.setTitle("Wprowadz nazwę dla profilu");
         Button ok=(Button)layout.findViewById(R.id.profOkDial);
@@ -282,12 +305,12 @@ public class DodajProfil extends Activity {
                 prof.setNazwa(wart);
                 break;
             case 1:
-                Log.d("ustaw1",wart);
-                prof.setRoleta(wart);
+                Log.d("ustaw1",wart!=null?wart:"0");
+                prof.setRoleta(wart!=null?wart:"0");
                 break;
             case 2:
                 Log.d("ustaw2",wart);
-                prof.setWoda(wart);
+                prof.setWoda(wart!=null?wart:"0");
                 break;
         }
         opcja=-5;

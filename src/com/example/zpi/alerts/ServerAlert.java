@@ -16,7 +16,7 @@ import com.example.zpi.MainActivity;
  * Time: 16:11
  * To change this template use File | Settings | File Templates.
  */
-public class ServerAlert extends Activity {
+public class ServerAlert {
     Context context;
     public ServerAlert(Context context){
         this.context=context;
