@@ -49,14 +49,32 @@ public class Connect {
 	}
 
     public void requestGetHarm()throws ServerErrorException, NoInternetException {
+        login(1);
         request("harmonogram.get");
     }
 
-    public void requestActivateHarm()throws ServerErrorException, NoInternetException {
-        request("harmonogram.get");
+    public void requestActivateHarm(int id)throws ServerErrorException, NoInternetException {
+        login(1);
+        request("harmonogram.activate&id="+id);
+    }
+
+    public void requestDeactivateHarm(int id)throws ServerErrorException, NoInternetException {
+        login(1);
+        request("harmonogram.deactivate&id="+id);
+    }
+
+    public void requestDelHarm(int id)throws ServerErrorException, NoInternetException {
+        login(1);
+        request("harmonogram.delete&id="+id);
+    }
+
+    public void requestDelProfile(int id)throws ServerErrorException, NoInternetException {
+        login(1);
+        request("profile.delete&id="+id);
     }
 
     public void requestGetProfile()throws ServerErrorException, NoInternetException {
+        login(1);
         request("profile.get");
     }
 
@@ -66,22 +84,27 @@ public class Connect {
     }
 
     private void login(int id) throws ServerErrorException, NoInternetException {
+        login(1);
         request("user.login&id="+id);
     }
 
     public void requestSetProfile(Profil p)throws ServerErrorException, NoInternetException {
+        login(1);
         request(p.getNazwa(),p.getWoda(),p.getRoleta(),p.getSwiatlo());
     }
 
     public void requestUseProfile(int id) throws ServerErrorException, NoInternetException {
+        login(1);
         request("profile.use&id="+id);
     }
 
     public void requestGet(int m, int p) throws ServerErrorException, NoInternetException {
+        login(1);
         request(""+m,""+p);
     }
 
     public void requestSet(int m, int p, String val) throws ServerErrorException, NoInternetException {
+        login(1);
         request(""+m,""+p,val);
     }
 
@@ -187,6 +210,7 @@ public class Connect {
     }
 
     public void requestRegister(String regId) throws ServerErrorException, NoInternetException {
+        login(1);
         request("device.register&device="+regId);
     }
 }
