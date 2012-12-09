@@ -31,7 +31,6 @@ public class WywolanieAlarmu extends Activity {
         tel="tel:"+sharedPrefs.getString("tel_alarm","NULL");
         nie=(Button)findViewById(R.id.wywAlarmNie);
         tak=(Button)findViewById((R.id.wywAlarmTak));
-        ///telefon=(EditTextPreference) findPreference("tel_alarm");
         sp= PreferenceManager.getDefaultSharedPreferences(this);
         addListners();
 

@@ -30,7 +30,7 @@
     <string name="wod">Woda</string>
     <string name="tytRodzHarm">Wybierz jaki harmonogram chcesz ustawić</string>
     <string name="powt">Powtarzanie</string>
-    <string name="ustPoz">Ustaw żądany poziom: </string>
+    <string name="ustPoz">Stopień zamknięcia: </string>
     <string name="godzSt">Godzina start</string>
     <string name="godzStop">Godzina stop</string>
     <string name="temper">Temperatura: </string>

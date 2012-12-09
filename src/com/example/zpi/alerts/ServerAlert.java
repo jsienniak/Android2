@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import com.example.zpi.MainActivity;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,14 +24,11 @@ public class ServerAlert extends Activity {
     public AlertDialog.Builder zwrocAlert(){
     AlertDialog.Builder builder=new AlertDialog.Builder(context);
     builder.setTitle("Brak połączenia z serwerem");
-    builder.setMessage("Wynikł problem połączenia z serwerem systemu. Zrestartuj serwer poczym wciśnij OK");
+    builder.setMessage("Wynikł problem połączenia z serwerem . Sprawdz czy adres serwera jest wprowadzony poprawnie, bądź zrestartuj serwer");
     builder.setPositiveButton("OK", new Dialog.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
             dialogInterface.cancel();
-            //Intent intent = getIntent();
-            //finish();
-            // startActivity(intent);
 
         }
     });

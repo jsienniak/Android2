@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/new_game"
-          android:icon="@drawable/ic_launcher"
+    <item android:id="@+id/menu_ustawienia"
+          android:icon="@drawable/ustawienia"
           android:title="Ustawienia"
           />
+    <item android:id="@+id/menu_odswiezanie"
+          android:icon="@drawable/odswiez"
+          android:title="Odśwież"
+            />
+
 </menu>

@@ -6,19 +6,19 @@
     <ListView
         android:id="@+id/harmMenuList"
         android:layout_width="match_parent"
-        android:layout_height="312dp"
+        android:layout_height="match_parent"
         android:layout_above="@+id/harmWroc"
         android:layout_below="@+id/btnShowPopUp" >
 
     </ListView>
 
-    <Button
+    <!--<Button
         android:id="@+id/harmWroc"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:text="@string/wroc" />
+        android:text="@string/wroc" />-->
 
     <Button
         android:id="@+id/btnShowPopUp"

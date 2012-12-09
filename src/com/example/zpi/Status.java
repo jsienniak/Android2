@@ -59,7 +59,7 @@ public class Status extends Activity implements ResponseListener{
     }
 
     @Override
-    protected void onRestart() {
+    protected void onResume() {
         super.onRestart();
         odswiez(1,0);
     }
@@ -79,7 +79,9 @@ public class Status extends Activity implements ResponseListener{
                 } catch (ServerErrorException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 } catch (NoInternetException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    e.printStackTrace();
+                    InternetAlert internetAlert=new InternetAlert(getApplicationContext());
+                    internetAlert.zwrocAlert();
                 }
             }
 		});
@@ -126,7 +128,9 @@ public class Status extends Activity implements ResponseListener{
                 } catch (ServerErrorException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 } catch (NoInternetException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    e.printStackTrace();
+                    InternetAlert internetAlert=new InternetAlert(getApplicationContext());
+                    internetAlert.zwrocAlert();
                 }
             }
         });
@@ -151,7 +155,9 @@ public class Status extends Activity implements ResponseListener{
         } catch (ServerErrorException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (NoInternetException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
+            InternetAlert internetAlert=new InternetAlert(getApplicationContext());
+            internetAlert.zwrocAlert();
         }
     }
     protected void onCreateDialog() {
@@ -174,7 +180,8 @@ public class Status extends Activity implements ResponseListener{
                 } catch (ServerErrorException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 } catch (NoInternetException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    InternetAlert internetAlert=new InternetAlert(getApplicationContext());
+                    internetAlert.zwrocAlert();
                 }
             }});
 
@@ -238,7 +245,9 @@ public class Status extends Activity implements ResponseListener{
                             } catch (ServerErrorException e) {
                                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                             } catch (NoInternetException e) {
-                                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                                e.printStackTrace();
+                                InternetAlert internetAlert=new InternetAlert(getApplicationContext());
+                                internetAlert.zwrocAlert();
                             }
                         }
                         else{

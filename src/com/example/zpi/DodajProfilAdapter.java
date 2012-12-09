@@ -32,9 +32,11 @@ public class DodajProfilAdapter extends BaseAdapter {
     }
 
     private String[] adapter(String[] d,Profil profil) {
-        d[0]+=" "+profil.getRoleta()+"%";
-        d[1]+=" "+profil.getWoda()+"C";
-        d[2]+=" "+profil.getNazwa();
+        Log.d("adapterP",d[0]);
+        d[1]+=" "+profil.getRoleta()+"%";
+        d[2]+=" "+profil.getWoda()+"C";
+        d[0]+=" "+profil.getNazwa();
+        Log.d("adapterP",d[0]);
         return d;
     }
 

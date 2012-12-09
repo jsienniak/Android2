@@ -5,9 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
-import android.widget.ToggleButton;
+import android.widget.*;
 import com.example.zpi.Harmonogramy.ViewHolder;
 
 import java.util.ArrayList;
@@ -65,19 +63,20 @@ public class ProfileMenuAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, final ViewGroup parent) {
         ViewHolder holder;
-        ToggleButton btn;
+        Button btn;
         final int pos=position;
+        final ViewGroup rodzic=parent;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.harm_menu_adapter, null);
+            convertView = mInflater.inflate(R.layout.prof_menu_adapter, null);
             holder = new ViewHolder();
-            holder.text = (TextView) convertView.findViewById(R.id.harmNagl);
-            holder.text2=(TextView) convertView.findViewById(R.id.harmOpis);
-            btn=(ToggleButton) convertView.findViewById(R.id.HarmMenuWl);
+            holder.text = (TextView) convertView.findViewById(R.id.ProfNagl);
+            holder.text2=(TextView) convertView.findViewById(R.id.ProfOpis);
+            btn=(Button) convertView.findViewById(R.id.ProfMenuWl);
             btn.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    System.out.println(pos);
+                    Toast.makeText(rodzic.getContext(), "Uruchomiono profil "+profile.get(pos).getNazwa(), Toast.LENGTH_SHORT).show();
                 }
             });
             btn.setFocusable(false);
@@ -89,8 +88,14 @@ public class ProfileMenuAdapter extends BaseAdapter {
         holder.text.setText(naglowek[position]);
         holder.text2.setText(opis[position]);
         try{
-            btn=(ToggleButton) convertView.findViewById(R.id.HarmMenuWl);
-            btn.setChecked(profile.get(position).isWl());
+            btn=(Button) convertView.findViewById(R.id.ProfMenuWl);
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(rodzic.getContext(), "Uruchomiono profil "+profile.get(pos).getNazwa(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            //btn.setChecked(profile.get(position).isWl());
         }
         catch (Exception e){}
         convertView.setBackgroundColor(0xFFFFFFF);

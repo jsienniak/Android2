@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import com.example.zpi.alerts.InternetAlert;
+import com.example.zpi.alerts.ServerAlert;
 import com.example.zpi.communication.*;
 
 import java.util.ArrayList;
@@ -25,9 +27,6 @@ public class Profile extends Activity implements ResponseListener{
     ProfileMenuAdapter adapter;
     private Button dodaj;
     private Button wroc;
-    Profil p1=new Profil(1,"Nazwa1","Włączone","80%","50st",true);
-    Profil p2=new Profil(2,"Nazwa2","Włączone","80%","50st",false);
-    Profil p3=new Profil(3,"Nazwa3","Włączone","80%","50st",false);
     ArrayList<Profil> profile=new ArrayList<Profil>();
     Connect c;
 
@@ -42,18 +41,24 @@ public class Profile extends Activity implements ResponseListener{
         } catch (ServerErrorException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (NoInternetException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
+            InternetAlert internetAlert=new InternetAlert(this);
+            internetAlert.zwrocAlert();
         }
-        // profile.add(p1);
-      //  profile.add(p2);
-       //profile.add(p3);
+    }
 
-      /*  lista=(ListView)findViewById(R.id.profMenuList);
-        adapter=new ProfileMenuAdapter(this,profile);
-        Log.d("adapter",adapter.pobierzProfil(0).getNazwa());
-        lista.setAdapter(adapter);                           */
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
+        try {
+            c.requestGetProfile();
+        } catch (ServerErrorException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (NoInternetException e) {
+            e.printStackTrace();
+            InternetAlert internetAlert=new InternetAlert(this);
+            internetAlert.zwrocAlert();
+        }
     }
 
     private void addListeners() {
@@ -87,8 +92,11 @@ public class Profile extends Activity implements ResponseListener{
     @Override
     public void processResponse(Response res) {
         if(res.isERROR()){
+            ServerAlert servA=new ServerAlert(this);
+            servA.zwrocAlert();
 
         }
+        else{
         if(res.getType()==Response.GETPROFILE){
             lista=(ListView)findViewById(R.id.profMenuList);
             profile=(ArrayList<Profil>)res.getExtras();
@@ -109,6 +117,7 @@ public class Profile extends Activity implements ResponseListener{
 
             lista.setAdapter(adapter);
             addListeners();
+        }
         }
     }
 }

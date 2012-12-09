@@ -61,7 +61,7 @@ public class Connect {
     }
 
     public void requestSetProfile(Profil p)throws ServerErrorException, NoInternetException {
-        request(p.getNazwa(),p.getWoda(),p.getSwiatlo(),p.getRoleta());
+        request(p.getNazwa(),p.getWoda(),p.getRoleta(),p.getSwiatlo());
     }
 
     public void requestUseProfile(int id) throws ServerErrorException, NoInternetException {
@@ -169,7 +169,6 @@ public class Connect {
 			}
 		};
         at.execute(action);
-
 	}
 
     private void raiseEvent(Response res) {

@@ -9,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+import com.example.zpi.alerts.InternetAlert;
 import com.example.zpi.alerts.ServerAlert;
 import com.example.zpi.communication.*;
 
@@ -32,25 +33,26 @@ public class Ogrod extends Activity implements ResponseListener {
         } catch (ServerErrorException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (NoInternetException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
+            InternetAlert internetAlert=new InternetAlert(this);
+            internetAlert.zwrocAlert();
         }
         addListenerOnButton();
     }
 	public void addListenerOnButton(){
 
-		//txt=(TextView) findViewById(R.id.ogrHarm);
 		wl=(ToggleButton) findViewById(R.id.ogrOswWl);
         ustaw=(Button) findViewById(R.id.ogrUst);
 		wl.setOnClickListener(new OnClickListener() {			
 			public void onClick(View arg0) {
                 try {
                     c.requestSet(4,0,""+wl.isChecked());
-                    //c.requestGet(4,0);
-                   // c.requestGet(4,1);
                 } catch (ServerErrorException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 } catch (NoInternetException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    e.printStackTrace();
+                    InternetAlert internetAlert=new InternetAlert(getApplicationContext());
+                    internetAlert.zwrocAlert();
                 }
             }
 		});
@@ -63,12 +65,12 @@ public class Ogrod extends Activity implements ResponseListener {
                     try {
                         Log.d("fotokomora2",""+auto.isChecked());
                         c.requestSet(4,1,""+auto.isChecked());
-                        //c.requestGet(4,0);
-                        //c.requestGet(4,1);
                     } catch (ServerErrorException e) {
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     } catch (NoInternetException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        e.printStackTrace();
+                        InternetAlert internetAlert=new InternetAlert(getApplicationContext());
+                        internetAlert.zwrocAlert();
                     }
                 if(auto.isChecked()){
                     ustaw.setEnabled(false);
@@ -98,8 +100,6 @@ public class Ogrod extends Activity implements ResponseListener {
             }
         });
 
-
-        //wyczysc=(Button) findViewById(R.id.ogrWyczysc);
 	}
 
     @Override
@@ -111,19 +111,21 @@ public class Ogrod extends Activity implements ResponseListener {
             ServerAlert serverAlert=new ServerAlert(this);
             serverAlert.zwrocAlert();
         }
-        if(res.getType()==Response.GET){
-            switch (res.getPort()){
-                case 0:
-                    wl.setChecked(Boolean.valueOf(res.getValue()));
-                    ustaw.setEnabled(true);
-                    break;
-                case 1:
-                    auto.setChecked(Boolean.valueOf(res.getValue()));
-                    if(Boolean.valueOf(res.getValue())){
-                        wl.setEnabled(false);
-                        ustaw.setEnabled(false);
-                    }
-                    break;
+        else{
+            if(res.getType()==Response.GET){
+                switch (res.getPort()){
+                    case 0:
+                        wl.setChecked(Boolean.valueOf(res.getValue()));
+                        ustaw.setEnabled(true);
+                        break;
+                    case 1:
+                        auto.setChecked(Boolean.valueOf(res.getValue()));
+                        if(Boolean.valueOf(res.getValue())){
+                            wl.setEnabled(false);
+                            ustaw.setEnabled(false);
+                        }
+                        break;
+                }
             }
         }
     }

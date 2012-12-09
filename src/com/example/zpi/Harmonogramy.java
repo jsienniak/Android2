@@ -2,6 +2,8 @@ package com.example.zpi;
 
 import android.util.Log;
 import android.widget.TextView;
+import com.example.zpi.alerts.InternetAlert;
+import com.example.zpi.alerts.ServerAlert;
 import com.example.zpi.communication.*;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -28,8 +30,6 @@ public class Harmonogramy extends Activity implements ResponseListener
 
 	private Button dodaj;
 	private Button wroc;
-    private String[] items={"Pierwsze","Drugie","Trzecie"};
-    private String[] opisy={"15:00-19:00 100%","15:00-9:00","14:00-20:00 85st" };
     ArrayList<Harmonogram> harm=new ArrayList<Harmonogram>();
     ArrayList<Harmonogram> harmPom=new ArrayList<Harmonogram>();
     Context ctx;
@@ -47,8 +47,9 @@ public class Harmonogramy extends Activity implements ResponseListener
         } catch (ServerErrorException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (NoInternetException e) {
-
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
+            InternetAlert internetAlert=new InternetAlert(this);
+            internetAlert.zwrocAlert();
         }
         super.onCreate(savedInstanceState);        
         setContentView(R.layout.harmonogram);
@@ -60,14 +61,15 @@ public class Harmonogramy extends Activity implements ResponseListener
 
     @Override
     protected void onResume() {
-        super.onResume();    //To change body of overridden methods use File | Settings | File Templates.
+        super.onResume();
         try {
             c.requestGetHarm();
         } catch (ServerErrorException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (NoInternetException e) {
-            //Log.d("klej2","ServErr");
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
+            InternetAlert internetAlert=new InternetAlert(this);
+            internetAlert.zwrocAlert();
         }
     }
 
@@ -81,13 +83,13 @@ public class Harmonogramy extends Activity implements ResponseListener
     			startActivity(i);
             }
         });
-        wroc=(Button) findViewById(R.id.harmWroc);
-        wroc.setOnClickListener(new OnClickListener() {
+       // wroc=(Button) findViewById(R.id.harmWroc);
+       /* wroc.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
 				finish();	
 			}
-		});
+		});*/
         list.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i=new Intent(getApplicationContext(),Dodaj.class);
@@ -95,37 +97,20 @@ public class Harmonogramy extends Activity implements ResponseListener
                 startActivity(i);
             }
         } );
-    }
 
-   /* public String getValue(Element item, String str) {
-        NodeList n = item.getElementsByTagName(str);
-        return this.getElementValue(n.item(0));
     }
-     
-    public final String getElementValue( Node elem ) {
-             Node child;
-             if( elem != null){
-                 if (elem.hasChildNodes()){
-                     for( child = elem.getFirstChild(); child != null; child = child.getNextSibling() ){
-                         if( child.getNodeType() == Node.TEXT_NODE  ){
-                             return child.getNodeValue();
-                         }
-                     }
-                 }
-             }
-             return "";
-      }   */
 
     @Override
     public void processResponse(Response res) {
         if(res.isERROR()){
+            ServerAlert servA=new ServerAlert(this);
+            servA.zwrocAlert();
 
         }
+        else{
         if(res.getType()==Response.GETHARM){
             harmPom= (ArrayList<Harmonogram>) res.getExtras();
 
-
-///            Log.d("costam3",""+harmPom.size());
             int opcja;
             try{
 
@@ -141,21 +126,18 @@ public class Harmonogramy extends Activity implements ResponseListener
                 opcja=-1;
             }
             Harmonogram h=new Harmonogram(1,"","","","",-1,-1,"",false);
-//            Log.d("costam2",""+harm.get(0).toString());
             list = (ListView) findViewById(R.id.harmMenuList);
             if(harm.isEmpty()){
                 harm.add(h);
                 list.setEnabled(false);
             }
-
-            // adapter = new HarmMenuAdapter(this, items,opisy);
             adapter=new HarmMenuAdapter(this,harm);
             list.setAdapter(adapter);
             addListener();
         }
 
+        }
     }
-
     static class ViewHolder{
         TextView text;
         TextView text2;

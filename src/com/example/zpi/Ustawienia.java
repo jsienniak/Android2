@@ -27,24 +27,11 @@ public class Ustawienia extends PreferenceActivity{
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.opcje);
-  //      Connect.url="sds";
-//        al.tel="tel:";
 
-       // SharedPreferences sp= PreferenceManager.getDefaultSharedPreferences(this);
         adres=(EditTextPreference) findPreference("adres_ip");
         telefon=(EditTextPreference)findPreference("tel_alarm");
         setDefaults("adres_ip",adres.getText().toString(),this);
         setDefaults("tel_alarm",telefon.getText().toString(),this);
-        //sp.edit().putString("adres_ip",adres.getText().toString());
-        //Log.d("uberKlej",adres.getText());
-        //sp.edit().commit();
-        //telefon=(EditTextPreference) findPreference("tel_alarm");
-       // Connect.url=sp.getString("adres_ip",adres.getText());
-        //Intent i=new Intent(getApplicationContext(),WywolanieAlarmu.class);
-        //getResources().setString(R.string.nr_telefonu)="dds";
-        //sp.getString("tel_alarm","tel:"+telefon.getText());
-//        Log.d("telefon",sp.getString("tel_alarm",telefon.getText()));
-      //  Log.d("ustawienieIP",sp.getString("adres_ip",adres.getText()));
 
     }
     public static void setDefaults(String key, String value, Context context) {

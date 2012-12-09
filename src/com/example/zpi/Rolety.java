@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import com.example.zpi.alerts.InternetAlert;
+import com.example.zpi.alerts.ServerAlert;
 import com.example.zpi.communication.*;
 import com.example.zpi.communication.NoInternetException;
 import com.example.zpi.communication.ServerErrorException;
@@ -60,9 +62,11 @@ public class Rolety extends Activity implements ResponseListener{
         try {
             c.requestGet(1, 0);
         } catch (NoInternetException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
+            InternetAlert internetAlert=new InternetAlert(getApplicationContext());
+            internetAlert.zwrocAlert();
         } catch (ServerErrorException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
         addListenerOnButton();
     }
@@ -76,14 +80,6 @@ public class Rolety extends Activity implements ResponseListener{
 		otw =(Button)findViewById(R.id.otwR);
 		zamk =(Button)findViewById(R.id.zamR);
 		wroc =(Button)findViewById(R.id.wrR);
-       /* switch (prog){
-            case 0:
-                otw.setEnabled(false);
-                break;
-            case 100:
-                zamk.setEnabled(false);
-                break;
-        }*/
 		otw.setOnClickListener(new OnClickListener() {
 
             public void onClick(View arg0) {
@@ -92,10 +88,10 @@ public class Rolety extends Activity implements ResponseListener{
                 } catch (NoInternetException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 } catch (ServerErrorException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    e.printStackTrace();
+                    InternetAlert internetAlert=new InternetAlert(getApplicationContext());
+                    internetAlert.zwrocAlert();
                 }
-               // zamk.setEnabled(true);
-               // otw.setEnabled(false);
                 sb.setProgress(0);
                 imv.setImageResource(roletaImg[0]);
             }
@@ -106,18 +102,18 @@ public class Rolety extends Activity implements ResponseListener{
                 try {
                     c.requestSet(1, 0, "" + 100);
                 } catch (NoInternetException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    e.printStackTrace();
+                    InternetAlert internetAlert=new InternetAlert(getApplicationContext());
+                    internetAlert.zwrocAlert();
                 } catch (ServerErrorException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    e.printStackTrace();
+
                 }
                 sb.setProgress(100);
                 imv.setImageResource(roletaImg[100]);
-                //zamk.setEnabled(false);
-               // otw.setEnabled(true);
                 sb.klik();
             }
         });
-		
 		wroc.setOnClickListener(new OnClickListener() {
 
             public void onClick(View arg0) {
@@ -125,7 +121,6 @@ public class Rolety extends Activity implements ResponseListener{
 
             }
         });
-
 		sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 			   public void onProgressChanged(SeekBar seekBar, int progress,
 			     boolean fromUser) {
@@ -149,9 +144,12 @@ public class Rolety extends Activity implements ResponseListener{
                        if(seekBar.getProgress()==99)
                            zamk.setEnabled(false);
                    } catch (NoInternetException e) {
-                       e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                       e.printStackTrace();
+                       InternetAlert internetAlert=new InternetAlert(getApplicationContext());
+                       internetAlert.zwrocAlert();
                    } catch (ServerErrorException e) {
-                       e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                       e.printStackTrace();
+
                    }
                } });
         ustaw=(Button) findViewById(R.id.rolUstaw);
@@ -163,26 +161,24 @@ public class Rolety extends Activity implements ResponseListener{
                 startActivity(i);
             }
         });
-
-        //wyczysc=(Button) findViewById(R.id.rolWyczysc);
 	}
-
     @Override
     public void processResponse(Response res) {
         if(res.isERROR()){
-
+            ServerAlert serverAlert=new ServerAlert(this);
+            serverAlert.zwrocAlert();
         }
-        if(res.getType()==Response.GET){
-            prog=0;
-            try{
-                prog = Integer.parseInt(res.getValue().equals(null)?"0":res.getValue());
-            }
-            catch (NullPointerException e){
-
-            }
+        else{
+            if(res.getType()==Response.GET){
+                prog=0;
+                try{
+                    prog = Integer.parseInt(res.getValue().equals(null)?"0":res.getValue());
+                }
+                catch (NullPointerException e){}
             sb.setProgress(prog);
             imv.setImageResource(roletaImg[prog]);
             sb.klik();
+            }
         }
     }
 }

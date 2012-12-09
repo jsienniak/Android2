@@ -16,7 +16,6 @@ public class Brama extends Activity implements ResponseListener {
 	Button wroc;
 	TextView txt;
     Connect c;
-    //Boolean status=false;
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.brama);

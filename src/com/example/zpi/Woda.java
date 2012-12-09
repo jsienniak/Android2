@@ -2,6 +2,9 @@ package com.example.zpi;
 
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
+import com.example.zpi.alerts.InternetAlert;
+import com.example.zpi.alerts.ServerAlert;
 import com.example.zpi.communication.*;
 
 import android.app.Activity;
@@ -34,7 +37,8 @@ public class Woda extends Activity implements ResponseListener{
             c.requestGet(0,0);
 		} 
         catch (NoInternetException e) {
-			// TODO: handle exception
+            InternetAlert internetAlert=new InternetAlert(this);
+            internetAlert.zwrocAlert();
         }
         catch (ServerErrorException e) {
 			// TODO: handle exception
@@ -77,36 +81,26 @@ public class Woda extends Activity implements ResponseListener{
 		
 		sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
-			   public void onProgressChanged(SeekBar seekBar, int progress,
-			     boolean fromUser) {
-			    // TODO Auto-generated method stub
+			   public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
 				   progress+=40;
                    prog=progress;
-			    //status.setText("" + progress);
+
                    zadana.setText("" + progress);
-                  /* try {
-                       c.requestGet(5,0);
-                   } catch (ServerErrorException e) {
-                       e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                   } catch (NoInternetException e) {
-                       e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                   }    */
                }
 
-			    public void onStartTrackingTouch(SeekBar seekBar) {
-			    // TODO Auto-generated method stub
-			   }
+			    public void onStartTrackingTouch(SeekBar seekBar) {}
 
 			   public void onStopTrackingTouch(SeekBar seekBar) {
                   try {
                        c.requestSet(0,0,""+prog*10);
-                       //c.requestGet(5,0);
+                      Toast.makeText(getApplicationContext(), "Ustawiono zadana temperature na "+prog+"C", Toast.LENGTH_SHORT).show();
                    }
                    catch (NoInternetException e) {
-                       // TODO: handle exception
+                       InternetAlert internetAlert=new InternetAlert(getApplicationContext());
+                       internetAlert.zwrocAlert();
                    }
                    catch (ServerErrorException e) {
-                       // TODO: handle exception
                    }
 			   }
 			       });
@@ -120,36 +114,36 @@ public class Woda extends Activity implements ResponseListener{
             }
         });
 
-//        wyczysc=(Button) findViewById(R.id.wodWyczysc);
 	}
 
     @Override
     public void processResponse(Response res) {
         if(res.isERROR()){
-
+            ServerAlert serverAlert=new ServerAlert(this);
+            serverAlert.zwrocAlert();
         }
-        if(res.getType()==Response.GET){
-            if(res.getPort()==1){
-                try{
-                prog = Integer.parseInt(res.getValue().equals(null)?"0":res.getValue());
+        else{
+            if(res.getType()==Response.GET){
+                if(res.getPort()==1){
+                    try{
+                    prog = Integer.parseInt(res.getValue().equals(null)?"0":res.getValue());
+                    }
+                    catch (NullPointerException e){
+                        prog=0;
+                        status.setText("Brak polaczenia");
+                    }
+                    status.setText(""+prog/10);
                 }
-                catch (NullPointerException e){
-                    prog=0;
-                    status.setText("Brak polaczenia");
-                }
-                Log.d("aktualna",""+prog);
-                status.setText(""+prog/10);
-            }
-            if (res.getPort()==0){
-                int pom=0;
-                try{
-                    pom=Integer.parseInt((res.getValue().equals(null)?"0":res.getValue()));
-                }
-                catch (NullPointerException e){
+                if (res.getPort()==0){
+                    int pom=0;
+                    try{
+                        pom=Integer.parseInt((res.getValue().equals(null)?"0":res.getValue()));
+                    }
+                    catch (NullPointerException e){}
 
+                    sb.setProgress(pom/10-40);
+                    zadana.setText(""+pom/10);
                 }
-                sb.setProgress(pom/10-40);
-                zadana.setText(""+pom/10);
             }
         }
     }

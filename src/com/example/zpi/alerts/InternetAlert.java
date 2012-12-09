@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import com.example.zpi.MainActivity;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,22 +26,37 @@ public class InternetAlert extends Activity{
         builder.setTitle("Brak połączenia z internetem");
         builder.setMessage("Aby korzystać z aplikacji wymagane jest połączenie z internetem. " +
             "Uruchom aplikacje gdy nawiązane zostanie połączenie internetowe");
+        final Intent intent = new Intent(context,MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("zakoncz", true);
+        //intent.putExtra("zakoncz", true);
         builder.setPositiveButton("OK", new Dialog.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.cancel();
+                Intent intent = new Intent(context,MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("zakoncz", true);
+                startActivity(intent);
                 ((Activity) context).finish();
+
             }
         });
         builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialogInterface) {
                 dialogInterface.cancel();
+
+                Intent intent = new Intent(context,MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("zakoncz", true);
+                startActivity(intent);
                 ((Activity) context).finish();
+
             }
         });
         builder.create().show();
-        builder.setCancelable(true);
+        //builder.setCancelable(true);
 
         return builder;
     }

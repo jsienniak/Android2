@@ -14,8 +14,8 @@ public class SpecialAdapter extends BaseAdapter {
 	 private LayoutInflater mInflater;
      private String[] data;
      private Harmonogram harm;
-    private Profil profil;
-    private String[] pom={"Roleta","Woda"};
+     private String[] pom={"Roleta","Woda"};
+
      public SpecialAdapter(Context context, String[] results) {
          mInflater = LayoutInflater.from(context);
          this.data = results;
@@ -42,7 +42,7 @@ public class SpecialAdapter extends BaseAdapter {
         String[] dniPelne={"Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota","Niedziela","Codziennie"};
         Log.d("pom23",""+d);
 
-        if(!d.equals("null")){
+        if(!d.equals(null)){
             char[] pom=d.toCharArray();
             Log.d("dniKlej",""+pom.length);
             if(pom.length==1)
@@ -56,26 +56,6 @@ public class SpecialAdapter extends BaseAdapter {
             }
         }
         return dni;
-    }
-    public String czas(int cz){
-        String czas="";
-        /*if(cz/1000!=0){
-            czas+=cz/1000;
-            cz-=(cz/1000)*1000;
-        } */
-        czas+=cz/100+":";
-        cz-=(cz/100)*100;
-        if(cz/10!=0){
-            czas+=cz;
-        }
-        else{
-            if(cz/1!=0)
-                czas+="0"+cz;
-            else
-                czas+="00";
-        }
-
-        return czas;
     }
      public int getCount() {
          return data.length;

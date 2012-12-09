@@ -9,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import android.widget.Toast;
 import android.widget.ToggleButton;
 import com.example.zpi.Harmonogramy.ViewHolder;
+import com.example.zpi.alerts.InternetAlert;
 import com.example.zpi.communication.Connect;
 import com.example.zpi.communication.NoInternetException;
 import com.example.zpi.communication.ServerErrorException;
@@ -24,13 +26,7 @@ public class HarmMenuAdapter extends BaseAdapter {
     private ArrayList<Harmonogram> harm;
     private boolean brakHarm=false;
     Connect c;
-    
-    public HarmMenuAdapter(Context context, String[] results, String[] op) {
-        mInflater = LayoutInflater.from(context);
-        c=new Connect(context);
-        this.naglowek = results;
-        this.opis=op;
-    }
+
     public HarmMenuAdapter(Context context, ArrayList<Harmonogram> h){
         mInflater=LayoutInflater.from(context);
         naglowek=naglowki(h);
@@ -38,14 +34,11 @@ public class HarmMenuAdapter extends BaseAdapter {
         opis=opisy(h);
         harm=h;
     }
-
-
     public String[] naglowki(ArrayList<Harmonogram> h){
         String[] naglowki=null;
         String pom = "";
         if(!h.isEmpty()){
             for(int i=0;i<h.size();i++){
-                Log.d("kleje1234",""+h.get(i).getModul());
                 switch(h.get(i).getModul()){
                     case 0:
                         pom+="Woda/";
@@ -62,10 +55,8 @@ public class HarmMenuAdapter extends BaseAdapter {
                         break;
                 }
             }
-            Log.d("naglowki",pom);
             naglowki=pom.split("/");
         }
-        Log.d("kleje123",""+naglowki.length);
         return naglowki;
     }
     public String[] opisy(ArrayList<Harmonogram> h){
@@ -90,43 +81,18 @@ public class HarmMenuAdapter extends BaseAdapter {
                 pom+=dni(h.get(i).getDni());
                 pom+="/";
             }
-            Log.d("naglowki2",pom);
             opisy=pom.split("/");
-            Log.d("naglowki2",""+opisy.length);
         }
         return opisy;
     }
-   /* public String czas(int cz){
-        String czas="";
-
-        if(cz/1000!=0){
-            czas+=cz/1000;
-            cz-=(cz/1000)*1000;
-        }
-        czas+=cz/100+":";
-        cz-=(cz/100)*100;
-        if(cz/10!=0){
-            czas+=cz;
-        }
-        else{
-            if(cz/1!=0)
-               czas+="0"+cz;
-            else
-               czas+="00";
-            }
-
-        return czas;
-    } */
     public String dni(String d){
         String dni="";
 
         String[] dniSkrot={"Pon.,","Wt.,","Sr.,","Cz.,","Pt.,","Sob.,","Nd.,"};
         String[] dniPelne={"Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota","Niedziela","Codziennie"};
-        Log.d("pom23",""+d);
 
         if(!d.equals("null")){
             char[] pom=d.toCharArray();
-            Log.d("dniKlej",""+pom.length);
         if(pom.length==1)
             dni=dniPelne[Integer.valueOf(String.valueOf(pom[0]))];
         else if(pom.length==7)
@@ -153,7 +119,9 @@ public class HarmMenuAdapter extends BaseAdapter {
         } catch (ServerErrorException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (NoInternetException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
+            //InternetAlert internetAlert=new InternetAlert();
+            //internetAlert.zwrocAlert();
         }
     }
 
@@ -173,16 +141,27 @@ public class HarmMenuAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
     ViewHolder holder;
-
+    final ViewGroup rodzic=parent;
     final ToggleButton btn;
     final int pos=position;
     if (convertView == null) {
         convertView = mInflater.inflate(R.layout.harm_menu_adapter, null);
         holder = new ViewHolder();
-
         holder.text = (TextView) convertView.findViewById(R.id.harmNagl);
         holder.text2=(TextView) convertView.findViewById(R.id.harmOpis);
         btn=(ToggleButton) convertView.findViewById(R.id.HarmMenuWl);
+        btn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Harmonogram pom=getHarmonogram(pos);
+                pom.setWl(btn.isChecked());
+                setHarmonogram(pom, pos);
+                if(btn.isChecked())
+                    Toast.makeText(rodzic.getContext(), "Uruchomiono harmonogram", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(rodzic.getContext(), "Wyłączono harmonogram", Toast.LENGTH_SHORT).show();
+            }
+        });
         if(brakHarm)
             btn.setEnabled(false);
 
@@ -197,6 +176,10 @@ public class HarmMenuAdapter extends BaseAdapter {
                 Harmonogram pom=getHarmonogram(pos);
                 pom.setWl(btn.isChecked());
                 setHarmonogram(pom, pos);
+                if(btn.isChecked())
+                    Toast.makeText(rodzic.getContext(), "Uruchomiono harmonogram", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(rodzic.getContext(), "Wyłączono harmonogram", Toast.LENGTH_SHORT).show();
             }
         });
         holder = (ViewHolder) convertView.getTag();
@@ -204,9 +187,7 @@ public class HarmMenuAdapter extends BaseAdapter {
     	}
         holder.text.setText(naglowek[position]);
         holder.text2.setText(opis[position]);
-//
         btn.setChecked(harm.get(position).isWl());
-        Log.d("ehhh",""+position);
 
 
         convertView.setBackgroundColor(0xFFFFFFF);

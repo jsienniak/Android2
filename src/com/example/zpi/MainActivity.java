@@ -44,21 +44,18 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        Log.d("Adres_ip",sharedPrefs.getString("adres_ip","NULL"));
         Connect.url=sharedPrefs.getString("adres_ip","NULL");
         Token t = new Token();
         t.addTokenListener(this);
         t.getToken(this);
-        Log.d("serweru",Connect.url);
         try{
             if(getIntent().getExtras().containsKey("notification")){
-                //((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE)).cancel(1);
+
             }
         }
         catch (Exception e){
             testuNotyfikacje();
         }
-       // testuNotyfikacje();
         setContentView(R.layout.activity_main);
         c=new Connect(this);
         c.addResponseListener(this);
@@ -67,16 +64,10 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
             c.requestGet(3,0);
         } catch (ServerErrorException e) {
             e.printStackTrace();
-//            problemSerwer();
-            ServerAlert servP=new ServerAlert(this);
-            Log.d("serwer","brak");
         } catch (NoInternetException e) {
             e.printStackTrace();
             InternetAlert ia=new InternetAlert(this);
             ia.zwrocAlert();
-            //finish();
-           // brakInternetu();
-            //To change body of catch statement use File | Settings | File Templates.
         }
 
         //Log.d("cos",""+accounts[0]);
@@ -88,6 +79,21 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
         }
 
         addListenerOnButton();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Connect.url=sharedPrefs.getString("adres_ip","NULL");
+        try{
+        if(getIntent().getExtras().getBoolean("zakoncz")==true)
+            Log.d("sklejone","mega");
+            finish();
+        }
+        catch (Exception e){
+
+        }
     }
 
     private void testuNotyfikacje() {
@@ -116,21 +122,31 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
+        switch (item.getItemId()){
+            case R.id.menu_ustawienia:
+                Intent i =new Intent(getApplicationContext(),Ustawienia.class);
+                startActivity(i);
+                break;
+            case R.id.menu_odswiezanie:
+                odswiez();
+                break;
 
-        /*switch (item.getItemId()) {
-            case R.id.new_game:
-                newGame();
-                return true;
-            case R.id.help:
-                showHelp();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);*/
-        //}
-        Intent i =new Intent(getApplicationContext(),Ustawienia.class);
-        startActivity(i);
+        }
         return true;
+
+    }
+    public void odswiez(){
+        try {
+            c.requestGet(2,0);
+            c.requestGet(3,0);
+        } catch (ServerErrorException e) {
+            e.printStackTrace();
+        } catch (NoInternetException e) {
+            e.printStackTrace();
+            InternetAlert ia=new InternetAlert(this);
+            ia.zwrocAlert();
+        }
+
     }
 
     public void addListenerOnButton(){
@@ -147,6 +163,7 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
 			
 			public void onClick(View arg0) {
 			if(brama.isChecked()){
+                Toast.makeText(getApplicationContext(), "Brama otwarta", Toast.LENGTH_SHORT).show();
                 try {
                     c.requestSet(2,0,"true");
                     Log.d("alarm",""+alarm.isChecked());
@@ -154,9 +171,12 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 } catch (NoInternetException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    InternetAlert internetAlert=new InternetAlert(getApplicationContext());
+                    internetAlert.zwrocAlert();
                 }
             }
-                else{
+            else{
+                Toast.makeText(getApplicationContext(), "Brama zamknięta", Toast.LENGTH_SHORT).show();
                 try {
                     c.requestSet(2,0,"false");
                 } catch (ServerErrorException e) {
@@ -182,8 +202,6 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
 			public void onClick(View arg0) {
                 alarm.toggle();
                 onCreateDialog();
-			//Intent i=new Intent(getApplicationContext(),Alarm.class);
-			//startActivity(i);
 			}
 		});
     	rolety.setOnClickListener(new OnClickListener() {
@@ -245,7 +263,9 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
                     } catch (ServerErrorException e) {
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     } catch (NoInternetException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        e.printStackTrace();
+                        InternetAlert internetAlert=new InternetAlert(getApplicationContext());
+                        internetAlert.zwrocAlert();
                     }
                 }});
 
@@ -256,7 +276,7 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
                 }});
             sk.show();
     }
-    protected void brakInternetu(){
+   /* protected void brakInternetu(){
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setTitle("Brak połączenia z internetem");
         builder.setMessage("Aby korzystać z aplikacji wymagane jest połączenie z internetem. " +
@@ -287,7 +307,7 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
             }
         });
         builder.create().show();
-    }
+    }*/
 
     @Override
     public void processResponse(Response res) {
@@ -297,8 +317,8 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
                 servP.zwrocAlert();
                 i++;
             }
-            return;
         }
+        else{
         if(res.getType()==Response.GET){
             if(res.getModule()==2){
                 Boolean statusBramy = Boolean.valueOf(res.getValue());
@@ -307,7 +327,6 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
             else
             if(res.getModule()==3){
                 if(res.getPort()==0){
-                    Log.d("cokolwiek","dsodsds");
                     statusAlarm = Integer.parseInt(res.getValue())>0;
                     alarm.setChecked(statusAlarm);
                 }
@@ -316,12 +335,22 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
                             try {
                                 Log.d("statusAlr",""+statusAlarm);
                                 c.requestSet(3,0,""+(statusAlarm?0:1));
+                                if(alarm.isChecked())
+                                    Toast.makeText(getApplicationContext(), "Alarm uzbrojony", Toast.LENGTH_SHORT).show();
+                                else
+                                    Toast.makeText(getApplicationContext(), "Alarm rozbrojony", Toast.LENGTH_SHORT).show();
                                 sk.cancel();
                             } catch (ServerErrorException e) {
                                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                             } catch (NoInternetException e) {
-                                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                                e.printStackTrace();
+                                InternetAlert internetAlert=new InternetAlert(getApplicationContext());
+                                internetAlert.zwrocAlert();
                             }
+                             catch (NullPointerException e){
+                                ServerAlert servP=new ServerAlert(this);
+                                servP.zwrocAlert();
+                             }
                     }
                     else{
                         Toast.makeText(getApplicationContext(), "Hasło nieprawidłowe, spróbuj ponownie", Toast.LENGTH_LONG).show();
@@ -335,6 +364,7 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
             if(res.getModule()==3)
                 alarm.setChecked(statusAlarm = !statusAlarm);
         }
+    }
     }
 
     @Override

@@ -15,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
+import com.example.zpi.alerts.InternetAlert;
 import com.example.zpi.communication.Connect;
 import com.example.zpi.communication.NoInternetException;
 import com.example.zpi.communication.ServerErrorException;
@@ -61,6 +62,7 @@ public class Dodaj extends Activity{
             wlacz.setChecked(h.isWl());
             zmien.setEnabled(false);
             usun.setEnabled(true);
+            wybor=h.getModul()==0?true:false;
             edycja=true;
         }
         catch (Exception e){
@@ -101,6 +103,7 @@ public class Dodaj extends Activity{
                 try {
                     if(czyPoprawnieWypelniony()){
                         c.requestSetHarm(h);
+                        Toast.makeText(getApplicationContext(), "Zapisano harmonogram", Toast.LENGTH_LONG).show();
                         finish();
                     }
                     else{
@@ -109,7 +112,9 @@ public class Dodaj extends Activity{
                 } catch (ServerErrorException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 } catch (NoInternetException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    e.printStackTrace();
+                    InternetAlert internetAlert=new InternetAlert(getApplicationContext());
+                    internetAlert.zwrocAlert();
                 }
             }
         });
@@ -205,9 +210,9 @@ public class Dodaj extends Activity{
 			break;
 		case 3:
 			if(wybor)
-			temp[i]+=" "+progres+" st. C";
+			temp[i]="Temperatura: "+progres+" st. C";
 			else
-				temp[i]+=" "+progres+"%";
+				temp[i]="Stopien zamknięcia: "+progres+"%";
 		}
 		SpecialAdapter adapter2 = new SpecialAdapter(getApplicationContext(), temp);
 		list.setAdapter(adapter2);
@@ -367,12 +372,16 @@ public class Dodaj extends Activity{
             	
             	txt=(TextView)layout.findViewById(R.id.dialog_status);
             	SeekBar seek=(SeekBar)layout.findViewById(R.id.dialog_seek_bar);
-            	if(wybor)
+            	if(wybor){
             		seek.setMax(40);
-            	else
+                    txt.setText(""+suwakProgres(h));
+                    seek.setProgress(suwakProgres(h)-40);
+                }
+            	else{
             		seek.setMax(100);
-                seek.setProgress(suwakProgres(h));
-                txt.setText(""+suwakProgres(h));
+                    txt.setText(""+suwakProgres(h));
+                    seek.setProgress(suwakProgres(h));
+                }
             	seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 					
 					public void onStopTrackingTouch(SeekBar seekBar) {}
@@ -469,6 +478,7 @@ public class Dodaj extends Activity{
     public int suwakProgres(Harmonogram h){
         try{
             String[] pom=h.getValStart().split("[st,% ]+");
+            Log.d("progresSuwak",pom[0]);
             return Integer.parseInt(pom[0]);
         }
         catch (Exception e){
