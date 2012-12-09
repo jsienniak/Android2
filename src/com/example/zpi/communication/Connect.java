@@ -81,7 +81,7 @@ public class Connect {
         request(h.getDni(),h.getCzasStart(),h.getCzasStop(),""+h.getModul(),""+h.getPort(),h.getValStart(),h.getValStop(),""+(h.isWl()?1:0));
     }
 
-    private void login(int id) throws ServerErrorException, NoInternetException {
+    public void login(int id) throws ServerErrorException, NoInternetException {
         request("user.login&id="+id);
         try {
             Thread.sleep(1000);
@@ -113,7 +113,7 @@ public class Connect {
 		if (!isInternet()) {
 			throw new NoInternetException();
 		}
-        CookieManager cookieManager = new CookieManager();
+        final CookieManager cookieManager = new CookieManager();
         CookieHandler.setDefault(cookieManager);
 		AsyncTask<String, Void, Response> at = new AsyncTask<String, Void, Response>() {
 
@@ -170,6 +170,22 @@ public class Connect {
 				try {
 					urlConnection = (HttpURLConnection) link.openConnection();
                     urlConnection.setRequestProperty("TOKEN","eloprotoken");
+                    Log.d("url",""+urlConnection.getHeaderField("Set-Cookie"));
+                    String cookie=    urlConnection.getHeaderField("Set-Cookie");
+
+                    if(cookie!=null){
+                        String[] pom=cookie.split("[ =;]+");
+                        Log.d("ciacha",pom[0]+" "+pom[1]);
+                        HttpCookie cookie2 = new HttpCookie(pom[0], pom[1]);
+                         //cookie2.setDomain("");
+                         //cookie2.setPath("/");
+                         //cookie2.setVersion(0);
+                        try {
+                            cookieManager.getCookieStore().add(new URI("156.17.234.1"), cookie2);
+                        } catch (URISyntaxException e) {
+                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        }
+                    }
                     //urlConnection.setReadTimeout(1000);
 					BufferedReader in = new BufferedReader(
 							new InputStreamReader(

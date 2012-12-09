@@ -73,6 +73,7 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
         //Log.d("cos",""+accounts[0]);
         GCMRegistrar.checkDevice(this);
         GCMRegistrar.checkManifest(this);
+        GCMRegistrar.unregister(this);
         final String regId = GCMRegistrar.getRegistrationId(this);
         if (regId.equals("")) {
           GCMRegistrar.register(this, SENDER_ID);
@@ -88,7 +89,6 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
         Connect.url=sharedPrefs.getString("adres_ip","NULL");
         try{
         if(getIntent().getExtras().getBoolean("zakoncz")==true)
-            Log.d("sklejone","mega");
             finish();
         }
         catch (Exception e){

@@ -2,6 +2,7 @@ package com.example.zpi;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.zpi.communication.Connect;
@@ -28,7 +29,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@Override
 	protected void onMessage(Context arg0, Intent arg1) {
 		// TODO What's up tutaj
-		throw new UnsupportedOperationException();
+        Log.d("messageGCM",arg1.getExtras().toString());
+//		throw new UnsupportedOperationException();
 	}
 
 	@Override

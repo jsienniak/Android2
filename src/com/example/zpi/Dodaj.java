@@ -49,7 +49,6 @@ public class Dodaj extends Activity{
 		super.onCreate(savedInstanceState);
         c=new Connect(this);
 		setContentView(R.layout.dadaj_harmonogram);
-
         zmien=(Button) findViewById(R.id.zmiana);
         usun=(Button) findViewById(R.id.harmUsun);
         dodaj=(Button) findViewById(R.id.harmDod);
@@ -63,10 +62,12 @@ public class Dodaj extends Activity{
             zmien.setEnabled(false);
             usun.setEnabled(true);
             wybor=h.getModul()==0?true:false;
+            setTitle("Edycja harmonogramu");
             edycja=true;
         }
         catch (Exception e){
             wlacz.setChecked(true);
+            setTitle("Dodawanie harmonogramu");
             showDialog(RADIOBUTTON_DIALOG_ID);
 
         }
@@ -141,12 +142,15 @@ public class Dodaj extends Activity{
 		switch(x){
 		case 0:
 			temp=items;
+            zmien.setText("Oświetlenie");
 			break;
 		case 1:
 			temp=itemsWoda;
+            zmien.setText("Woda");
 			break;
 		case 2:
 			temp=itemsRolety;
+            zmien.setText("Roleta");
 			break;
 		}
         SpecialAdapter adapter=null;

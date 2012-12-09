@@ -42,8 +42,10 @@ public class Harmonogramy extends Activity implements ResponseListener
         c=new Connect(this);
         c.addResponseListener(this);
 
+
         try {
-            c.requestGetHarm();
+            c.login(1);
+            //c.requestGetHarm();
         } catch (ServerErrorException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (NoInternetException e) {
@@ -83,13 +85,6 @@ public class Harmonogramy extends Activity implements ResponseListener
     			startActivity(i);
             }
         });
-       // wroc=(Button) findViewById(R.id.harmWroc);
-       /* wroc.setOnClickListener(new OnClickListener() {
-			
-			public void onClick(View v) {
-				finish();	
-			}
-		});*/
         list.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i=new Intent(getApplicationContext(),Dodaj.class);
@@ -109,6 +104,8 @@ public class Harmonogramy extends Activity implements ResponseListener
         }
         else{
         if(res.getType()==Response.GETHARM){
+            Harmonogram h=new Harmonogram(1,"","","","",-1,-1,"",false);
+
             harmPom= (ArrayList<Harmonogram>) res.getExtras();
 
             int opcja;
@@ -125,7 +122,7 @@ public class Harmonogramy extends Activity implements ResponseListener
                 harm=harmPom;
                 opcja=-1;
             }
-            Harmonogram h=new Harmonogram(1,"","","","",-1,-1,"",false);
+
             list = (ListView) findViewById(R.id.harmMenuList);
             if(harm.isEmpty()){
                 harm.add(h);

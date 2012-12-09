@@ -162,8 +162,8 @@ public class HarmMenuAdapter extends BaseAdapter {
                     Toast.makeText(rodzic.getContext(), "Wyłączono harmonogram", Toast.LENGTH_SHORT).show();
             }
         });
-        if(brakHarm)
-            btn.setEnabled(false);
+        //if(brakHarm)
+            btn.setEnabled(!brakHarm);
 
         btn.setFocusable(false);
         convertView.setTag(holder);

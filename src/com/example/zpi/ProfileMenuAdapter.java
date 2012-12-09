@@ -22,6 +22,7 @@ public class ProfileMenuAdapter extends BaseAdapter {
     private String[] naglowek;
     private String[] opis;
     private ArrayList<Profil> profile;
+    private boolean brakProfilu=false;
 
     public ProfileMenuAdapter(Context context,ArrayList<Profil> p){
         mInflater = LayoutInflater.from(context);
@@ -34,6 +35,8 @@ public class ProfileMenuAdapter extends BaseAdapter {
         String pom="";
         for(int i=0;i<prof.size();i++){
             pom+=prof.get(i).getNazwa()+" ";
+            if(prof.get(i).getNazwa().equals("BrakProfili"))
+                brakProfilu=true;
         }
         String[] nazwy=pom.split("[ ]+");
         return nazwy;
@@ -41,7 +44,12 @@ public class ProfileMenuAdapter extends BaseAdapter {
     public String[] opisy(ArrayList<Profil> prof){
         String[] opisy=new String[prof.size()];
         for(int i=0;i<prof.size();i++){
-            opisy[i]="Swiatlo "+(prof.get(i).getSwiatlo().equals("true")?"Wł.":"Wył")+" Roleta "+prof.get(i).getRoleta()+"%"+" Woda "+prof.get(i).getWoda()+"C";
+            if(prof.get(i).getNazwa().equals("BrakProfili"))
+                opisy[i]+="Dodaj nowe profile";
+            else
+                opisy[i]="Swiatlo "+(prof.get(i).getSwiatlo().equals("true")?"Wł.":"Wył")+
+                        " Roleta "+prof.get(i).getRoleta()+"%"+" Woda "+prof.get(i).getWoda()+"C";
+
         }
         return opisy;
     }
@@ -79,14 +87,18 @@ public class ProfileMenuAdapter extends BaseAdapter {
                     Toast.makeText(rodzic.getContext(), "Uruchomiono profil "+profile.get(pos).getNazwa(), Toast.LENGTH_SHORT).show();
                 }
             });
+            if(brakProfilu)
+                btn.setEnabled(false);
             btn.setFocusable(false);
             convertView.setTag(holder);
         }
         else {
             holder = (ViewHolder) convertView.getTag();
+
         }
         holder.text.setText(naglowek[position]);
         holder.text2.setText(opis[position]);
+
         try{
             btn=(Button) convertView.findViewById(R.id.ProfMenuWl);
             btn.setOnClickListener(new View.OnClickListener() {

@@ -163,7 +163,7 @@ public class DodajProfil extends Activity {
         View layout=inflater.inflate(R.layout.seek_dialog, (ViewGroup)findViewById(R.id.dialog_lay));
         sk.setContentView(layout);
         sk.setTitle(pobZasob(R.string.ustPoz));
-        Log.d("statusWod2",prof.getWoda());
+//        Log.d("statusWod2",prof.getWoda());
         txt=(TextView)layout.findViewById(R.id.dialog_status);
         SeekBar seek=(SeekBar)layout.findViewById(R.id.dialog_seek_bar);
         switch (i){

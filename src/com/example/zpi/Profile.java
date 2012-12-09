@@ -28,7 +28,9 @@ public class Profile extends Activity implements ResponseListener{
     private Button dodaj;
     private Button wroc;
     ArrayList<Profil> profile=new ArrayList<Profil>();
+    ArrayList<Profil> pom=new ArrayList<Profil>();
     Connect c;
+    int i=0;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,32 +94,38 @@ public class Profile extends Activity implements ResponseListener{
     @Override
     public void processResponse(Response res) {
         if(res.isERROR()){
-            ServerAlert servA=new ServerAlert(this);
-            servA.zwrocAlert();
-
+            if(i==0){
+                ServerAlert servA=new ServerAlert(this);
+                servA.zwrocAlert();
+                i++;
+            }
         }
-        else{
+
         if(res.getType()==Response.GETPROFILE){
             lista=(ListView)findViewById(R.id.profMenuList);
-            profile=(ArrayList<Profil>)res.getExtras();
-            try{
+            Profil p1=new Profil(-1,"BrakProfili","","","",false);
 
-                Log.d("brakPro",profile.get(0).getNazwa());
+            pom=(ArrayList<Profil>)res.getExtras();
+            try{
+                for(int i=0;i<pom.size();i++){
+                    profile.add(pom.get(i));
+                    Log.d("brakPr2",pom.get(i).getNazwa());
+                }
             }
             catch (Exception e){
-                Log.d("brakPro","nie ma");
+                profile=pom;
             }
-
-            Profil p1=new Profil(-1,"Brak profili","Dodaj","nowe","profile",false);
             if(profile.isEmpty()){
                 profile.add(p1);
+                lista.setEnabled(false);
+                Log.d("brakPr","wejszlo");
             }
-            else
+
             adapter=new ProfileMenuAdapter(this,profile);
 
             lista.setAdapter(adapter);
             addListeners();
         }
-        }
+
     }
 }
