@@ -24,6 +24,7 @@ public class Connect {
     //private static final String url = "192.168.1.103:8080/zpi_server/";
 	private Context ctx = null;
     private ArrayList<ResponseListener> listeners = new ArrayList<ResponseListener>();
+    private static String cookie;
 
 
     public Connect(Context c) {
@@ -168,29 +169,23 @@ public class Connect {
 				HttpURLConnection urlConnection = null;
 				StringBuffer sb = null;
 				try {
+
 					urlConnection = (HttpURLConnection) link.openConnection();
+                    if(cookie!=null&& cookie.length()>0){
+                        urlConnection.setRequestProperty("Cookie", cookie);
+                    }
                     urlConnection.setRequestProperty("TOKEN","eloprotoken");
                     Log.d("url",""+urlConnection.getHeaderField("Set-Cookie"));
-                    String cookie=    urlConnection.getHeaderField("Set-Cookie");
 
-                    if(cookie!=null){
-                        String[] pom=cookie.split("[ =;]+");
-                        Log.d("ciacha",pom[0]+" "+pom[1]);
-                        HttpCookie cookie2 = new HttpCookie(pom[0], pom[1]);
-                         //cookie2.setDomain("");
-                         //cookie2.setPath("/");
-                         //cookie2.setVersion(0);
-                        try {
-                            cookieManager.getCookieStore().add(new URI("156.17.234.1"), cookie2);
-                        } catch (URISyntaxException e) {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                        }
-                    }
                     //urlConnection.setReadTimeout(1000);
 					BufferedReader in = new BufferedReader(
 							new InputStreamReader(
 									urlConnection.getInputStream()));
-					sb = new StringBuffer();
+                    String cookiet=    urlConnection.getHeaderField("Set-Cookie");
+                    if(cookiet!=null && cookiet.length()>0){
+                        cookie = cookiet;
+                    }
+                    sb = new StringBuffer();
 
 					String line;
 					while ((line = in.readLine()) != null) {
