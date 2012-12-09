@@ -4,9 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.*;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -49,37 +47,37 @@ public class Connect {
 	}
 
     public void requestGetHarm()throws ServerErrorException, NoInternetException {
-        login(1);
+        //login(1);
         request("harmonogram.get");
     }
 
     public void requestActivateHarm(int id)throws ServerErrorException, NoInternetException {
-        login(1);
+       // login(1);
         request("harmonogram.activate&id="+id);
     }
 
     public void requestDeactivateHarm(int id)throws ServerErrorException, NoInternetException {
-        login(1);
+        //login(1);
         request("harmonogram.deactivate&id="+id);
     }
 
     public void requestDelHarm(int id)throws ServerErrorException, NoInternetException {
-        login(1);
+        //login(1);
         request("harmonogram.delete&id="+id);
     }
 
     public void requestDelProfile(int id)throws ServerErrorException, NoInternetException {
-        login(1);
+        //login(1);
         request("profile.delete&id="+id);
     }
 
     public void requestGetProfile()throws ServerErrorException, NoInternetException {
-        login(1);
+       // login(1);
         request("profile.get");
     }
 
     public void requestSetHarm(Harmonogram h)throws ServerErrorException, NoInternetException {
-        login(1);
+        //login(1);
         request(h.getDni(),h.getCzasStart(),h.getCzasStop(),""+h.getModul(),""+h.getPort(),h.getValStart(),h.getValStop(),""+(h.isWl()?1:0));
     }
 
@@ -91,22 +89,22 @@ public class Connect {
     }
 
     public void requestSetProfile(Profil p)throws ServerErrorException, NoInternetException {
-        login(1);
+        //login(1);
         request(p.getNazwa(),p.getWoda(),p.getRoleta(),p.getSwiatlo());
     }
 
     public void requestUseProfile(int id) throws ServerErrorException, NoInternetException {
-        login(1);
+        //login(1);
         request("profile.use&id="+id);
     }
 
     public void requestGet(int m, int p) throws ServerErrorException, NoInternetException {
-        login(1);
+       //login(1);
         request(""+m,""+p);
     }
 
     public void requestSet(int m, int p, String val) throws ServerErrorException, NoInternetException {
-        login(1);
+        //login(1);
         request(""+m,""+p,val);
     }
 
@@ -115,6 +113,8 @@ public class Connect {
 		if (!isInternet()) {
 			throw new NoInternetException();
 		}
+        CookieManager cookieManager = new CookieManager();
+        CookieHandler.setDefault(cookieManager);
 		AsyncTask<String, Void, Response> at = new AsyncTask<String, Void, Response>() {
 
             protected void onPostExecute(Response res){
@@ -212,7 +212,7 @@ public class Connect {
     }
 
     public void requestRegister(String regId) throws ServerErrorException, NoInternetException {
-        login(1);
+        //login(1);
         request("device.register&device="+regId);
     }
 }
