@@ -49,6 +49,13 @@ public class XMLParser {
                     if(parser.getText().equals("ERR")){
                         wyn.setERROR(true);
                         return wyn;
+                    } else if (parser.getText().equals("FORBIDDEN")){
+                        wyn.setERROR(true);
+                        parser.next();
+                        parser.next();
+                        parser.next();
+                        wyn.setMessage(parser.getText());
+                        return wyn;
                     }
 				}  else if (eventType == XmlPullParser.START_TAG&&parser.getName().equals("message")) {
 					parser.next();
