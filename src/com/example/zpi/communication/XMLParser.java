@@ -120,9 +120,14 @@ public class XMLParser {
                     parser.next();
                     parser.next();
                     parser.next();
+                    parser.next();
+                    parser.next();
+                    parser.next();
+                    p.setId(Integer.parseInt(parser.getText()));
+                }
                 eventType = parser.next();
 			}
-            }
+
 		} catch (XmlPullParserException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
