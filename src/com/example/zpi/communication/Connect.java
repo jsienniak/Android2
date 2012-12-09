@@ -52,12 +52,21 @@ public class Connect {
         request("harmonogram.get");
     }
 
+    public void requestActivateHarm()throws ServerErrorException, NoInternetException {
+        request("harmonogram.get");
+    }
+
     public void requestGetProfile()throws ServerErrorException, NoInternetException {
         request("profile.get");
     }
 
     public void requestSetHarm(Harmonogram h)throws ServerErrorException, NoInternetException {
+        login(1);
         request(h.getDni(),h.getCzasStart(),h.getCzasStop(),""+h.getModul(),""+h.getPort(),h.getValStart(),h.getValStop(),""+(h.isWl()?1:0));
+    }
+
+    private void login(int id) throws ServerErrorException, NoInternetException {
+        request("user.login&id="+id);
     }
 
     public void requestSetProfile(Profil p)throws ServerErrorException, NoInternetException {

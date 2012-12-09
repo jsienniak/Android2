@@ -98,7 +98,7 @@
                 <category android:name="com.example.zpi" />
             </intent-filter>
         </receiver>
-        <service android:name="GCMIntentService"></service>
+        <service android:name=".GCMIntentService"></service>
     </application>
 
 </manifest>
