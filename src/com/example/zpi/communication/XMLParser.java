@@ -79,6 +79,9 @@ public class XMLParser {
                     parser.next();
                     parser.next();
                     parser.next();
+                    parser.next();
+                    parser.next();
+                    parser.next();
                     h.setCzasStart(parser.getText());
                     parser.next();
                     parser.next();

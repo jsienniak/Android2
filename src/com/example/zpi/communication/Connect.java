@@ -84,8 +84,10 @@ public class Connect {
     }
 
     private void login(int id) throws ServerErrorException, NoInternetException {
-        login(1);
         request("user.login&id="+id);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {}
     }
 
     public void requestSetProfile(Profil p)throws ServerErrorException, NoInternetException {
