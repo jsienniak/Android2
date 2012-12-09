@@ -45,8 +45,9 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	@Override
 	protected void onUnregistered(Context arg0, String regId) {
+
 		// TODO unregister do serwera tutaj
-		throw new UnsupportedOperationException();
+		//throw new UnsupportedOperationException();
 	}
 
 }

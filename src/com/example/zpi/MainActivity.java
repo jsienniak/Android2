@@ -71,8 +71,8 @@ public class MainActivity extends Activity implements ResponseListener, TokenLis
         }
 
         //Log.d("cos",""+accounts[0]);
-        //GCMRegistrar.checkDevice(this);
-        //GCMRegistrar.checkManifest(this);
+        GCMRegistrar.checkDevice(this);
+        GCMRegistrar.checkManifest(this);
         final String regId = GCMRegistrar.getRegistrationId(this);
         if (regId.equals("")) {
           GCMRegistrar.register(this, SENDER_ID);
