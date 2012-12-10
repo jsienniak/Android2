@@ -16,6 +16,11 @@ import android.util.Log;
 import com.example.zpi.Harmonogram;
 import com.example.zpi.Profil;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+
 public class Connect {
 
 	//public static String url="156.17.234.1:8080/zpi_server/";
@@ -171,13 +176,25 @@ public class Connect {
 				try {
 
 					urlConnection = (HttpURLConnection) link.openConnection();
+
                     if(cookie!=null&& cookie.length()>0){
                         urlConnection.setRequestProperty("Cookie", cookie);
                     }
                     urlConnection.setRequestProperty("TOKEN","eloprotoken");
-                    Log.d("url",""+urlConnection.getHeaderField("Set-Cookie"));
 
-                    //urlConnection.setReadTimeout(1000);
+
+                    Log.d("url",""+urlConnection.getHeaderField("Set-Cookie"));
+                    if(urlConnection instanceof HttpsURLConnection){
+                        ((HttpsURLConnection)urlConnection).setHostnameVerifier(new HostnameVerifier() {
+
+                            @Override
+                            public boolean verify(String s, SSLSession sslSession) {
+                                return true;
+                            }
+                        });
+
+                    }
+                    urlConnection.setReadTimeout(5000);
 					BufferedReader in = new BufferedReader(
 							new InputStreamReader(
 									urlConnection.getInputStream()));
